@@ -276,8 +276,9 @@
     let lx = 0;
     addEventListener('pointermove', e => { xTo(e.clientX); yTo(e.clientY); rTo(gsap.utils.clamp(-10, 10, (e.clientX - lx) * 0.8)); lx = e.clientX; }, { passive: true });
     $$('.row').forEach(r => {
-      r.addEventListener('pointerenter', () => { img.src = r.dataset.img; gsap.to(fi, { opacity: 1, scale: 1, duration: 0.6 }); });
-      r.addEventListener('pointerleave', () => gsap.to(fi, { opacity: 0, scale: 0.6, duration: 0.45, ease: 'power3.out' }));
+      // overwrite: 빠르게 들어왔다 나가면 늦게 끝나는 등장 트윈이 이겨서 이미지가 커서에 남던 문제
+      r.addEventListener('pointerenter', () => { img.src = r.dataset.img; gsap.to(fi, { opacity: 1, scale: 1, duration: 0.6, overwrite: true }); });
+      r.addEventListener('pointerleave', () => gsap.to(fi, { opacity: 0, scale: 0.6, duration: 0.45, ease: 'power3.out', overwrite: true }));
     });
   }
 
@@ -311,8 +312,49 @@
     gsap.to('.hero__bottom, .hero__en, .hero__cue', { y: -80, opacity: 0, ease: 'none', stagger: 0.02, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 20%', scrub: true } });
   }
 
+  /* ---------- lightbox: 스크린샷 묶음(.shots)을 누르면 크게 본다 ---------- */
+  function lightbox() {
+    const groups = $$('.shots'); if (!groups.length) return;
+    const box = d.createElement('div');
+    box.className = 'lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', '스크린샷 크게 보기');
+    box.innerHTML = '<button class="lb__x" type="button">닫기</button>'
+      + '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 스크린샷">←</button>'
+      + '<figure class="lb__fig"><img alt=""><figcaption class="lb__cap mono"></figcaption></figure>'
+      + '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 스크린샷">→</button>';
+    body.appendChild(box);
+    const im = $('img', box), cap = $('.lb__cap', box), x = $('.lb__x', box);
+    let list = [], i = 0, back = null;
+    const show = k => {
+      i = (k + list.length) % list.length;
+      im.src = list[i].currentSrc || list[i].src; im.alt = list[i].alt;
+      cap.textContent = list[i].alt + (list.length > 1 ? '  ·  ' + (i + 1) + ' / ' + list.length : '');
+    };
+    const open = (imgs, k) => {
+      list = imgs; back = d.activeElement; box.classList.toggle('is-multi', imgs.length > 1); show(k);
+      box.classList.add('is-open'); if (lenis) lenis.stop(); x.focus({ preventScroll: true });
+    };
+    const close = () => {
+      box.classList.remove('is-open'); if (lenis) lenis.start();
+      if (back && back.focus) back.focus({ preventScroll: true });
+    };
+    groups.forEach(g => {
+      const imgs = $$('img', g);
+      g.setAttribute('role', 'button'); g.tabIndex = 0; g.setAttribute('aria-label', '스크린샷 크게 보기');
+      g.addEventListener('click', e => { const t = e.target.closest('img'); open(imgs, t ? Math.max(0, imgs.indexOf(t)) : 0); });
+      g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(imgs, 0); } });
+    });
+    box.addEventListener('click', e => { if (e.target === box || e.target === x) close(); });
+    $('.lb__nav--prev', box).addEventListener('click', () => show(i - 1));
+    $('.lb__nav--next', box).addEventListener('click', () => show(i + 1));
+    d.addEventListener('keydown', e => {
+      if (!box.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close(); else if (e.key === 'ArrowLeft') show(i - 1); else if (e.key === 'ArrowRight') show(i + 1);
+    });
+  }
+
   /* ---------- boot ---------- */
   const safe = (f, name) => { try { f(); } catch (e) { console.error('[' + name + ']', e); } };
+  safe(lightbox, 'lightbox');
   safe(texts, 'texts'); safe(counters, 'counters'); safe(about, 'about'); safe(timeline, 'timeline');
   safe(fan, 'fan'); safe(shares, 'shares'); safe(sheet, 'sheet'); safe(rows, 'rows'); safe(marquee, 'marquee');
   safe(heroScroll, 'hero'); safe(nav, 'nav'); safe(cursor, 'cursor'); safe(magnetic, 'magnetic');
