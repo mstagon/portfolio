@@ -267,6 +267,7 @@
   }
 
   function rows() {
+    if (!$$('.row').length) return; // 학교 목록을 카드로 바꾼 뒤로는 .row가 없다 (2026-09-30)
     if (!RM) gsap.from('.row', { opacity: 0, y: 40, stagger: 0.08, duration: 1.1, scrollTrigger: { trigger: '.rows', start: 'top 85%', once: true } });
     if (!FINE || RM) return;
     const fi = $('.float-img'), img = $('img', fi);

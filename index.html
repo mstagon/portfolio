@@ -33,7 +33,7 @@
     <a href="#work">경력</a>
     <a href="#cases">문제 해결</a>
     <a href="#lab">개인 프로젝트</a>
-    <a href="#school">학교</a>
+    <a href="#school">팀·사이드</a>
   </nav>
   <a class="nav__cta" href="#contact" data-magnetic>연락하기</a>
 </header>
@@ -595,15 +595,96 @@
 <!-- SCHOOL -->
 <section class="section school" id="school">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">07</span>학교 프로젝트</p>
-    <h2 class="h-lg" data-split>상명대학교에서 만든 것</h2>
-    <ul class="rows">
-      <li class="row" data-img="img/prev-teamo.webp"><span class="row__n mono">01</span><span class="row__t">Teamo</span><span class="row__d">팀원 모집 플랫폼. Docker Compose 배포, GitHub Actions CI/CD, 실시간 채팅</span><span class="row__m mono">Full-stack · 2024.06 – 12</span><img class="row__thumb" src="img/prev-teamo.webp" alt="" loading="lazy"></li>
-      <li class="row" data-img="img/prev-doss.webp"><span class="row__n mono">02</span><span class="row__t">DOSS</span><span class="row__d">모바일 주식 조회. Spring Boot API, Elasticsearch 종목 검색</span><span class="row__m mono">Full-stack · 2025.03</span><img class="row__thumb" src="img/prev-doss.webp" alt="" loading="lazy"></li>
-      <li class="row" data-img="img/prev-phc.webp"><span class="row__n mono">03</span><span class="row__t">PHC</span><span class="row__d">보건소 통합 관리. React와 Flutter 웹 하이브리드, FastAPI API 설계</span><span class="row__m mono">Leader · 2024.01 – 06</span><img class="row__thumb" src="img/prev-phc.webp" alt="" loading="lazy"></li>
-      <li class="row" data-img="img/prev-moyang.webp"><span class="row__n mono">04</span><span class="row__t">Moyang</span><span class="row__d">자취방 양도 앱. STOMP 실시간 채팅, 지도 마커 클러스터링</span><span class="row__m mono">Mobile · 2024.12 –</span><img class="row__thumb" src="img/prev-moyang.webp" alt="" loading="lazy"></li>
-      <li class="row" data-img="img/prev-rest-forest.webp"><span class="row__n mono">05</span><span class="row__t">휴림</span><span class="row__d">디지털 디톡스 앱. NFC 거치 감지 타이머, 백그라운드 서비스</span><span class="row__m mono">Lead Mobile · 2024.09 – 12</span><img class="row__thumb" src="img/prev-rest-forest.webp" alt="" loading="lazy"></li>
-    </ul>
+    <p class="eyebrow"><span class="eyebrow__idx">07</span>팀 · 사이드 프로젝트</p>
+    <h2 class="h-lg" data-split>회사 밖에서 만든 것</h2>
+    <p class="sp__lead" data-reveal>팀 프로젝트, 동아리와 해커톤, 혼자 쓰려고 만든 도구까지. 프로젝트마다 맡은 일과 풀었던 문제, 결과를 적었습니다.</p>
+    <div class="sp__grid">
+      <article class="sp sp--wide" data-reveal>
+        <div class="sp__img"><img src="img/prev-teamo.webp" alt="Teamo 화면" loading="lazy"></div>
+        <div class="sp__body">
+          <p class="sp__tag mono">팀 프로젝트 · 2024.06 – 12</p>
+          <h3>Teamo <span>팀원 모집 서비스</span></h3>
+          <dl>
+            <div><dt>역할</dt><dd>풀스택 · 배포. 프론트, API, 인프라 저장소를 함께 맡았습니다.</dd></div>
+            <div><dt>문제</dt><dd>서비스를 라즈베리파이(ARM) 한 대에 올려야 해서, 빌드 서버에서 만든 이미지가 그대로 돌지 않았습니다.</dd></div>
+            <div><dt>해결</dt><dd>Buildx로 amd64·arm64 이미지를 한 번에 빌드했습니다. 프론트·백엔드에 PR이 머지되면 인프라 저장소가 받아 빌드부터 배포까지 이어서 합니다. DB가 뜬 뒤에 앱이 기동하도록 헬스체크로 순서를 잡았습니다.</dd></div>
+            <div><dt>결과</dt><dd>코드 머지부터 서버 배포까지 자동으로 이어졌고, 이 구성이 지금 홈서버의 출발점이 됐습니다.</dd></div>
+          </dl>
+          <p class="sp__stack mono">Next.js · NestJS · PostgreSQL · MongoDB · Docker · Nginx · GitHub Actions</p>
+          <a class="sp__link" href="https://github.com/4H-Teamo/Teamo_Infra" target="_blank" rel="noopener">저장소 보기 ↗</a>
+        </div>
+      </article>
+      <article class="sp" data-reveal>
+        <div class="sp__img"><img src="img/prev-phc.webp" alt="PHC 화면" loading="lazy"></div>
+        <div class="sp__body">
+          <p class="sp__tag mono">팀 프로젝트 · 리더 · 2024.01 – 06</p>
+          <h3>PHC <span>보건소 통합 관리</span></h3>
+          <dl>
+            <div><dt>역할</dt><dd>프로젝트 리더 · 풀스택</dd></div>
+            <div><dt>문제</dt><dd>팀이 React와 Flutter로 갈려 초반 진행이 막혔습니다.</dd></div>
+            <div><dt>해결</dt><dd>한쪽을 포기시키지 않고, React가 레이아웃과 라우팅을, Flutter 웹이 접수 관리 같은 기능 모듈을 맡는 구조를 제안했습니다. 둘 사이 메시지 통신과 라우팅 경계를 먼저 정했고, FastAPI에서는 반복 조회(N+1)를 로딩 전략으로 줄였습니다.</dd></div>
+            <div><dt>결과</dt><dd>각자 익숙한 스택으로 병렬 개발하면서, 사용자에게는 하나의 앱으로 보였습니다.</dd></div>
+          </dl>
+          <p class="sp__stack mono">React · Flutter Web · FastAPI</p>
+          <a class="sp__link" href="https://github.com/PublicHealthCenter/phc_backend" target="_blank" rel="noopener">저장소 보기 ↗</a>
+        </div>
+      </article>
+      <article class="sp" data-reveal>
+        <div class="sp__img"><img src="img/prev-doss.webp" alt="DOSS 화면" loading="lazy"></div>
+        <div class="sp__body">
+          <p class="sp__tag mono">팀 프로젝트 · 9일 · 2025.03</p>
+          <h3>DOSS <span>모바일 우선 주식 조회</span></h3>
+          <dl>
+            <div><dt>역할</dt><dd>풀스택 · 서버 API</dd></div>
+            <div><dt>문제</dt><dd>증권사 API는 부를 때마다 응답이 느렸고, 여러 사용자가 동시에 부르면 호출 제한에 걸릴 수 있었습니다. 6천 개가 넘는 종목을 LIKE 쿼리로 찾으니 검색도 느렸습니다.</dd></div>
+            <div><dt>해결</dt><dd>마지막 갱신 시각을 보고 오래된 데이터만 외부 API로 갱신하고, 사용자 요청은 항상 DB에서 읽게 했습니다. 종목 검색은 Elasticsearch로 분리해 한글 형태소 분석기로 자동완성을 만들었습니다. 로그인은 5회 실패하면 5분 잠그고, 서버가 재시작돼도 유지됩니다.</dd></div>
+            <div><dt>결과</dt><dd>조회가 외부 API 호출에 기대지 않게 됐고, 종목이 많아도 자동완성이 됩니다.</dd></div>
+          </dl>
+          <p class="sp__stack mono">Next.js · Spring Boot · MyBatis · MySQL · Elasticsearch</p>
+          <a class="sp__link" href="https://github.com/mstagon/DOSS" target="_blank" rel="noopener">저장소 보기 ↗</a>
+        </div>
+      </article>
+      <article class="sp" data-reveal>
+        <div class="sp__img"><img src="img/prev-moyang.webp" alt="Moyang 화면" loading="lazy"></div>
+        <div class="sp__body">
+          <p class="sp__tag mono">팀 프로젝트 · 2024.12 –</p>
+          <h3>Moyang <span>자취방 양도 커뮤니티</span></h3>
+          <dl>
+            <div><dt>역할</dt><dd>앱 프론트엔드(Flutter)</dd></div>
+            <div><dt>문제</dt><dd>처음엔 채팅의 연결 관리와 재전송이 없어 대화가 불안정했고, 지도에 매물을 한 번에 그리다 보니 지도를 움직일 때 프레임이 떨어졌습니다.</dd></div>
+            <div><dt>해결</dt><dd>STOMP 채팅은 끊기면 다시 연결하고, 그동안 보낸 메시지는 큐에 모았다가 보냅니다. 지도는 보이는 영역만 불러오고 마커를 묶어 그립니다. API 모델과 클라이언트는 코드 생성으로 만들어, 응답 구조가 바뀌면 컴파일할 때 드러나게 했습니다.</dd></div>
+            <div><dt>결과</dt><dd>연결이 끊겨도 대화가 다시 이어지고, 마커가 많아져도 렌더링 부담이 줄었습니다.</dd></div>
+          </dl>
+          <p class="sp__stack mono">Flutter · Riverpod · Retrofit · STOMP</p>
+          <a class="sp__link" href="https://github.com/Living-alone/MoYang_FrontEnd" target="_blank" rel="noopener">저장소 보기 ↗</a>
+        </div>
+      </article>
+      <article class="sp" data-reveal>
+        <div class="sp__img"><img src="img/prev-rest-forest.webp" alt="휴림 화면" loading="lazy"></div>
+        <div class="sp__body">
+          <p class="sp__tag mono">팀 프로젝트 · 모바일 리드 · 2024.09 – 12</p>
+          <h3>휴림 <span>디지털 디톡스 앱</span></h3>
+          <dl>
+            <div><dt>역할</dt><dd>모바일 리드(Flutter)</dd></div>
+            <div><dt>문제</dt><dd>처음엔 무선 충전 여부로 거치를 판단하려 했는데, Flutter에서 충전 상태를 안정적으로 읽기 어려웠습니다. 앱이 꺼지면 타이머도 멈췄습니다.</dd></div>
+            <div><dt>해결</dt><dd>거치 감지를 NFC로 바꿔 케이스에 넣는 즉시 타이머가 시작되게 했습니다. 타이머는 백그라운드 서비스로 옮겨 앱이 꺼져도 시간이 쌓이고, 다시 열면 이전 상태를 복원합니다.</dd></div>
+            <div><dt>결과</dt><dd>폰을 안 쓴 시간만큼 가상 식물이 자라고 포인트가 쌓이는 흐름을 완성했습니다.</dd></div>
+          </dl>
+          <p class="sp__stack mono">Flutter · Provider · NFC</p>
+          <a class="sp__link" href="https://github.com/mstagon/Rest_Forest_Client" target="_blank" rel="noopener">저장소 보기 ↗</a>
+        </div>
+      </article>
+    </div>
+    <div class="sp-more" data-reveal>
+      <p class="sp-more__t">그 밖에 만든 것</p>
+      <ul class="sp-mini">
+        <li><div><b>Planz</b><span class="mono">멋쟁이사자처럼 · 2024.07 – 12</span></div><p>고정 일정을 넣으면 수면·기상 시간을 계산해 주는 앱. 프론트엔드를 맡아 캘린더 기록을 월 단위로 받아 캐시하고, 날짜를 넘길 때마다 다시 부르지 않게 했습니다.</p><a href="https://github.com/Like-lion-Planz/Planz-Front-End" target="_blank" rel="noopener">저장소 ↗</a></li>
+        <li><div><b>TripCut</b><span class="mono">팀 프로젝트 · 2025.01 – 03</span></div><p>드라마 촬영지 여행 웹(PWA). 프론트엔드를 맡아 여러 API 서버와의 통신을 도메인별 모듈과 공통 인터셉터로 한곳에서 관리하게 했습니다.</p><a href="https://github.com/TripCut/TourAPI_FrontEnd" target="_blank" rel="noopener">저장소 ↗</a></li>
+        <li><div><b>취업의신</b><span class="mono">2023.09 – 10</span></div><p>자소서 첨삭과 채용 공고 검색을 한 화면에 묶은 웹. 처음 만든 LLM 제품으로, 첨삭은 OpenAI API로 하고 검색한 공고는 캘린더 일정으로 바로 등록됩니다.</p><a href="https://github.com/mstagon/God_of_Employment" target="_blank" rel="noopener">저장소 ↗</a></li>
+        <li><div><b>Digital Bridge</b><span class="mono">멋쟁이사자처럼 해커톤 · 2023.08</span></div><p>시니어를 위한 디지털 교육 웹. 강의 영상과 실습 화면을 한 페이지에 두고, 임베드가 막힌 사이트는 새 창으로 안내해 흐름이 끊기지 않게 했습니다.</p><a href="https://github.com/mstagon/Digital_Bridge" target="_blank" rel="noopener">저장소 ↗</a></li>
+        <li><div><b>e-Campus 진도율 조회</b><span class="mono">개인 도구 · 2021.03 – 06</span></div><p>과목마다 들어가 확인하던 진도율을 한 번 로그인으로 모아 보는 데스크톱 도구. Python과 Tkinter로 만들었습니다.</p><a href="https://github.com/mstagon/SMU-ECAMPUS-PROGRESS-CHECKING" target="_blank" rel="noopener">저장소 ↗</a></li>
+      </ul>
+    </div>
   </div>
 </section>
 
