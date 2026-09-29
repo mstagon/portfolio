@@ -100,14 +100,14 @@
     whileVisible(lp, tl);
   }
 
-  /* 03 교차 검수 게이트 — 두 모델이 따로 훑고, 겹친 줄만 확정한다 */
+  /* 03 AI 교차 코드 리뷰 — 두 AI가 따로 훑고, 겹친 줄만 남긴다 */
   function gate(el) {
     const lines = $$('.gate__code li', el), scA = $('.gate__scan--a', el), scB = $('.gate__scan--b', el);
     const items = $$('.gate__list li', el), status = $('.gate__status', el), st = $('.gate__status-t', el);
     const kids = items.flatMap(li => Array.from(li.children));
     const A = [1, 3, 6], B = [3, 4, 6];
     const both = A.filter(i => B.includes(i)), solo = [...A, ...B].filter(i => !both.includes(i));
-    const FAIL = 'blocker 1 · 체크 실패';
+    const FAIL = '심각 1건 · 체크 실패';
     const mark = (i, who, anim) => {
       const m = d.createElement('i');
       m.className = 'mk mk--' + who; m.textContent = who === 'a' ? 'C' : 'G';
@@ -122,7 +122,7 @@
     tl.call(() => {
       $$('.mk', el).forEach(m => m.remove());
       lines.forEach(l => l.classList.remove('is-agree', 'is-solo'));
-      status.classList.remove('is-fail'); st.textContent = '검수 중';
+      status.classList.remove('is-fail'); st.textContent = '리뷰 중';
       items.forEach(li => li.classList.add('is-wait'));
     }).set(items, { opacity: 1, x: 0 }).set(kids, { opacity: 0, x: 10 });
     const sweep = (sc, hits, who, at, dur) => {

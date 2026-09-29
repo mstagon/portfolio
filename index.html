@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>최민석 · 풀스택 개발자</title>
-<meta name="description" content="서비스 개발 · 운영과 사내 AI 도입을 맡고 있는 풀스택 개발자 최민석의 포트폴리오입니다.">
+<meta name="description" content="서비스를 끝까지 만들고, AI 에이전트로 일하는 방식을 바꾸는 풀스택 개발자 최민석의 포트폴리오입니다.">
 <meta name="theme-color" content="#0b0b0d">
 <meta property="og:title" content="최민석 · 풀스택 개발자">
-<meta property="og:description" content="서비스 개발 · 운영과 사내 AI 도입을 맡고 있는 풀스택 개발자">
+<meta property="og:description" content="서비스를 끝까지 만들고, AI 에이전트로 일하는 방식을 바꾸는 풀스택 개발자">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6a2b'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="fonts/pretendard/pretendardvariable-dynamic-subset.css">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css?v=20260929b">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading">
@@ -29,7 +29,9 @@
   <a class="nav__brand" href="#top" data-magnetic><span class="nav__dot"></span>최민석</a>
   <nav class="nav__links" aria-label="주요 섹션">
     <a href="#about">소개</a>
+    <a href="#axmap">AX</a>
     <a href="#work">경력</a>
+    <a href="#cases">문제 해결</a>
     <a href="#lab">개인 프로젝트</a>
     <a href="#school">학교</a>
   </nav>
@@ -46,7 +48,7 @@
   <p class="hero__fallback" aria-hidden="true">최민석</p>
   <p class="hero__en"><span class="hero__en-in">Choi Minseok, <em>Full-stack Developer</em></span></p>
   <div class="hero__bottom">
-    <p class="hero__tagline"><span class="line"><span>서비스 개발 · 운영과 사내 AI 도입을</span></span><span class="line"><span>맡고 있는 풀스택 개발자입니다.</span></span></p>
+    <p class="hero__tagline"><span class="line"><span>서비스를 끝까지 만들고, AI 에이전트로</span></span><span class="line"><span>일하는 방식을 바꾸는 풀스택 개발자입니다.</span></span></p>
     <dl class="hero__meta">
       <div><dt>Now</dt><dd>더줌코리아 개발 파트장 · AI 부팀장</dd></div>
       <div><dt>Since</dt><dd>2026.02</dd></div>
@@ -65,7 +67,7 @@
         <figcaption class="mono">Choi Minseok</figcaption>
       </figure>
       <div class="about__body">
-        <p class="about__statement" data-words>걷기 보상 앱 마블워크의 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했습니다. 지금은 운영과 장애 대응을 맡고 있고, AI 부팀장으로 코딩 에이전트 운용 환경과 교차 검수 PR 게이트를 회사 저장소에 도입했습니다.</p>
+        <p class="about__statement" data-words>걷기 보상 앱 마블워크의 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했습니다. 출시 뒤에도 기능 개발과 운영을 함께 맡고 있습니다. AI 부팀장으로는 코딩 에이전트 운용 환경과, 두 AI가 PR을 따로 리뷰해 둘 다 지적한 문제만 남기는 코드 리뷰를 회사 저장소에 도입했습니다.</p>
         <ol class="principles">
           <li><span class="mono">A</span><p>포인트 정합성은 DB 제약과 멱등 처리로 지킵니다.</p></li>
           <li><span class="mono">B</span><p>인프라와 배포는 코드와 승인 절차로 관리합니다.</p></li>
@@ -82,11 +84,30 @@
   </div>
 </section>
 
+<!-- AX MAP -->
+<section class="section axmap" id="axmap">
+  <div class="wrap">
+    <p class="eyebrow"><span class="eyebrow__idx">02</span>AX</p>
+    <h2 class="h-lg" data-split>AI 에이전트로 일하는 방식을 바꿉니다</h2>
+    <p class="axmap__lead" data-reveal>회사에서는 팀이 쓰는 에이전트 환경과 리뷰 절차를 만들었고, 개인적으로는 에이전트를 직접 만들어 씁니다.</p>
+    <ul class="axmap__grid">
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>에이전트 운용 환경</h3><p>에이전트 18 · 스킬 27 · 훅 25. 사람이 결정하는 지점은 여섯 곳입니다.</p></a></li>
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>AI 교차 코드 리뷰</h3><p>두 AI가 PR을 따로 리뷰하고, 둘 다 지적한 문제만 남깁니다. 저장소 3곳에 적용했습니다.</p></a></li>
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>출시 전 에이전트 감사</h3><p>여러 에이전트로 감사해 교차 검증을 통과한 결함 85건을 확정했습니다.</p></a></li>
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>레거시 커머스 지식 그래프</h3><p>레거시 코드를 정적 분석해 그래프로 만들고 MCP로 에이전트에게 제공합니다.</p></a></li>
+      <li><a class="axmap__item axmap__item--hi" href="#rapi"><span class="axmap__tag mono">개인</span><h3>라피 · rapibrain</h3><p>기억을 가진 개인 AI 비서입니다. 제가 승인한 제안으로만 스스로를 고칩니다.</p></a></li>
+      <li><a class="axmap__item" href="#forge"><span class="axmap__tag mono">개인 · 공개</span><h3>Forge Studio</h3><p>코딩 에이전트 팀을 worktree로 나눠 돌리고, 머지 전에 교차 리뷰를 거칩니다.</p></a></li>
+      <li><a class="axmap__item" href="#home"><span class="axmap__tag mono">개인</span><h3>인프라 관리자 에이전트</h3><p>조회는 바로, 변경은 승인 뒤에 실행합니다. 외부 에이전트용 MCP 도구 28개를 제공합니다.</p></a></li>
+      <li><a class="axmap__item" href="#rapi-v1"><span class="axmap__tag mono">개인 · 종료</span><h3>라피 1세대 · 파인튜닝</h3><p>3B 모델을 LoRA · DPO로 학습해 자율 발화에 썼습니다.</p></a></li>
+    </ul>
+  </div>
+</section>
+
 <!-- TIMELINE -->
 <section class="tl" id="path">
   <div class="tl__pin">
     <div class="wrap tl__head">
-      <p class="eyebrow"><span class="eyebrow__idx">02</span>지나온 길</p>
+      <p class="eyebrow"><span class="eyebrow__idx">03</span>지나온 길</p>
       <h2 class="h-lg" data-split>2021년부터 지금까지</h2>
     </div>
     <div class="tl__viewport">
@@ -99,8 +120,8 @@
         <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.05</p><h3>오퍼월 SDK 이식</h3><p>컨트롤 플레인 재작성 · 자율 에이전트 종료</p></li>
         <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.06</p><h3>미네르바 착수</h3><p>B2B 혜택 SDK와 웹게임 플랫폼</p></li>
         <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.07</p><h3>서버 상용 배포</h3><p>마블워크 서버 상용 전환 · 해외판 착수</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.08</p><h3>세 스토어 출시</h3><p>Google Play · App Store · 원스토어 · rapibrain</p></li>
-        <li class="tl__item tl__item--now"><span class="tl__dot"></span><p class="tl__date mono">Now</p><h3>개발 파트장 · AI 부팀장</h3><p>마블워크 운영과 사내 AI 도입</p></li>
+        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.08</p><h3>세 스토어 출시</h3><p>Google Play · App Store · 원스토어 · 라피 2세대와 rapibrain</p></li>
+        <li class="tl__item tl__item--now"><span class="tl__dot"></span><p class="tl__date mono">Now</p><h3>개발 파트장 · AI 부팀장</h3><p>마블워크 기능 개발 · 운영과 사내 AI 도입</p></li>
       </ol>
     </div>
     <div class="tl__bgyear" aria-hidden="true">2026</div>
@@ -110,7 +131,7 @@
 <!-- WORK INTRO -->
 <section class="section work-intro" id="work">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">03</span>경력</p>
+    <p class="eyebrow"><span class="eyebrow__idx">04</span>경력</p>
     <div class="company">
       <h2 class="h-xl" data-split-chars>더줌코리아</h2>
       <div class="company__meta">
@@ -121,7 +142,7 @@
     <p class="company__lead" data-reveal>팀의 설계와 우선순위, 배포 여부를 함께 결정합니다. 아래 네 가지 일을 맡았습니다.</p>
     <ol class="work-index" data-reveal>
       <li><a href="#marblewalk"><span class="mono">01</span>마블워크<i>걷기 보상 앱</i></a></li>
-      <li><a href="#ax"><span class="mono">02</span>사내 AI 도입<i>에이전트 운용 환경 · PR 게이트</i></a></li>
+      <li><a href="#ax"><span class="mono">02</span>사내 AI 도입<i>에이전트 운용 환경 · AI 코드 리뷰</i></a></li>
       <li><a href="#minerva"><span class="mono">03</span>미네르바<i>B2B 혜택 SDK</i></a></li>
       <li><a href="#offerwall"><span class="mono">04</span>오퍼월 SDK<i>네이티브 SDK의 Dart 이식</i></a></li>
     </ol>
@@ -135,7 +156,7 @@
     <h3 class="proj__title" data-split-chars>마블워크</h3>
     <p class="proj__sub">걷기 보상 앱 · Google Play · App Store · 원스토어</p>
     <div class="proj__cols">
-      <p class="proj__desc" data-reveal>걸음 수로 주사위를 얻어 보드를 도는 앱입니다. 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했고, 지금은 운영과 장애 대응을 맡고 있습니다.</p>
+      <p class="proj__desc" data-reveal>걸음 수로 주사위를 얻어 보드를 도는 앱입니다. 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했습니다. 출시 뒤에도 초대 링크 추천인 자동 연결, 유입 매체별 가입 보상, 광고 퍼널 추적 같은 기능을 계속 개발하면서 운영과 장애 대응을 함께 맡고 있습니다.</p>
       <ul class="chips" data-reveal>
         <li>NestJS</li><li>TypeORM</li><li>Aurora PostgreSQL</li><li>Valkey</li><li>SQS</li><li>Flutter</li><li>Riverpod</li><li>Next.js</li><li>AWS</li><li>Grafana</li>
       </ul>
@@ -251,9 +272,9 @@
   <header class="wrap proj__head">
     <div class="proj__meta mono"><span class="proj__idx">02</span><span>더줌코리아 · AI 부팀장</span><span>2026.03 – 진행 중</span></div>
     <h3 class="proj__title" data-split-chars>사내 AI 도입</h3>
-    <p class="proj__sub">코딩 에이전트 운용 환경과 PR 게이트 (AX)</p>
+    <p class="proj__sub">코딩 에이전트 운용 환경과 AI 코드 리뷰 (AX)</p>
     <div class="proj__cols">
-      <p class="proj__desc" data-reveal>코딩 에이전트 운용 환경을 만들어 회사 저장소에 도입했습니다. 마블워크도 이 환경에서 개발했습니다.</p>
+      <p class="proj__desc" data-reveal>코딩 에이전트 운용 환경을 만들어 회사 저장소에 도입했습니다. 마블워크도 이 환경에서 개발했습니다. 사람과 에이전트가 같은 계약 문서를 따르게 하고, 사람이 결정하는 지점은 여섯 곳으로 정했습니다. 출시 전에는 여러 에이전트로 감사해 결함 85건을 확정했고, AI 교차 코드 리뷰에서 둘 다 지적한 네 건은 출시 차단으로 정해 고친 뒤 공개했습니다.</p>
       <ul class="chips" data-reveal><li>Claude Code</li><li>Codex</li><li>MCP</li><li>TypeScript</li><li>GitHub Actions</li></ul>
     </div>
   </header>
@@ -269,8 +290,8 @@
     <!-- PR gate -->
     <section class="panel gate" aria-labelledby="gate-t">
       <div class="panel__head">
-        <p class="panel__k mono">교차 검수 게이트</p>
-        <h4 class="panel__t" id="gate-t">두 모델이 같은 줄을 지적한 것만 확정합니다.</h4>
+        <p class="panel__k mono">AI 교차 코드 리뷰</p>
+        <h4 class="panel__t" id="gate-t">두 AI가 똑같이 지적한 문제만 남깁니다.</h4>
       </div>
       <div class="gate__stage">
         <div class="gate__diff">
@@ -290,17 +311,17 @@
           <span class="gate__scan gate__scan--b" aria-hidden="true"></span>
         </div>
         <div class="gate__out">
-          <p class="gate__out-t mono">판정</p>
+          <p class="gate__out-t mono">리뷰 결과</p>
           <ul class="gate__list">
-            <li data-line="4" class="is-agree is-blocker"><b class="mono">L4</b><span>재시도마다 새 거래 ID, 중복 발행 가능</span><em>합의 · blocker</em></li>
-            <li data-line="7" class="is-agree"><b class="mono">L7</b><span>응답 유실도 실패로 보고 환불</span><em>합의</em></li>
-            <li data-line="2" class="is-solo"><b class="mono">L2</b><span>사용자 없음 처리 누락</span><em>단독 · Claude</em></li>
-            <li data-line="5" class="is-solo"><b class="mono">L5</b><span>잔액 확인 위치</span><em>단독 · GPT</em></li>
+            <li data-line="4" class="is-agree is-blocker"><b class="mono">L4</b><span>재시도마다 새 거래 ID, 중복 발행 가능</span><em>둘 다 · 심각</em></li>
+            <li data-line="7" class="is-agree"><b class="mono">L7</b><span>응답 유실도 실패로 보고 환불</span><em>둘 다</em></li>
+            <li data-line="2" class="is-solo"><b class="mono">L2</b><span>사용자 없음 처리 누락</span><em>Claude만</em></li>
+            <li data-line="5" class="is-solo"><b class="mono">L5</b><span>잔액 확인 위치</span><em>GPT만</em></li>
           </ul>
-          <p class="gate__status mono"><span class="gate__status-dot"></span><span class="gate__status-t">검수 중</span></p>
+          <p class="gate__status mono"><span class="gate__status-dot"></span><span class="gate__status-t">리뷰 중</span></p>
         </div>
       </div>
-      <p class="panel__cap">Claude와 GPT가 PR을 서로 모르게 검수하고, 같은 위치를 지적한 것만 확정합니다. blocker가 있으면 체크가 실패합니다. 회사 저장소 3곳에 적용했습니다.</p>
+      <p class="panel__cap">Claude와 GPT가 서로의 결과를 모른 채 같은 PR을 리뷰합니다. 둘 다 같은 줄을 지적한 문제만 남기고, 그중 심각한 문제가 있으면 PR 체크를 실패시켜 머지 전에 걸러냅니다. 회사 저장소 3곳에 적용했습니다.</p>
     </section>
 
     <div class="ax-row">
@@ -438,39 +459,48 @@
   </article>
 </div>
 
+<!-- CASES -->
+<section class="section cases" id="cases">
+  <div class="wrap">
+    <p class="eyebrow"><span class="eyebrow__idx">05</span>문제 해결</p>
+    <h2 class="h-lg" data-split>원인을 끝까지 따라가서 푼 문제들</h2>
+    <p class="cases__lead" data-reveal>고친 뒤에는 같은 문제가 다시 생기지 않도록 테스트나 배포 절차에 검사를 남겼습니다.</p>
+    <div class="cases__grid">
+      <article class="case case--wide" data-reveal><p class="case__tag mono">정합성 · 마블워크</p><h3>쿠폰과 환불이 함께 나가던 경로</h3><dl><div><dt>상황</dt><dd>기프티콘 발행 API 호출이 트랜잭션 안에 있어, 응답만 유실돼도 실패로 보고 포인트를 환불했습니다. 재시도는 새 거래 ID로 나가 중복 발행까지 가능했습니다.</dd></div><div><dt>원인</dt><dd>거절, 응답 유실, 결과 미확인이라는 서로 다른 실패를 하나로 처리하고 있었습니다.</dd></div><div><dt>조치</dt><dd>포인트를 먼저 예약해 커밋하고, 외부 호출은 트랜잭션 밖에서 고정 거래 ID로 보냅니다. 응답이 없으면 보류로 두고 배치가 거래 ID로 재조회해 확정합니다.</dd></div><div><dt>결과</dt><dd>출시 전 AI 교차 코드 리뷰에서 잡아 고쳤습니다. 티켓 발행 · 회수와 어드민 취소 환불도 같은 원장 규칙을 따릅니다.</dd></div></dl></article>
+      <article class="case" data-reveal><p class="case__tag mono">설계 · 마블워크</p><h3>정책이 바뀔 때마다 배포하던 구조</h3><dl><div><dt>상황</dt><dd>보상 수치가 코드에 들어 있어 정책이 바뀔 때마다 배포가 필요했습니다.</dd></div><div><dt>조치</dt><dd>정책 값을 DB 설정 테이블 7종으로 옮기고 어드민에서 바꾸게 했습니다. 메모리 · 캐시 · DB 3단으로 읽고, 값이 바뀌면 pub/sub으로 캐시를 무효화합니다.</dd></div><div><dt>결과</dt><dd>운영자가 배포 없이 수치를 바꾸고, 정책 문서와 실제 동작이 어긋날 여지가 줄었습니다.</dd></div></dl></article>
+      <article class="case" data-reveal><p class="case__tag mono">운영 · 마블워크</p><h3>푸시 발송이 전부 멈춘 장애</h3><dl><div><dt>상황</dt><dd>상용에서 푸시 발송이 전면 중단됐습니다.</dd></div><div><dt>원인</dt><dd>시크릿에 저장된 키의 개행 이스케이프가 어긋나 있었습니다.</dd></div><div><dt>조치</dt><dd>키 파싱이 어긋나면 바로 실패하게 바꾸고, 배포 검증에 왕복 테스트를 추가했습니다.</dd></div><div><dt>결과</dt><dd>같은 설정 오류는 이제 배포 단계에서 걸립니다.</dd></div></dl></article>
+      <article class="case" data-reveal><p class="case__tag mono">플랫폼 · 미네르바</p><h3>고칠 수 없는 외부 서버를 전제로</h3><dl><div><dt>상황</dt><dd>콘텐츠와 보상 판정을 외부사 서버가 줍니다. 그대로 믿으면 같은 라운드가 두 번 들어오거나 서명이 틀린 요청도 통과할 수 있었습니다.</dd></div><div><dt>판단</dt><dd>상대 코드를 고칠 수 없으니 방어는 받는 쪽에 둬야 한다고 봤습니다.</dd></div><div><dt>조치</dt><dd>매체사 서버에 서명 확인, 콘텐츠 타입 허용 목록, 콘텐츠별 일일 상한, 거래 ID 멱등 처리를 넣었습니다.</dd></div><div><dt>결과</dt><dd>외부사 코드를 건드리지 않고 막았고, 보상은 마블워크의 다른 경로와 같은 원장으로 모였습니다.</dd></div></dl></article>
+      <article class="case" data-reveal><p class="case__tag mono">인프라 · 홈서버</p><h3>주소가 바뀌자 세 곳에 남은 옛 주소</h3><dl><div><dt>상황</dt><dd>관리 화면만 502가 났고, 게임 자동 배포도 그때부터 조용히 멈춰 있었습니다.</dd></div><div><dt>원인</dt><dd>공유기가 준 주소가 바뀌었는데 터널 규칙, 에이전트 설정, 컨테이너 환경변수 세 곳에 옛 주소가 남아 있었습니다.</dd></div><div><dt>조치</dt><dd>5분마다 자기 주소를 확인하고, 바뀌면 관련 규칙만 갱신하는 서비스를 넣었습니다.</dd></div><div><dt>결과</dt><dd>다음 공유기 재부팅 때는 자가 복구가 먼저 잡았습니다.</dd></div></dl></article>
+      <article class="case case--ax" data-reveal><p class="case__tag mono">AX · 사내</p><h3>전부 위임하던 기본값을 뒤집은 판단</h3><dl><div><dt>상황</dt><dd>처음에는 메인 세션이 관리만 하고 코드는 전부 에이전트 팀에 맡겼습니다. 작은 버그에도 팀을 띄워 준비와 병합에 시간이 더 들었습니다.</dd></div><div><dt>판단</dt><dd>나눠 맡기는 데에도 비용이 든다는 것을 실제로 재 보고 확인했습니다.</dd></div><div><dt>조치</dt><dd>기본값을 직접 하는 쪽으로 바꾸고, 팀은 30분이 넘는 독립 작업이나 다른 모델의 검수에만 쓰게 했습니다. 멤버 한 명짜리 팀은 도구가 거부합니다.</dd></div><div><dt>결과</dt><dd>작은 작업이 눈에 띄게 빨라졌고, 이 기준을 세 번 고쳐 지금 규칙이 됐습니다.</dd></div></dl></article>
+      <article class="case case--ax" data-reveal><p class="case__tag mono">AX · 라피</p><h3>비서에게 권한을 주면서 통제는 지키기</h3><dl><div><dt>상황</dt><dd>비서가 제 대신 일하려면 제 계정 권한이 필요했습니다. 권한이 넓으면 자기 설정이나 승인 경로까지 바꿀 수 있습니다.</dd></div><div><dt>조치</dt><dd>도구 호출마다 실행 전 게이트를 거치게 하고, 자기 설정 · 승인 경로 · 감사 로그는 커널 샌드박스로 쓰기를 막았습니다. 승인 열쇠는 비서가 읽을 수도 없게 분리했습니다.</dd></div><div><dt>결과</dt><dd>승인 없이 일하지만 한 일은 전부 감사 로그에 남고, 긴급 정지를 걸면 읽기만 할 수 있습니다.</dd></div></dl></article>
+    </div>
+  </div>
+</section>
+
 <!-- PERSONAL -->
 <section class="section lab" id="lab">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">04</span>개인 프로젝트</p>
+    <p class="eyebrow"><span class="eyebrow__idx">06</span>개인 프로젝트</p>
     <h2 class="h-lg" data-split>직접 쓰려고 만든 도구들</h2>
   </div>
 
-  <article class="lab__item lab__item--forge">
+  <article class="lab__item lab__item--brain" id="rapi">
     <div class="wrap lab__grid">
       <div class="lab__text">
-        <div class="proj__meta mono"><span>2026.03 – 2026.07</span><span>오픈소스 · GPL-3.0</span></div>
-        <h3 class="lab__title" data-split>Forge Studio</h3>
-        <p class="lab__sub">코딩 에이전트 팀 운용 도구</p>
-        <p class="lab__desc" data-reveal>작업자마다 worktree를 나누고, 파일 범위가 겹치면 순차로 실행하고, 머지 전에 교차 검수 게이트를 거치는 Electron 앱입니다. 회사 저장소에 붙인 PR 게이트도 이 앱에서 빌드합니다.</p>
-        <ul class="chips" data-reveal><li>Electron</li><li>React</li><li>Zustand</li><li>xterm</li><li>node-pty</li></ul>
-        <a class="link-arrow" href="https://github.com/mstagon/forge-studiov2" target="_blank" rel="noopener" data-cursor="열기" data-magnetic>GitHub에서 보기<span>↗</span></a>
-      </div>
-      <div class="lab__media">
-        <div class="shots" data-cursor="보기">
-          <figure class="shot"><img src="img/forge-dashboard.webp" alt="Forge Studio 대시보드" loading="lazy"></figure>
-          <figure class="shot"><img src="img/forge-workflow.webp" alt="Forge Studio 워크플로" loading="lazy"></figure>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="lab__item lab__item--brain">
-    <div class="wrap lab__grid lab__grid--rev">
-      <div class="lab__text">
-        <div class="proj__meta mono"><span>2026.08 – 진행 중</span></div>
-        <h3 class="lab__title" data-split>rapibrain</h3>
-        <p class="lab__sub">개인 AI 비서 시스템</p>
-        <p class="lab__desc" data-reveal>코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP로 에이전트에게 돌려줍니다. 에이전트 실행에는 승인 게이트 · 샌드박스 · 감사 로그 · 긴급 정지를 걸었습니다.</p>
+        <div class="proj__meta mono"><span>2026.08 – 진행 중</span><span>2세대</span></div>
+        <h3 class="lab__title" data-split>라피 · rapibrain</h3>
+        <p class="lab__sub">기억을 가진 개인 AI 비서</p>
+        <p class="lab__desc" data-reveal>라피는 제가 쓰려고 만든 AI 비서입니다. 코드 작업과 조사, 브라우저 조작, 일정과 할 일 관리를 맡기고, 큰 일은 하위 에이전트를 최대 세 개까지 나눠 띄워 처리합니다. rapibrain은 라피의 장기기억입니다. 코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP 도구 8개로 돌려줍니다.</p>
+        <p class="lab__desc" data-reveal>1세대는 몸까지 직접 만들다 유지비에 막혀 접었습니다. 2세대는 기억과 성격만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다.</p>
+        <p class="lab__desc" data-reveal>라피는 제 계정 권한으로 승인 없이 일합니다. 대신 자기 설정과 승인 경로는 커널 샌드박스로 쓰기를 막았고, 모든 도구 호출을 감사 로그에 남기며, 긴급 정지를 걸면 읽기만 할 수 있습니다. 성격 문서 · 스킬 · 코드는 라피가 패치로 제안하고 제가 승인해야 바뀝니다. 승인하면 적용 · 테스트 · 커밋 · 배포가 이어지고, 테스트가 깨지면 되돌립니다.</p>
+        <ul class="layers mono" data-reveal>
+          <li><b>몸</b><span>Hermes Agent + Claude Code, 직접 만든 브리지로 연결</span></li>
+          <li><b>뇌</b><span>마크다운 볼트 · MCP 도구 8개 · 15분 주기 수집</span></li>
+          <li><b>혼</b><span>바뀌지 않는 헌법과, 승인으로만 바뀌는 성격 문서</span></li>
+          <li><b>얼굴</b><span>컴패니언 앱: 대화 · 승인 · 진화 제안함</span></li>
+          <li><b>손</b><span>브라우저 · 맥 화면 제어, 하위 에이전트 최대 3</span></li>
+        </ul>
+        <ul class="chips" data-reveal><li>Hermes Agent</li><li>Claude Code</li><li>MCP</li><li>TypeScript</li><li>Node.js</li><li>Obsidian</li></ul>
       </div>
       <div class="lab__media">
         <div class="brain" aria-hidden="true">
@@ -487,15 +517,34 @@
           <div class="brain__node" style="--x:12%;--y:50%"><b>Codex</b></div>
           <div class="brain__node" style="--x:12%;--y:80.6%"><b>git</b></div>
           <div class="brain__node brain__node--vault" style="--x:50%;--y:50%"><b>볼트</b><span>마크다운</span></div>
-          <div class="brain__node brain__node--mcp" style="--x:86%;--y:50%"><b>MCP</b><span>8 tools</span></div>
+          <div class="brain__node brain__node--mcp" style="--x:86%;--y:50%"><b>라피</b><span>MCP 8 tools</span></div>
           <p class="brain__tag mono" style="--x:33%;--y:12%">every 15 min</p>
-          <ul class="brain__guards mono"><li>승인 게이트</li><li>샌드박스</li><li>감사 로그</li><li>긴급 정지</li></ul>
+          <ul class="brain__guards mono"><li>실행 전 게이트</li><li>커널 샌드박스</li><li>감사 로그</li><li>긴급 정지</li></ul>
         </div>
       </div>
     </div>
   </article>
 
-  <article class="lab__item lab__item--home">
+  <article class="lab__item lab__item--forge" id="forge">
+    <div class="wrap lab__grid lab__grid--rev">
+      <div class="lab__text">
+        <div class="proj__meta mono"><span>2026.03 – 2026.07</span><span>오픈소스 · GPL-3.0</span></div>
+        <h3 class="lab__title" data-split>Forge Studio</h3>
+        <p class="lab__sub">코딩 에이전트 팀 운용 도구</p>
+        <p class="lab__desc" data-reveal>작업자마다 worktree를 나누고, 파일 범위가 겹치면 순차로 실행하고, 머지 전에 AI 교차 코드 리뷰를 거치는 Electron 앱입니다. 회사 저장소에 붙인 AI 코드 리뷰도 이 앱에서 빌드합니다.</p>
+        <ul class="chips" data-reveal><li>Electron</li><li>React</li><li>Zustand</li><li>xterm</li><li>node-pty</li></ul>
+        <a class="link-arrow" href="https://github.com/mstagon/forge-studiov2" target="_blank" rel="noopener" data-cursor="열기" data-magnetic>GitHub에서 보기<span>↗</span></a>
+      </div>
+      <div class="lab__media">
+        <div class="shots" data-cursor="보기">
+          <figure class="shot"><img src="img/forge-dashboard.webp" alt="Forge Studio 대시보드" loading="lazy"></figure>
+          <figure class="shot"><img src="img/forge-workflow.webp" alt="Forge Studio 워크플로" loading="lazy"></figure>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="lab__item lab__item--home" id="home">
     <div class="wrap lab__grid">
       <div class="lab__text">
         <div class="proj__meta mono"><span>2026.02 – 진행 중</span></div>
@@ -530,12 +579,13 @@
     </div>
   </article>
 
-  <article class="lab__item lab__item--rapi">
+  <article class="lab__item lab__item--rapi" id="rapi-v1">
     <div class="wrap">
       <div class="mini" data-reveal>
         <div class="proj__meta mono"><span>2025.12 – 2026.05</span><span>종료</span></div>
-        <h3 class="mini__t">자율 데스크톱 에이전트</h3>
+        <h3 class="mini__t">라피 1세대 · 자율 데스크톱 에이전트</h3>
         <p>Qwen2.5-3B를 MLX LoRA · DPO로 파인튜닝해 자율 발화에 쓰고, 로컬 모델과 API를 나누는 모델 라우터를 구성했습니다.</p>
+        <p>회고에서 시간 대부분을 차별점이 아닌 인프라에 썼다고 정리하고 접었습니다. 기억과 성격만 직접 만들고 나머지는 검증된 플랫폼에 맡긴다는 결론이 2세대 라피의 설계가 됐습니다.</p>
         <ul class="chips"><li>Electron</li><li>Qwen2.5-3B</li><li>MLX LoRA</li><li>DPO</li></ul>
       </div>
     </div>
@@ -545,7 +595,7 @@
 <!-- SCHOOL -->
 <section class="section school" id="school">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">05</span>학교 프로젝트</p>
+    <p class="eyebrow"><span class="eyebrow__idx">07</span>학교 프로젝트</p>
     <h2 class="h-lg" data-split>상명대학교에서 만든 것</h2>
     <ul class="rows">
       <li class="row" data-img="img/prev-teamo.webp"><span class="row__n mono">01</span><span class="row__t">Teamo</span><span class="row__d">팀원 모집 플랫폼. Docker Compose 배포, GitHub Actions CI/CD, 실시간 채팅</span><span class="row__m mono">Full-stack · 2024.06 – 12</span><img class="row__thumb" src="img/prev-teamo.webp" alt="" loading="lazy"></li>
@@ -566,7 +616,7 @@
   </div>
   <div class="wrap">
     <dl class="skill-table" data-reveal>
-      <div><dt>AI · AX</dt><dd>Claude Code, Codex, MCP 서버 개발, 에이전트 운용 환경 설계, LLM 교차 검수, 파인튜닝(LoRA · DPO)</dd></div>
+      <div><dt>AI · AX</dt><dd>Claude Code, Codex, MCP 서버 개발, 에이전트 운용 환경 설계, LLM 교차 코드 리뷰, 개인 AI 비서 개발(Hermes Agent), 파인튜닝(LoRA · DPO)</dd></div>
       <div><dt>Backend</dt><dd>NestJS, TypeORM, FastAPI, Spring Boot</dd></div>
       <div><dt>Mobile · Frontend</dt><dd>Flutter, Next.js, React, TypeScript</dd></div>
       <div><dt>DB</dt><dd>PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch</dd></div>
@@ -619,7 +669,7 @@
 <script src="vendor/Flip.min.js"></script>
 <script src="vendor/lenis.min.js"></script>
 <script src="js/hero.js"></script>
-<script src="js/scenes.js"></script>
+<script src="js/scenes.js?v=20260929b"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
