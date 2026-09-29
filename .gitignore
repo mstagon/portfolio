@@ -1,0 +1,19 @@
+.DS_Store
+# 사이트에서 안 쓰는 이미지. 공개 저장소에 올리지 않는다.
+img/profile.webp
+img/forge-agents.webp
+img/forge-knowledge.webp
+img/forge-planning.webp
+img/forge-welcome.webp
+img/mn-quiz.webp
+img/mn-ranking.webp
+img/mn-weather.webp
+img/mw-landing.webp
+img/mw-shop.webp
+img/prev-planz.webp
+img/prev-tripcut.webp
+img/rc1-dashboard.webp
+img/rc2-domains.webp
+img/rc2-instances.webp
+img/rc2-monitoring.webp
+img/rc2-topology.webp
