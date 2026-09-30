@@ -373,9 +373,109 @@
     whileVisible(el, tl);
   }
 
+  /* AX 흐름 — 작업이 에이전트 → 교차 리뷰 → 사람 결정을 거쳐 배포되고, 남긴 기록이 다음 작업으로 돌아간다 */
+  function axflow(el) {
+    const stage = $('.axflow__stage', el), steps = $('.axflow__steps', el), st = $$('.axflow__st', el);
+    const box = $('.axflow__tokens', el), logT = $('.axflow__log-t', el), mark = $('.axflow__mark', el);
+    const bars = $$('.axflow__bars i', el), scA = $('.axflow__scan--a', el), scB = $('.axflow__scan--b', el);
+    const mem = $$('.axflow__mem i', el), svg = $('.axflow__arc', el), ret = $('.axflow__ret', el), pulse = $('.axflow__ret-pulse', el);
+    const cards = $$('#axmap .axmap__grid > li');
+    const sq = i => $('.axflow__sq', st[i]);
+    let X = [0, 0, 0, 0, 0], len = 0;
+    const layout = () => {
+      const r = stage.getBoundingClientRect(); if (!r.width) return;
+      X = st.map((s, i) => { const b = sq(i).getBoundingClientRect(); return b.left - r.left + b.width / 2; });
+      const y0 = steps.getBoundingClientRect().bottom - r.top + 8, y1 = r.height - 14, k = Math.max(0, Math.min(14, (y1 - y0) / 2));
+      svg.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`);
+      const p = `M${X[4]} ${y0} V${y1 - k} Q${X[4]} ${y1} ${X[4] - k} ${y1} H${X[0] + k} Q${X[0]} ${y1} ${X[0]} ${y1 - k} V${y0}`;
+      ret.setAttribute('d', p); pulse.setAttribute('d', p);
+      len = pulse.getTotalLength();
+      gsap.set(pulse, { strokeDasharray: `46 ${len + 46}`, strokeDashoffset: 46 });
+    };
+    layout();
+    if (window.ResizeObserver) new ResizeObserver(layout).observe(stage);
+
+    if (RM) {
+      gsap.set(bars, { scaleX: 1 });
+      st[3].classList.add('is-ok'); mark.textContent = '✓';
+      mem.slice(0, 5).forEach(m => m.classList.add('is-on'));
+      return;
+    }
+
+    gsap.from(cards, { opacity: 0, y: 26, duration: .9, stagger: .07, ease: 'power3.out', scrollTrigger: { trigger: '#axmap .axmap__grid', start: 'top 88%', once: true } });
+
+    const cls = (i, c, on = true) => st[i].classList.toggle(c, on);
+    const say = t => { logT.textContent = t; gsap.fromTo(logT, { opacity: 0, x: -6 }, { opacity: 1, x: 0, duration: .3, overwrite: true }); };
+    let memN = 0;
+    const remember = () => {
+      if (memN >= mem.length) { mem.forEach(m => m.classList.remove('is-on')); memN = 0; }
+      mem[memN++].classList.add('is-on');
+    };
+    const mk = txt => { const t = d.createElement('span'); t.className = 'axflow__token'; t.textContent = txt; box.appendChild(t); gsap.set(t, { xPercent: -50, yPercent: -50, x: X[0], opacity: 0 }); return t; };
+    const move = (t, i, dur = .75) => gsap.to(t, { x: () => X[i], duration: dur, ease: 'power2.inOut' });
+    const work = () => gsap.timeline()
+      .call(() => cls(1, 'is-hit'))
+      .fromTo(bars, { scaleX: .2 }, { scaleX: 1, duration: .8, stagger: .14, ease: 'power1.inOut' })
+      .call(() => cls(1, 'is-hit', false))
+      .to(bars, { scaleX: .2, duration: .3 });
+    const review = () => gsap.timeline()
+      .call(() => cls(2, 'is-hit'))
+      .fromTo(scA, { y: 0, opacity: 1 }, { y: () => sq(2).clientHeight - 2, duration: .75, ease: 'none' })
+      .fromTo(scB, { y: () => sq(2).clientHeight - 2, opacity: 1 }, { y: 0, duration: .75, ease: 'none' }, '<.1')
+      .set([scA, scB], { opacity: 0 })
+      .call(() => cls(2, 'is-hit', false));
+    const spawn = (t, msg) => gsap.timeline()
+      .call(() => { say(msg); cls(0, 'is-hit'); })
+      .to(t, { opacity: 1, scale: 1, duration: .35, ease: 'back.out(2)' })
+      .call(() => cls(0, 'is-hit', false), null, '+=.35');
+    const approve = (t, msg, hold) => gsap.timeline()
+      .add(move(t, 3))
+      .call(() => { cls(2, 'is-ok', false); cls(3, 'is-wait'); say(msg); })
+      .call(() => { cls(3, 'is-wait', false); cls(3, 'is-ok'); mark.textContent = '✓'; }, null, '+=' + hold);
+    const ship = (t, msg) => gsap.timeline()
+      .add(move(t, 4), '+=.3')
+      .call(() => { cls(3, 'is-ok', false); mark.textContent = '승인'; cls(4, 'is-hit'); remember(); say(msg); })
+      .to(t, { opacity: 0, y: -12, duration: .4 }, '+=.5')
+      .call(() => cls(4, 'is-hit', false))
+      .fromTo(pulse, { strokeDashoffset: 46 }, { strokeDashoffset: () => -len, duration: 1.5, ease: 'power1.inOut' })
+      .call(() => say('기록 · 다음 작업의 맥락이 됨'), null, '<.3');
+
+    const t1 = mk('쿠폰 발행'), t2 = mk('푸시 알림');
+    const tl = gsap.timeline({ repeat: -1, repeatRefresh: true, repeatDelay: .8 });
+    tl.set([t1, t2], { x: () => X[0], y: 0, opacity: 0, scale: .6 })
+      .call(() => { st.forEach(s => s.classList.remove('is-hit', 'is-bad', 'is-ok', 'is-wait')); [t1, t2].forEach(t => t.classList.remove('is-bad', 'is-ok')); mark.textContent = '승인'; })
+      .add(spawn(t1, '요청 · 쿠폰 발행 기능을 맡김'))
+      .add(move(t1, 1))
+      .call(() => say('에이전트 · 구현하고 테스트를 돌림'))
+      .add(work())
+      .add(move(t1, 2))
+      .call(() => say('교차 리뷰 · Claude와 GPT가 서로 모른 채 리뷰'))
+      .add(review())
+      .call(() => { cls(2, 'is-bad'); t1.classList.add('is-bad'); say('교차 리뷰 · 둘 다 중복 발행을 지적해서 머지 차단'); })
+      .add(move(t1, 1, .9), '+=1')
+      .call(() => { cls(2, 'is-bad', false); t1.classList.remove('is-bad'); say('에이전트 · 원인을 고치고 다시 제출'); })
+      .add(work())
+      .add(move(t1, 2))
+      .add(review())
+      .call(() => { cls(2, 'is-ok'); t1.classList.add('is-ok'); say('교차 리뷰 · 통과'); })
+      .add(approve(t1, '사람 결정 · 커밋과 배포는 사람이 승인', 1.4), '+=.4')
+      .add(ship(t1, '배포 · 결정과 교훈을 기록으로 남김'))
+      .add(spawn(t2, '요청 · 푸시 알림 설정을 맡김'), '+=.4')
+      .add(move(t2, 1))
+      .call(() => say('에이전트 · 구현하고 테스트를 돌림'))
+      .add(work())
+      .add(move(t2, 2))
+      .add(review())
+      .call(() => { cls(2, 'is-ok'); t2.classList.add('is-ok'); say('교차 리뷰 · 둘 다 지적한 문제 없음'); })
+      .add(approve(t2, '사람 결정 · 승인 대기', 1), '+=.4')
+      .add(ship(t2, '배포 · 기록으로 남김'));
+    whileVisible(el, tl);
+  }
+
   function init(o = {}) {
     RM = !!o.RM;
     const run = (sel, fn) => $$(sel).forEach(el => { try { fn(el); } catch (e) { console.warn('[scenes]', sel, e); } });
+    run('.axflow', axflow);
     run('.panel.mp', money);
     run('.panel.pl', pipeline);
     run('.panel.gate', gate);

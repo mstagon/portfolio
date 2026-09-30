@@ -10,7 +10,7 @@
 <meta property="og:description" content="서비스를 끝까지 만들고, AI 에이전트로 일하는 방식을 바꾸는 풀스택 개발자">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6a2b'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="fonts/pretendard/pretendardvariable-dynamic-subset.css">
-<link rel="stylesheet" href="css/style.css?v=20260930a">
+<link rel="stylesheet" href="css/style.css?v=20260930b">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading">
@@ -67,19 +67,19 @@
         <figcaption class="mono">Choi Minseok</figcaption>
       </figure>
       <div class="about__body">
-        <p class="about__statement" data-words>걷기 보상 앱 마블워크의 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했습니다. 출시 뒤에도 기능 개발과 운영을 함께 맡고 있습니다. AI 부팀장으로는 코딩 에이전트 운용 환경과, 두 AI가 PR을 따로 리뷰해 둘 다 지적한 문제만 남기는 코드 리뷰를 회사 저장소에 도입했습니다.</p>
+        <p class="about__statement" data-words>앱 · 서버 · 어드민을 한 모노레포로 묶어 제품을 만들고, 그 일을 AI 에이전트에게 나눠 맡기는 환경까지 직접 만들어 씁니다. 대학에서는 팀 프로젝트와 공모전, 멋쟁이사자처럼 운영진 활동으로 서비스를 만들었고, 지금은 더줌코리아에서 서비스 개발 · 운영과 사내 AI 도입을 맡고 있습니다. 개인적으로는 AI 에이전트를 직접 만들어 라피라고 이름 붙이고 함께 일합니다.</p>
         <ol class="principles">
-          <li><span class="mono">A</span><p>포인트 정합성은 DB 제약과 멱등 처리로 지킵니다.</p></li>
-          <li><span class="mono">B</span><p>인프라와 배포는 코드와 승인 절차로 관리합니다.</p></li>
+          <li><span class="mono">A</span><p>문제는 원인까지 따라가 고치고, 같은 문제가 다시 생기지 않게 검사를 남깁니다.</p></li>
+          <li><span class="mono">B</span><p>반복되는 일은 에이전트에게 맡기고, 사람이 판단할 지점은 미리 정해 둡니다.</p></li>
           <li><span class="mono">C</span><p>“왜 이렇게 설계했는가”를 설명할 수 있는 선택을 지향합니다.</p></li>
         </ol>
       </div>
     </div>
     <div class="figs">
-      <div class="fig"><p class="fig__n"><span data-count="322">322</span></p><p class="fig__l">API 엔드포인트</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="3">3</span></p><p class="fig__l">스토어 동시 출시</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="44">44</span></p><p class="fig__l">SDK로 붙인 웹게임</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="18">18</span><i>·</i><span data-count="27">27</span><i>·</i><span data-count="25">25</span></p><p class="fig__l">에이전트 · 스킬 · 훅</p></div>
+      <div class="fig"><p class="fig__n"><span data-count="19">19</span></p><p class="fig__l">회사 · 개인 · 팀 프로젝트</p></div>
+      <div class="fig"><p class="fig__n"><span data-count="4">4</span></p><p class="fig__l">공모전 · 교내 수상</p></div>
+      <div class="fig"><p class="fig__n"><span data-count="11">11</span><i>·</i><span data-count="12">12</span></p><p class="fig__l">멋쟁이사자처럼 운영진 기수</p></div>
+      <div class="fig"><p class="fig__n"><span data-count="18">18</span><i>·</i><span data-count="27">27</span><i>·</i><span data-count="25">25</span></p><p class="fig__l">직접 구성한 에이전트 · 스킬 · 훅</p></div>
     </div>
   </div>
 </section>
@@ -90,6 +90,21 @@
     <p class="eyebrow"><span class="eyebrow__idx">02</span>AX</p>
     <h2 class="h-lg" data-split>AI 에이전트로 일하는 방식을 바꿉니다</h2>
     <p class="axmap__lead" data-reveal>회사에서는 팀이 쓰는 에이전트 환경과 리뷰 절차를 만들었고, 개인적으로는 에이전트를 직접 만들어 씁니다.</p>
+    <div class="axflow" aria-hidden="true">
+      <div class="axflow__stage">
+        <svg class="axflow__arc"><path class="axflow__ret"/><path class="axflow__ret-pulse"/></svg>
+        <ol class="axflow__steps">
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__caret">›</span></div><b>요청</b><span>사람이 맡김</span></li>
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__bars"><i></i><i></i><i></i></span></div><b>에이전트</b><span>구현 · 테스트</span></li>
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__who"><i>Claude</i><i>GPT</i></span><i class="axflow__scan axflow__scan--a"></i><i class="axflow__scan axflow__scan--b"></i></div><b>교차 리뷰</b><span>둘 다 지적한 것만</span></li>
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__mark">승인</span></div><b>사람 결정</b><span>여섯 곳에서만</span></li>
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__mem"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div><b>배포 · 기록</b><span>결정과 교훈</span></li>
+        </ol>
+        <div class="axflow__tokens"></div>
+        <p class="axflow__ret-t">기록은 다음 작업의 맥락이 됩니다</p>
+      </div>
+      <p class="axflow__log mono"><span class="axflow__log-dot"></span><span class="axflow__log-t">요청 → 에이전트 → 교차 리뷰 → 사람 결정 → 배포 · 기록</span></p>
+    </div>
     <ul class="axmap__grid">
       <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>에이전트 운용 환경</h3><p>에이전트 18 · 스킬 27 · 훅 25. 사람이 결정하는 지점은 여섯 곳입니다.</p></a></li>
       <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>AI 교차 코드 리뷰</h3><p>두 AI가 PR을 따로 리뷰하고, 둘 다 지적한 문제만 남깁니다. 저장소 3곳에 적용했습니다.</p></a></li>
@@ -113,15 +128,16 @@
     <div class="tl__viewport">
       <div class="tl__line" aria-hidden="true"><span class="tl__fill"></span></div>
       <ol class="tl__track">
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2021 – 2025</p><h3>상명대학교</h3><p>스마트정보통신공학과, 웹&amp;앱 연계전공. 팀 프로젝트와 멋쟁이사자처럼 운영진</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2025.12</p><h3>홈서버 시작</h3><p>집 서버로 배포 환경을 만들고 자율 데스크톱 에이전트 착수</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.02</p><h3>더줌코리아 합류</h3><p>홈서버 컨트롤 플레인 1차</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.03</p><h3>마블워크 착수</h3><p>코딩 에이전트 운용 환경 도입 · Forge Studio 공개</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.05</p><h3>오퍼월 SDK 이식</h3><p>컨트롤 플레인 재작성 · 자율 에이전트 종료</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.06</p><h3>미네르바 착수</h3><p>B2B 혜택 SDK와 웹게임 플랫폼</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.07</p><h3>서버 상용 배포</h3><p>마블워크 서버 상용 전환 · 해외판 착수</p></li>
-        <li class="tl__item"><span class="tl__dot"></span><p class="tl__date mono">2026.08</p><h3>세 스토어 출시</h3><p>Google Play · App Store · 원스토어 · 라피 2세대와 rapibrain</p></li>
-        <li class="tl__item tl__item--now"><span class="tl__dot"></span><p class="tl__date mono">Now</p><h3>개발 파트장 · AI 부팀장</h3><p>마블워크 기능 개발 · 운영과 사내 AI 도입</p></li>
+        <li class="tl__item" data-y="2021"><span class="tl__dot"></span><p class="tl__date mono">2021.03</p><h3>상명대학교 입학</h3><p>스마트정보통신공학과. 첫 학기에 만든 e-Campus 진도율 조회 도구로 SM Learning Fair 장려상</p></li>
+        <li class="tl__item" data-y="2023"><span class="tl__dot"></span><p class="tl__date mono">2023.01</p><h3>멋쟁이사자처럼 운영진</h3><p>대학 11 · 12기 운영진(2024.12까지). 커리큘럼 운영, 해커톤 총괄, 멘토링</p></li>
+        <li class="tl__item" data-y="2023"><span class="tl__dot"></span><p class="tl__date mono">2023.03</p><h3>학부연구생</h3><p>AI 기반 신호처리 논문 학술대회 발표. 같은 해 자체 이미지 인식 모델로 만든 피부암 진단 앱으로 전공소모임 대상</p></li>
+        <li class="tl__item" data-y="2023"><span class="tl__dot"></span><p class="tl__date mono">2023.09</p><h3>첫 LLM 제품</h3><p>자소서 첨삭과 채용 공고 검색을 한 화면에 묶은 취업의신</p></li>
+        <li class="tl__item" data-y="2024"><span class="tl__dot"></span><p class="tl__date mono">2024</p><h3>팀 프로젝트 리드</h3><p>PHC 프로젝트 리더, 휴림 모바일 리드. Teamo에서 만든 라즈베리파이 배포 자동화가 지금 홈서버의 출발점</p></li>
+        <li class="tl__item" data-y="2025"><span class="tl__dot"></span><p class="tl__date mono">2025.08</p><h3>졸업</h3><p>웹&amp;앱 연계전공 복수학위. 졸업 전까지 TripCut · DOSS · Moyang 팀 프로젝트</p></li>
+        <li class="tl__item" data-y="2025"><span class="tl__dot"></span><p class="tl__date mono">2025.12</p><h3>홈서버와 첫 개인 에이전트</h3><p>집 서버로 배포 환경을 만들고 라피 1세대(자율 데스크톱 에이전트) 착수</p></li>
+        <li class="tl__item" data-y="2026"><span class="tl__dot"></span><p class="tl__date mono">2026.02</p><h3>더줌코리아 합류</h3><p>마블워크 · 미네르바 · 오퍼월 SDK 개발, 코딩 에이전트 운용 환경 사내 도입</p></li>
+        <li class="tl__item" data-y="2026"><span class="tl__dot"></span><p class="tl__date mono">2026.08</p><h3>마블워크 출시 · 라피 2세대</h3><p>세 스토어 출시. 개인적으로는 장기기억 rapibrain을 붙인 라피 2세대</p></li>
+        <li class="tl__item tl__item--now" data-y="2026"><span class="tl__dot"></span><p class="tl__date mono">Now</p><h3>개발 파트장 · AI 부팀장</h3><p>서비스 개발 · 운영과 사내 AI 도입</p></li>
       </ol>
     </div>
     <div class="tl__bgyear" aria-hidden="true">2026</div>
@@ -764,7 +780,7 @@
 <script src="vendor/Flip.min.js"></script>
 <script src="vendor/lenis.min.js"></script>
 <script src="js/hero.js"></script>
-<script src="js/scenes.js?v=20260929b"></script>
-<script src="js/main.js?v=20260929c"></script>
+<script src="js/scenes.js?v=20260930a"></script>
+<script src="js/main.js?v=20260930a"></script>
 </body>
 </html>

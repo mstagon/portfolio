@@ -203,12 +203,20 @@
     const mm = gsap.matchMedia();
     mm.add('(min-width: 761px)', () => {
       const dist = () => Math.max(0, track.scrollWidth - innerWidth);
+      let tl;
       const mark = () => {
-        const th = innerWidth * 0.64;
-        items.forEach(it => it.classList.toggle('is-on', $('.tl__dot', it).getBoundingClientRect().left < th));
+        const th = innerWidth * 0.64, all = tl && tl.progress() > 0.985;
+        let y = items[0] && items[0].dataset.y;
+        items.forEach(it => {
+          const on = all || $('.tl__dot', it).getBoundingClientRect().left < th;
+          it.classList.toggle('is-on', on);
+          if (on && it.dataset.y) y = it.dataset.y;
+        });
+        if (year && y && year.textContent !== y) year.textContent = y;
       };
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: sec, pin: '.tl__pin', start: 'top top', end: () => '+=' + dist(), scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, onUpdate: mark, onRefresh: mark }
+      tl = gsap.timeline({
+        onUpdate: mark,
+        scrollTrigger: { trigger: sec, pin: '.tl__pin', start: 'top top', end: () => '+=' + dist(), scrub: 0.8, invalidateOnRefresh: true, anticipatePin: 1, onRefresh: mark }
       });
       tl.to(track, { x: () => -dist(), ease: 'none' }, 0)
         .to(fill, { scaleX: 1, ease: 'none' }, 0)
