@@ -85,7 +85,7 @@
 
   /* 장애 대응 카드 세 개 */
   function incidents() {
-    const g = $('.g-fg'), xs = $('.xff__row--bad span'), lp = $('.inc__vis--loop');
+    const g = $('.g-fg'), xs = $('.inc__card .inc__vis--xff .xff__row--bad span'), lp = $('.inc__vis--loop');
     if (g) RM ? gsap.set(g, { strokeDashoffset: 0 }) : once(g.closest('.inc__card'), () => gsap.to(g, { strokeDashoffset: 0, duration: 1.8, delay: .2, ease: 'power2.inOut' }));
     if (xs) RM ? gsap.set(xs, { '--s': 1 }) : once(xs.closest('.inc__card'), () => gsap.to(xs, { '--s': 1, duration: .6, delay: .5, ease: 'power2.out' }));
     if (!lp) return;

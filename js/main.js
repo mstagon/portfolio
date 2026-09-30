@@ -63,6 +63,14 @@
     body.classList.remove('is-loading');
     if (lenis) lenis.start();
     ScrollTrigger.refresh();
+    /* 주소에 #섹션을 붙여 바로 열면, 핀 · 지연 로딩으로 레이아웃이 바뀐 뒤 그 자리로 다시 옮긴다 */
+    const hid = location.hash.length > 1 ? decodeURIComponent(location.hash.slice(1)) : '';
+    const ht = hid && d.getElementById(hid);
+    if (ht) {
+      const go = () => { if (lenis) lenis.scrollTo(ht, { immediate: true, force: true }); else ht.scrollIntoView(); };
+      requestAnimationFrame(go);
+      setTimeout(() => { ScrollTrigger.refresh(); go(); }, 700);
+    }
     if (window.Hero) Hero.intro();
     if (RM) {
       gsap.set('.hero__en-in, .hero__tagline .line > span', { y: 0 });
@@ -268,7 +276,6 @@
     });
     gsap.from('.phone', { opacity: 0, y: 80, rotate: i => (i % 2 ? 4 : -4), duration: 1.4, stagger: 0.1, scrollTrigger: { trigger: '.phones', start: 'top 85%', once: true } });
     $$('.shots').forEach(s => gsap.fromTo(s, { y: 50 }, { y: -50, ease: 'none', scrollTrigger: { trigger: s, start: 'top bottom', end: 'bottom top', scrub: true } }));
-    gsap.from('.mn-notes li', { opacity: 0, y: 20, stagger: 0.08, duration: 0.9, scrollTrigger: { trigger: '.mn-notes', start: 'top 92%', once: true } });
     gsap.from('.work-index li', { opacity: 0, y: 30, stagger: 0.08, duration: 1.1, scrollTrigger: { trigger: '.work-index', start: 'top 88%', once: true } });
     gsap.from('.inc__card', { opacity: 0, y: 50, stagger: 0.12, duration: 1.2, scrollTrigger: { trigger: '.inc__grid', start: 'top 85%', once: true } });
     $$('.panel').forEach(p => gsap.from(p, { y: 60, opacity: 0, duration: 1.3, scrollTrigger: { trigger: p, start: 'top 92%', once: true } }));

@@ -895,3 +895,18 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
   .sq__k,.sq__g{font-size:9.5px;left:calc((var(--gs) - 1) * 100% / var(--n) + 10px)}
 }
 @media (prefers-reduced-motion:reduce){.sq *{transition:none!important}}
+
+/* 2026-09-30 재구성: 설계 · 장애 대응을 각 프로젝트 아래로, 소개 네 문단 */
+.pgrp__k{margin-top:clamp(48px,7vw,96px)}
+.principles li p b{display:block;margin-bottom:6px;color:var(--ink);font-weight:600;font-size:clamp(16px,1.3vw,18px);letter-spacing:-.02em;line-height:1.5}
+.about__more{margin-top:26px}
+.inc .incx{margin-bottom:16px}
+.incx__vis--rows{display:grid;gap:10px;align-content:center}
+.lab__more{margin-top:clamp(40px,6vw,80px)}
+.lab__more .panel{margin-top:0}
+.sheet .sq__do.is-acc{background:#fff1ea}
+.sheet .sq__do.is-warn{background:#fff5ec}
+.sheet .sq__do.is-bad{background:#fdecec}
+.sheet .incx__nums p,.sheet .bk{background:rgba(0,0,0,.035)}
+.sheet .bk__bar{background:rgba(0,0,0,.08)}
+.sheet .sqp,.sheet .incx{--ink:#121214}
