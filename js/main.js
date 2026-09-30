@@ -321,36 +321,44 @@
     gsap.to('.hero__bottom, .hero__en, .hero__cue', { y: -80, opacity: 0, ease: 'none', stagger: 0.02, scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 20%', scrub: true } });
   }
 
-  /* ---------- lightbox: 스크린샷 묶음(.shots)을 누르면 크게 본다 ---------- */
+  /* ---------- lightbox: data-lb를 누르면 크게 본다. 같은 값끼리 한 묶음으로 넘겨 본다 (2026-09-30) ---------- */
   function lightbox() {
-    const groups = $$('.shots'); if (!groups.length) return;
+    const triggers = $$('[data-lb]'); if (!triggers.length) return;
     const box = d.createElement('div');
-    box.className = 'lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', '스크린샷 크게 보기');
+    box.className = 'lb'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', '화면 크게 보기');
     box.innerHTML = '<button class="lb__x" type="button">닫기</button>'
-      + '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 스크린샷">←</button>'
-      + '<figure class="lb__fig"><img alt=""><figcaption class="lb__cap mono"></figcaption></figure>'
-      + '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 스크린샷">→</button>';
+      + '<button class="lb__nav lb__nav--prev" type="button" aria-label="이전 화면">←</button>'
+      + '<figure class="lb__fig"><img alt=""><video muted loop playsinline hidden></video><figcaption class="lb__cap mono"></figcaption></figure>'
+      + '<button class="lb__nav lb__nav--next" type="button" aria-label="다음 화면">→</button>';
     body.appendChild(box);
-    const im = $('img', box), cap = $('.lb__cap', box), x = $('.lb__x', box);
+    const im = $('img', box), vd = $('video', box), cap = $('.lb__cap', box), x = $('.lb__x', box);
     let list = [], i = 0, back = null;
+    const label = m => m.getAttribute('aria-label') || m.alt || '';
     const show = k => {
       i = (k + list.length) % list.length;
-      im.src = list[i].currentSrc || list[i].src; im.alt = list[i].alt;
-      cap.textContent = list[i].alt + (list.length > 1 ? '  ·  ' + (i + 1) + ' / ' + list.length : '');
+      const m = list[i], isV = m.tagName === 'VIDEO';
+      im.hidden = isV; vd.hidden = !isV;
+      if (isV) { vd.src = m.currentSrc || m.src; vd.play().catch(() => {}); }
+      else { vd.pause(); vd.removeAttribute('src'); im.src = m.currentSrc || m.src; im.alt = label(m); }
+      cap.textContent = label(m) + (list.length > 1 ? '  ·  ' + (i + 1) + ' / ' + list.length : '');
     };
-    const open = (imgs, k) => {
-      list = imgs; back = d.activeElement; box.classList.toggle('is-multi', imgs.length > 1); show(k);
+    const open = (items, k) => {
+      list = items; back = d.activeElement; box.classList.toggle('is-multi', items.length > 1); show(k);
       box.classList.add('is-open'); if (lenis) lenis.stop(); x.focus({ preventScroll: true });
     };
     const close = () => {
-      box.classList.remove('is-open'); if (lenis) lenis.start();
+      box.classList.remove('is-open'); vd.pause(); if (lenis) lenis.start();
       if (back && back.focus) back.focus({ preventScroll: true });
     };
-    groups.forEach(g => {
-      const imgs = $$('img', g);
-      g.setAttribute('role', 'button'); g.tabIndex = 0; g.setAttribute('aria-label', '스크린샷 크게 보기');
-      g.addEventListener('click', e => { const t = e.target.closest('img'); open(imgs, t ? Math.max(0, imgs.indexOf(t)) : 0); });
-      g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(imgs, 0); } });
+    const groups = {};
+    triggers.forEach(t => { const k = t.dataset.lb || '_'; (groups[k] = groups[k] || []).push(...$$('img, video', t)); });
+    triggers.forEach(t => {
+      const items = groups[t.dataset.lb || '_'];
+      // 앱 창은 겹친 이미지 중 지금 보이는 것(.is-on)을 연다
+      const pick = e => $('.is-on', t) || (e && e.target.closest('img, video')) || $('img, video', t);
+      t.setAttribute('role', 'button'); t.tabIndex = 0; t.setAttribute('aria-label', '크게 보기');
+      t.addEventListener('click', e => open(items, Math.max(0, items.indexOf(pick(e)))));
+      t.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(items, Math.max(0, items.indexOf(pick()))); } });
     });
     box.addEventListener('click', e => { if (e.target === box || e.target === x) close(); });
     $('.lb__nav--prev', box).addEventListener('click', () => show(i - 1));
@@ -361,9 +369,44 @@
     });
   }
 
+  /* ---------- 앱 창: 탭을 누르거나 가만히 두면 다음 화면, 스크롤하면 기울어진 창이 선다 (2026-09-30) ---------- */
+  function appwins() {
+    $$('[data-appwin]').forEach(w => {
+      const tabs = $$('.appwin__tabs button', w), imgs = $$('.appwin__view img', w), bar = $('.appwin__prog span', w);
+      if (!imgs.length) return;
+      let i = 0, tw = null, seen = false, hover = false;
+      const run = () => { if (tw) { if (seen && !hover) tw.play(); else tw.pause(); } };
+      const go = k => {
+        i = (k + imgs.length) % imgs.length;
+        imgs.forEach((m, n) => m.classList.toggle('is-on', n === i));
+        tabs.forEach((t, n) => { t.classList.toggle('is-on', n === i); t.setAttribute('aria-selected', String(n === i)); });
+        if (RM || imgs.length < 2 || !bar) return;
+        if (tw) tw.kill();
+        tw = gsap.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: 5, ease: 'none', paused: true, onComplete: () => go(i + 1) });
+        run();
+      };
+      tabs.forEach((t, n) => t.addEventListener('click', () => go(n)));
+      w.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { hover = true; run(); } });
+      w.addEventListener('pointerleave', () => { hover = false; run(); });
+      ScrollTrigger.create({ trigger: w, start: 'top 75%', end: 'bottom 25%', onToggle: s => { seen = s.isActive; run(); } });
+      go(0);
+      if (RM) return;
+      gsap.fromTo(w, { rotateX: 16, scale: 0.9, y: 70 }, { rotateX: 0, scale: 1, y: 0, ease: 'none', transformPerspective: 1800, transformOrigin: '50% 100%', scrollTrigger: { trigger: w, start: 'top bottom', end: 'top 35%', scrub: true } });
+      const ph = w.parentElement && $('.appwin-phone', w.parentElement);
+      if (ph) gsap.fromTo(ph, { y: 120, rotate: 6 }, { y: 0, rotate: 0, ease: 'none', scrollTrigger: { trigger: w, start: 'top bottom', end: 'top 25%', scrub: true } });
+    });
+  }
+
+  /* ---------- 카드 속 녹화 영상: 화면에 보일 때만 재생 (2026-09-30) ---------- */
+  function spVideo() {
+    const vs = $$('.sp__img video'); if (!vs.length || RM || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause(); }), { threshold: 0.35 });
+    vs.forEach(v => io.observe(v));
+  }
+
   /* ---------- boot ---------- */
   const safe = (f, name) => { try { f(); } catch (e) { console.error('[' + name + ']', e); } };
-  safe(lightbox, 'lightbox');
+  safe(lightbox, 'lightbox'); safe(appwins, 'appwins'); safe(spVideo, 'spVideo');
   safe(texts, 'texts'); safe(counters, 'counters'); safe(about, 'about'); safe(timeline, 'timeline');
   safe(fan, 'fan'); safe(shares, 'shares'); safe(sheet, 'sheet'); safe(rows, 'rows'); safe(marquee, 'marquee');
   safe(heroScroll, 'hero'); safe(nav, 'nav'); safe(cursor, 'cursor'); safe(magnetic, 'magnetic');
