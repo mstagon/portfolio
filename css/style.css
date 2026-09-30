@@ -724,7 +724,7 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
 .incx__flow li:last-child{border-top-color:var(--acc)}
 .incx__flow b{display:block;font-size:11px;letter-spacing:.08em;color:var(--acc);margin-bottom:8px;font-weight:500}
 .incx__flow p{font-size:13.5px;color:var(--ink-2);line-height:1.7}
-.incx__nums{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.incx__nums{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .incx__nums p{padding:14px 16px;border:1px solid var(--line);border-radius:12px;font-size:12.5px;color:var(--mute);line-height:1.5;background:rgba(0,0,0,.18)}
 .incx__nums span{display:block;font-size:clamp(20px,2vw,26px);font-weight:600;color:var(--ink);letter-spacing:-.02em;margin-bottom:4px}
 /* 버킷 그림: 전체 공용 버킷은 금방 차서 429, 사용자별 버킷은 여유 */
@@ -807,3 +807,91 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
   .appwin-row{padding-right:0;padding-bottom:18vw}
   .appwin-phone{width:27vw;bottom:0;right:2vw}
 }
+
+/* ---------- 소개 보조 문단 ---------- */
+.about__rules{margin-top:clamp(18px,2.4vw,28px);font-size:clamp(15px,1.2vw,17px);line-height:1.8;color:var(--ink-2);max-width:40em}
+.about__link{color:var(--acc);white-space:nowrap;border-bottom:1px solid rgba(255,106,43,.4)}
+.about__link:hover{border-bottom-color:var(--acc)}
+
+/* ---------- 설계 · 시퀀스 다이어그램 ---------- */
+.design__lead{margin-top:clamp(18px,2.4vw,28px);max-width:44em;font-size:clamp(15px,1.3vw,18px);line-height:1.8;color:var(--ink-2)}
+.sqtabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:clamp(30px,4vw,48px)}
+.sqtabs button{font:inherit;font-size:14px;line-height:1;padding:11px 16px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.sqtabs button:hover{border-color:var(--acc);color:var(--ink)}
+.sqtabs button[aria-selected="true"]{background:var(--acc);border-color:var(--acc);color:#0b0b0d;font-weight:700}
+.sqtabs button:focus-visible{outline:2px solid var(--acc-2);outline-offset:3px}
+.sqp{margin-top:18px}
+.sqp[hidden]{display:none}
+.sqp__head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px 24px;flex-wrap:wrap;margin-bottom:clamp(24px,3vw,36px)}
+.sqp__t{margin-top:8px;font-size:clamp(20px,2.2vw,30px);font-weight:700;letter-spacing:-.03em;line-height:1.32}
+.sqp__replay{font:inherit;font-family:var(--mono);font-size:12px;padding:8px 12px;border-radius:999px;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.sqp__replay:hover{border-color:var(--acc);color:var(--ink)}
+.sqp__why{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px 36px;margin-top:clamp(26px,3.4vw,40px);padding-top:clamp(20px,2.6vw,28px);border-top:1px solid var(--line)}
+.sqp__why dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--acc);margin-bottom:6px}
+.sqp__why dd{margin:0;font-size:15px;line-height:1.75;color:var(--ink-2)}
+
+.sq{--n:4;position:relative;padding-bottom:6px}
+.sq__lanes{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));pointer-events:none}
+.sq__lanes i{justify-self:center;width:0;margin-top:26px;border-left:1px dashed var(--line-2);transform-origin:top}
+.sq__heads,.sq__rows,.sq__grp,.sq__br{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));row-gap:14px}
+.sq__heads{position:relative;z-index:1;margin-bottom:22px}
+.sq__heads p{justify-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:min(150px,92%);padding:10px 8px;border:1px solid var(--line-2);border-radius:12px;background:var(--bg-3);text-align:center}
+.sq__heads b{font-size:14px;line-height:1.3;font-weight:700}
+.sq__heads span{font-family:var(--mono);font-size:10.5px;color:var(--mute);line-height:1.3}
+.sq__rows{position:relative;z-index:1}
+.sq__grp,.sq__br{grid-column:1/-1;position:relative}
+.sq__grp{padding:34px 0 14px}
+.sq__grp::before{content:"";position:absolute;top:0;bottom:0;left:calc((var(--gs) - 1) * 100% / var(--n) + 4px);width:calc(var(--gk) * 100% / var(--n) - 8px);border:1px dashed var(--line-2);border-radius:12px;background:rgba(255,255,255,.015);pointer-events:none}
+.sq__k,.sq__g{position:absolute;left:calc((var(--gs) - 1) * 100% / var(--n) + 14px);font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;line-height:1.3}
+.sq__k{top:10px;color:var(--acc)}
+.sq__br{padding-top:28px}
+.sq__br+.sq__br{margin-top:6px}
+.sq__br+.sq__br::before{content:"";position:absolute;top:0;left:calc((var(--gs) - 1) * 100% / var(--n) + 4px);width:calc(var(--gk) * 100% / var(--n) - 8px);border-top:1px dashed var(--line-2)}
+.sq__g{top:8px;color:var(--ink-2)}
+.sq__g::before{content:"[ "}.sq__g::after{content:" ]"}
+.sq__g.is-ok{color:var(--ok)}.sq__g.is-bad{color:var(--bad)}.sq__g.is-warn{color:var(--acc-2)}
+
+.sq__m{grid-column:var(--s)/span var(--k);display:flex;flex-direction:column;align-items:center;text-align:center;color:var(--ink-2);min-width:0}
+.sq__m span{font-size:13.5px;line-height:1.4;color:var(--ink);padding:0 6px}
+.sq__m em{font-style:normal;font-family:var(--mono);font-size:10.5px;line-height:1.4;color:var(--mute);margin-top:5px;padding:0 6px}
+.sq__m i{position:relative;display:block;align-self:stretch;height:0;margin:7px calc(50% / var(--k)) 0;border-top:1.5px solid currentColor}
+.sq__m i::after{content:"";position:absolute;right:-1px;top:-6px;border-style:solid;border-width:5.25px 0 5.25px 9px;border-color:transparent transparent transparent currentColor}
+.sq__m.is-l i::after{right:auto;left:-1px;border-width:5.25px 9px 5.25px 0;border-color:transparent currentColor transparent transparent}
+.sq__m.is-ret i{border-top-style:dashed}
+.sq__m.is-acc{color:var(--acc)}.sq__m.is-ok{color:var(--ok)}.sq__m.is-bad{color:var(--bad)}.sq__m.is-warn{color:var(--acc-2)}
+.sq__m.is-acc i{filter:drop-shadow(0 0 5px var(--acc-glow))}
+
+.sq__do{grid-column:var(--s)/span 1;justify-self:center;width:max-content;max-width:100%;padding:8px 12px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-3);font-size:13px;line-height:1.45;text-align:center;color:var(--ink)}
+.sq__do.is-wide{max-width:190%}
+.sq__do.is-acc{border-color:rgba(255,106,43,.7);background:#23150f}
+.sq__do.is-warn{border-color:rgba(255,165,110,.6);background:#22170f}
+.sq__do.is-bad{border-color:rgba(255,77,77,.6);background:#2a1111}
+.sq__note{grid-column:var(--s)/span var(--k);margin:0 calc(50% / var(--k));padding:9px 12px;border-left:2px solid var(--acc-2);border-radius:0 8px 8px 0;background:rgba(255,165,110,.07);font-size:12.5px;line-height:1.6;color:var(--ink-2)}
+
+/* 등장 애니메이션: JS가 .sq--anim을 붙였을 때만 숨긴다 */
+.sq--anim .sq__heads p{opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s var(--ease)}
+.sq--anim.is-in .sq__heads p{opacity:1;transform:none}
+.sq--anim .sq__lanes i{transform:scaleY(0);transition:transform 1.4s var(--ease)}
+.sq--anim.is-in .sq__lanes i{transform:none}
+.sq--anim .sq__k,.sq--anim .sq__g,.sq--anim .sq__do,.sq--anim .sq__note,.sq--anim .sq__m span,.sq--anim .sq__m em{opacity:0;transition:opacity .45s}
+.sq--anim .sq__do{transform:scale(.94);transition:opacity .45s,transform .5s var(--ease)}
+.sq--anim .sq__grp::before,.sq--anim .sq__br+.sq__br::before{opacity:0;transition:opacity .5s}
+.sq--anim .sq__m i{transform:scaleX(0);transform-origin:left center;transition:transform .55s var(--ease)}
+.sq--anim .sq__m.is-l i{transform-origin:right center}
+.sq--anim .is-on.sq__k,.sq--anim .is-on.sq__g,.sq--anim .is-on.sq__note,.sq--anim .sq__m.is-on span,.sq--anim .sq__m.is-on em{opacity:1}
+.sq--anim .sq__do.is-on{opacity:1;transform:none}
+.sq--anim .sq__grp.is-on::before,.sq--anim .sq__grp.is-on .sq__br+.sq__br::before{opacity:1}
+.sq--anim .sq__m.is-on i{transform:none}
+
+@media (max-width:640px){
+  .sqtabs button{font-size:13px;padding:10px 13px}
+  .sq__heads p{padding:8px 4px;border-radius:10px}
+  .sq__heads b{font-size:12px}
+  .sq__heads span{font-size:9.5px}
+  .sq__m span{font-size:12px;padding:0 3px}
+  .sq__m em{font-size:9.5px;padding:0 3px}
+  .sq__do{font-size:11.5px;padding:6px 7px}
+  .sq__note{font-size:11.5px;padding:8px 9px}
+  .sq__k,.sq__g{font-size:9.5px;left:calc((var(--gs) - 1) * 100% / var(--n) + 10px)}
+}
+@media (prefers-reduced-motion:reduce){.sq *{transition:none!important}}

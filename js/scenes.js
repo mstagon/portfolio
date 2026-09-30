@@ -271,20 +271,20 @@
     whileVisible(el, tl);
   }
 
-  /* 웹게임 — 타일 44개가 컨테이너에 붙는다 */
+  /* 웹게임 — 타일 44개가 컨테이너에 붙고, 숫자는 40종 이상으로 표시한다 */
   function games(el) {
-    const grid = $('.games__grid', el), n = $('.games__n', el), N = 44;
+    const grid = $('.games__grid', el), n = $('.games__n', el), N = 44, L = 40;
     const tiles = Array.from({ length: N }, (_, i) => {
       const t = d.createElement('i'); t.className = 'game';
       t.style.setProperty('--h', Math.round((i * 137.5) % 360));
       grid.appendChild(t); return t;
     });
-    if (RM) { n.textContent = N; return; }
+    if (RM) { n.textContent = L; return; }
     gsap.set(tiles, { scale: 0, opacity: 0 });
     once(el, () => {
       const each = .035, o = { v: 0 };
       gsap.to(tiles, { scale: 1, opacity: 1, duration: .45, ease: 'back.out(2.2)', stagger: { each, from: 'random' } });
-      gsap.to(o, { v: N, duration: each * (N - 1) + .45, ease: 'none', onUpdate: () => (n.textContent = Math.round(o.v)) });
+      gsap.to(o, { v: L, duration: each * (N - 1) + .45, ease: 'none', onUpdate: () => (n.textContent = Math.round(o.v)) });
     }, 'top 80%');
     const tl = gsap.timeline({ repeat: -1, delay: 3 });
     tl.call(() => gsap.fromTo(tiles[Math.random() * N | 0], { scale: 1 }, { scale: 1.25, duration: .2, yoyo: true, repeat: 1, ease: 'power2.out' })).to({}, wait(.5));

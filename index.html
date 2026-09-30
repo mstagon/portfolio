@@ -10,7 +10,7 @@
 <meta property="og:description" content="서비스 개발 · 운영과 사내 AI 도입을 맡고 있는 풀스택 개발자">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0d'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6a2b'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="fonts/pretendard/pretendardvariable-dynamic-subset.css">
-<link rel="stylesheet" href="css/style.css?v=20260930d">
+<link rel="stylesheet" href="css/style.css?v=20260930g">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="is-loading">
@@ -31,6 +31,7 @@
     <a href="#about">소개</a>
     <a href="#axmap">AX</a>
     <a href="#work">경력</a>
+    <a href="#design">설계</a>
     <a href="#cases">장애 대응</a>
     <a href="#lab">개인 프로젝트</a>
     <a href="#school">팀·사이드</a>
@@ -67,7 +68,8 @@
         <figcaption class="mono">Choi Minseok</figcaption>
       </figure>
       <div class="about__body">
-        <p class="about__statement" data-words>앱 · 서버 · 어드민을 한 모노레포로 묶어 제품을 만들고, 그 일을 AI 에이전트에게 나눠 맡기는 환경까지 직접 만들어 씁니다. 대학에서는 팀 프로젝트와 공모전, 멋쟁이사자처럼 운영진 활동으로 서비스를 만들었고, 지금은 더줌코리아에서 개발 파트장과 AI 부팀장을 맡고 있습니다. 개인 AI 에이전트 라피도 직접 만들어 코드 작업과 조사, 일정 관리에 쓰고 있습니다.</p>
+        <p class="about__statement" data-words>AI에게 요청만 하지 않습니다. 구조와 방향은 제가 정하고, 문제를 제대로 파악해 설계한 뒤에 진행합니다.</p>
+        <p class="about__rules">기능이 돌아가는 것보다 실패했을 때 어떻게 되는지를 먼저 따집니다. 요청이 두 번 오거나, 응답이 끊기거나, 위조된 요청이 들어와도 데이터가 틀어지지 않아야 끝난 것으로 봅니다. <a class="about__link" href="#design">설계한 흐름 보기 →</a></p>
         <ol class="principles">
           <li><span class="mono">A</span><p>문제는 원인까지 따라가 고치고, 같은 문제가 다시 생기지 않게 검사를 남깁니다.</p></li>
           <li><span class="mono">B</span><p>반복되는 일은 에이전트에게 맡기고, 사람이 판단할 지점은 미리 정해 둡니다.</p></li>
@@ -82,7 +84,7 @@
   <div class="wrap">
     <p class="eyebrow"><span class="eyebrow__idx">02</span>AX</p>
     <h2 class="h-lg" data-split>에이전트에게 일을 맡기는 환경과 절차</h2>
-    <p class="axmap__lead" data-reveal>회사에서는 팀이 쓰는 에이전트 환경과 리뷰 절차를 만들었고, 개인적으로는 에이전트를 직접 만들어 씁니다.</p>
+    <p class="axmap__lead" data-reveal>회사에서는 팀이 쓰는 에이전트 환경과 리뷰 절차를 만들었고, 개인 에이전트도 직접 만들었습니다.</p>
     <div class="axflow" aria-hidden="true">
       <div class="axflow__stage">
         <svg class="axflow__arc"><path class="axflow__ret"/><path class="axflow__ret-pulse"/></svg>
@@ -90,7 +92,7 @@
           <li class="axflow__st"><div class="axflow__sq"><span class="axflow__caret">›</span></div><b>요청</b><span>사람이 맡김</span></li>
           <li class="axflow__st"><div class="axflow__sq"><span class="axflow__bars"><i></i><i></i><i></i></span></div><b>에이전트</b><span>구현 · 테스트</span></li>
           <li class="axflow__st"><div class="axflow__sq"><span class="axflow__who"><i>Claude</i><i>GPT</i></span><i class="axflow__scan axflow__scan--a"></i><i class="axflow__scan axflow__scan--b"></i></div><b>교차 리뷰</b><span>둘 다 지적한 것만</span></li>
-          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__mark">승인</span></div><b>사람 결정</b><span>여섯 곳에서만</span></li>
+          <li class="axflow__st"><div class="axflow__sq"><span class="axflow__mark">승인</span></div><b>사람 결정</b><span>정한 지점에서만</span></li>
           <li class="axflow__st"><div class="axflow__sq"><span class="axflow__mem"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div><b>배포 · 기록</b><span>결정과 교훈</span></li>
         </ol>
         <div class="axflow__tokens"></div>
@@ -99,13 +101,13 @@
       <p class="axflow__log mono"><span class="axflow__log-dot"></span><span class="axflow__log-t">요청 → 에이전트 → 교차 리뷰 → 사람 결정 → 배포 · 기록</span></p>
     </div>
     <ul class="axmap__grid">
-      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>에이전트 운용 환경</h3><p>에이전트 18 · 스킬 27 · 훅 25. 사람이 결정하는 지점은 여섯 곳입니다.</p></a></li>
-      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>AI 교차 코드 리뷰</h3><p>두 AI가 PR을 따로 리뷰하고, 둘 다 지적한 문제만 남깁니다. 저장소 3곳에 적용했습니다.</p></a></li>
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>에이전트 운용 환경</h3><p>사람과 에이전트가 같은 계약 문서를 따르게 하고, 사람이 결정할 지점을 미리 정했습니다.</p></a></li>
+      <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>AI 교차 코드 리뷰</h3><p>두 AI가 PR을 따로 리뷰하고, 둘 다 지적한 문제만 남깁니다.</p></a></li>
       <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>출시 전 에이전트 감사</h3><p>여러 에이전트로 감사해 교차 검증을 통과한 결함 85건을 확정했습니다.</p></a></li>
       <li><a class="axmap__item" href="#ax"><span class="axmap__tag mono">회사</span><h3>레거시 커머스 지식 그래프</h3><p>레거시 코드를 정적 분석해 그래프로 만들고 MCP로 에이전트에게 제공합니다.</p></a></li>
       <li><a class="axmap__item axmap__item--hi" href="#rapi"><span class="axmap__tag mono">개인</span><h3>라피 · rapibrain</h3><p>직접 만든 개인 AI 에이전트입니다. 장기기억과 실행 전 권한 게이트를 붙였습니다.</p></a></li>
       <li><a class="axmap__item" href="#forge"><span class="axmap__tag mono">개인 · 공개</span><h3>Forge Studio</h3><p>코딩 에이전트 팀을 worktree로 나눠 돌리고, 머지 전에 교차 리뷰를 거칩니다.</p></a></li>
-      <li><a class="axmap__item" href="#home"><span class="axmap__tag mono">개인</span><h3>인프라 관리자 에이전트</h3><p>조회는 바로, 변경은 승인 뒤에 실행합니다. 외부 에이전트용 MCP 도구 28개를 제공합니다.</p></a></li>
+      <li><a class="axmap__item" href="#home"><span class="axmap__tag mono">개인</span><h3>인프라 관리자 에이전트</h3><p>조회는 바로, 변경은 승인 뒤에 실행합니다.</p></a></li>
       <li><a class="axmap__item" href="#rapi-v1"><span class="axmap__tag mono">개인 · 종료</span><h3>라피 1세대 · 파인튜닝</h3><p>3B 모델을 LoRA · DPO로 파인튜닝해 먼저 말을 거는 기능에 썼습니다.</p></a></li>
     </ul>
   </div>
@@ -165,7 +167,7 @@
     <h3 class="proj__title" data-split-chars>마블워크</h3>
     <p class="proj__sub">걷기 보상 앱 · Google Play · App Store · 원스토어</p>
     <div class="proj__cols">
-      <p class="proj__desc" data-reveal>걸음 수로 주사위를 얻어 보드를 도는 앱입니다. 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했습니다. 출시 뒤에도 초대 링크 추천인 자동 연결, 유입 매체별 가입 보상, 광고 퍼널 추적 같은 기능을 계속 개발하면서 운영과 장애 대응을 함께 맡고 있습니다.</p>
+      <p class="proj__desc" data-reveal>걸음 수로 주사위를 얻어 보드를 도는 앱입니다. 서버 · 앱 · 어드민 · 인프라를 설계하고 개발해 세 스토어에 출시했고, 지금도 기능 개발과 운영, 장애 대응을 맡고 있습니다.</p>
       <ul class="chips" data-reveal>
         <li>NestJS</li><li>TypeORM</li><li>Aurora PostgreSQL</li><li>Valkey</li><li>SQS</li><li>Flutter</li><li>Riverpod</li><li>Next.js</li><li>AWS</li><li>Grafana</li>
       </ul>
@@ -184,12 +186,6 @@
   </div>
 
   <div class="wrap">
-    <div class="figs">
-      <div class="fig"><p class="fig__n"><span data-count="322">322</span></p><p class="fig__l">API 엔드포인트</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="25">25</span></p><p class="fig__l">큐 기반 배치 작업</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="18">18</span></p><p class="fig__l">알림 규칙 · 대시보드 9</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="111">111</span></p><p class="fig__l">어드민 E2E 케이스</p></div>
-    </div>
 
     <div class="share" data-reveal>
       <p class="share__t mono">커밋 비중 <i>회사 · 개인 계정 합산</i></p>
@@ -251,16 +247,15 @@
             <p class="inc__big"><span class="inc__from">64</span><i>→</i><span data-count="100" data-from="64">100</span><small>%</small></p>
           </div>
           <h4>보상 광고 응답률 복구</h4>
-          <p>광고 완료 검증보다 지급 요청이 먼저 가던 순서 문제를 클라이언트 대기 게이트와 서버 보정 배치로 풀었습니다.</p>
+          <p>광고 미디에이션 어댑터의 콜백 순서 때문에 완료 검증보다 지급 요청이 먼저 나가던 것을 찾아, 클라이언트 대기 게이트와 서버 보정 배치로 풀었습니다.</p>
         </section>
         <section class="inc__card">
           <div class="inc__vis inc__vis--xff" aria-hidden="true">
             <p class="xff__row xff__row--bad"><span>X-Forwarded-For</span><em>신뢰 안 함</em></p>
             <p class="xff__row xff__row--good"><span>socket address</span><em>판정 기준</em></p>
-            <p class="xff__tests mono"><span data-count="7">7</span> regression tests</p>
           </div>
           <h4>오퍼월 콜백 위조 경로 차단</h4>
-          <p>조작할 수 있는 헤더 대신 실제 접속 주소로 판정하게 바꾸고, 진짜 콜백까지 막던 주소 비교 오류도 함께 고쳤습니다.</p>
+          <p>조작할 수 있는 X-Forwarded-For 대신 실제 접속 주소로 판정하게 바꿨습니다. 주소가 IPv4-mapped IPv6(::ffff:) 형태로 들어와 진짜 콜백까지 거절되고 적립이 0이 되던 문제도 정규화로 고쳤습니다.</p>
         </section>
         <section class="inc__card">
           <div class="inc__vis inc__vis--loop" aria-hidden="true">
@@ -271,7 +266,6 @@
           <p>권한 없이 포그라운드 서비스를 띄워 죽고 되살아나던 루프를 끊고, 판정 로직을 테스트로 고정했습니다.</p>
         </section>
       </div>
-      <p class="inc__foot" data-reveal><span class="mono">해외판</span>같은 인프라와 배포 절차를 다시 써서 해외판을 별도 저장소로 구축했습니다. 2026.07부터 진행 중입니다.</p>
     </div>
   </div>
 </article>
@@ -283,18 +277,12 @@
     <h3 class="proj__title" data-split-chars>사내 AI 도입</h3>
     <p class="proj__sub">코딩 에이전트 운용 환경과 AI 코드 리뷰 (AX)</p>
     <div class="proj__cols">
-      <p class="proj__desc" data-reveal>코딩 에이전트 운용 환경을 만들어 회사 저장소에 도입했습니다. 마블워크도 이 환경에서 개발했습니다. 사람과 에이전트가 같은 계약 문서를 따르게 하고, 사람이 결정하는 지점은 여섯 곳으로 정했습니다. 출시 전에는 여러 에이전트로 감사해 결함 85건을 확정했고, AI 교차 코드 리뷰에서 둘 다 지적한 네 건은 출시 차단으로 정해 고친 뒤 공개했습니다.</p>
+      <p class="proj__desc" data-reveal>코딩 에이전트 운용 환경을 만들어 회사 저장소에 도입했습니다. 마블워크도 이 환경에서 개발했습니다. 사람과 에이전트가 같은 계약 문서를 따르게 하고, 사람이 결정하는 지점을 미리 정했습니다. 출시 전에는 여러 에이전트로 감사해 결함 85건을 확정했고, AI 교차 코드 리뷰에서 둘 다 지적한 네 건은 출시 차단으로 정해 고친 뒤 공개했습니다.</p>
       <ul class="chips" data-reveal><li>Claude Code</li><li>Codex</li><li>MCP</li><li>TypeScript</li><li>GitHub Actions</li></ul>
     </div>
   </header>
 
   <div class="wrap">
-    <div class="figs">
-      <div class="fig"><p class="fig__n"><span data-count="18">18</span></p><p class="fig__l">에이전트</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="27">27</span></p><p class="fig__l">스킬</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="25">25</span></p><p class="fig__l">훅</p></div>
-      <div class="fig"><p class="fig__n"><span data-count="6">6</span></p><p class="fig__l">사람이 승인하는 지점</p></div>
-    </div>
 
     <!-- PR gate -->
     <section class="panel gate" aria-labelledby="gate-t">
@@ -330,7 +318,7 @@
           <p class="gate__status mono"><span class="gate__status-dot"></span><span class="gate__status-t">리뷰 중</span></p>
         </div>
       </div>
-      <p class="panel__cap">Claude와 GPT가 서로의 결과를 모른 채 같은 PR을 리뷰합니다. 둘 다 같은 줄을 지적한 문제만 남기고, 그중 심각한 문제가 있으면 PR 체크를 실패시켜 머지 전에 걸러냅니다. 회사 저장소 3곳에 적용했습니다.</p>
+      <p class="panel__cap">Claude와 GPT가 서로의 결과를 모른 채 같은 PR을 리뷰합니다. 둘 다 같은 줄을 지적한 문제만 남기고, 그중 심각한 문제가 있으면 PR 체크를 실패시켜 머지 전에 걸러냅니다. 회사 저장소에 적용했습니다.</p>
     </section>
 
     <div class="ax-row">
@@ -349,7 +337,7 @@
       <section class="panel hdp" aria-labelledby="hdp-t">
         <div class="panel__head">
           <p class="panel__k mono">사람이 결정하는 지점</p>
-          <h4 class="panel__t" id="hdp-t">여섯 곳에서만 멈추고 사람에게 묻습니다.</h4>
+          <h4 class="panel__t" id="hdp-t">이 지점에서만 멈추고 사람에게 묻습니다.</h4>
         </div>
         <ol class="hdp__list">
           <li><span class="mono">01</span>설계 게이트</li>
@@ -382,7 +370,7 @@
         <div class="tool__vis tool__vis--graph" aria-hidden="true"><canvas></canvas></div>
         <p class="tool__k mono">MCP 서버</p>
         <h4>레거시 커머스 지식 그래프</h4>
-        <p>레거시 커머스 코드를 정적 분석해 지식 그래프로 만들고 MCP로 서빙합니다. 노드 4,318개, 엣지 1,935개입니다.</p>
+        <p>레거시 커머스 코드를 정적 분석해 지식 그래프로 만들고 MCP로 서빙합니다.</p>
       </section>
       <section class="tool" data-reveal>
         <div class="tool__vis tool__vis--figma" aria-hidden="true">
@@ -423,7 +411,7 @@
         <section class="panel games" aria-labelledby="games-t">
           <div class="panel__head">
             <p class="panel__k mono">웹게임 플랫폼</p>
-            <h4 class="panel__t" id="games-t">SDK를 다시 배포하지 않고 게임 <span class="games__n">0</span>종을 붙였습니다.</h4>
+            <h4 class="panel__t" id="games-t">SDK를 다시 배포하지 않고 게임 <span class="games__n">0</span>종 이상을 붙였습니다.</h4>
           </div>
           <div class="games__grid" aria-hidden="true"></div>
           <p class="panel__cap">게임은 끝날 때 finish를 한 번 부르면 됩니다. 광고 · 일시정지 · 뒤로가기 · 세션은 컨테이너가 맡습니다.</p>
@@ -455,23 +443,162 @@
       <div class="ow__left">
         <div class="proj__meta mono"><span class="proj__idx">04</span><span>더줌코리아</span><span>2026.05 – 2026.08</span></div>
         <h3 class="proj__title proj__title--sm" data-split-chars>오퍼월 SDK</h3>
-        <p class="proj__desc" data-reveal>Kotlin · Swift 네이티브 SDK의 동작을 순수 Dart로 옮겼습니다. 오너 핸드북과 실기기 검증 시나리오 15건을 썼습니다.</p>
+        <p class="proj__desc" data-reveal>Kotlin · Swift 네이티브 SDK의 동작을 순수 Dart로 옮겼습니다. 오너 핸드북과 실기기 검증 시나리오도 썼습니다.</p>
       </div>
       <div class="ow__right">
         <p class="ow__morph" aria-label="Kotlin과 Swift에서 Dart로"><span class="ow__from">Kotlin + Swift</span></p>
-        <div class="ow__figs">
-          <div><p class="ow__n"><span data-count="0" data-from="2">0</span></p><p class="ow__l">iOS 네이티브 코드</p></div>
-          <div><p class="ow__n"><span data-count="15">15</span></p><p class="ow__l">실기기 검증 시나리오</p></div>
-        </div>
       </div>
     </div>
   </article>
 </div>
 
 <!-- CASES -->
+<!-- DESIGN -->
+<section class="section design" id="design">
+  <div class="wrap">
+    <p class="eyebrow"><span class="eyebrow__idx">05</span>설계</p>
+    <h2 class="h-lg" data-split>만들기 전에 정한 흐름</h2>
+    <p class="design__lead">구현을 맡기기 전에 실패하는 경로와 책임의 경계부터 정합니다. 실제 서비스와 제 에이전트에 들어간 흐름을 시퀀스 다이어그램으로 옮겼습니다.</p>
+
+    <div class="sqtabs" role="tablist" aria-label="설계한 흐름">
+      <button type="button" role="tab" id="sqt-gift" aria-controls="sq-gift" aria-selected="true">기프티콘 교환</button>
+      <button type="button" role="tab" id="sqt-cb" aria-controls="sq-cb" aria-selected="false" tabindex="-1">외부 보상 콜백</button>
+      <button type="button" role="tab" id="sqt-deploy" aria-controls="sq-deploy" aria-selected="false" tabindex="-1">상용 배포</button>
+      <button type="button" role="tab" id="sqt-rapi" aria-controls="sq-rapi" aria-selected="false" tabindex="-1">라피 도구 호출</button>
+    </div>
+
+    <article class="panel sqp" id="sq-gift" role="tabpanel" aria-labelledby="sqt-gift">
+      <div class="sqp__head">
+        <div><p class="panel__k mono">마블워크 · 포인트를 쿠폰으로 교환</p><h3 class="sqp__t">응답을 못 받으면 환불하지 않는 교환</h3></div>
+        <button type="button" class="sqp__replay">다시 재생 ↺</button>
+      </div>
+      <div class="sq" style="--n:4">
+        <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="sq__heads"><p><b>앱</b></p><p><b>API 서버</b></p><p><b>DB</b><span>원장</span></p><p><b>발행사</b><span>외부</span></p></div>
+        <div class="sq__rows">
+          <div class="sq__m" style="--s:1;--k:2"><span>교환 요청</span><i></i></div>
+          <div class="sq__grp" style="--gs:2;--gk:2"><p class="sq__k">트랜잭션 · 외부 호출 전에 커밋</p>
+            <div class="sq__m" style="--s:2;--k:2"><span>잔액 행 잠금 · 포인트 차감</span><i></i></div>
+            <div class="sq__m" style="--s:2;--k:2"><span>교환 기록 PENDING · 커밋</span><i></i></div>
+          </div>
+          <div class="sq__m is-acc" style="--s:2;--k:3"><span>쿠폰 발행 요청</span><i></i><em>트랜잭션 밖 · 거래 ID 고정</em></div>
+          <div class="sq__grp" style="--gs:1;--gk:4"><p class="sq__k">응답에 따라</p>
+            <div class="sq__br"><p class="sq__g is-ok">발행됨</p>
+              <div class="sq__m is-l is-ret is-ok" style="--s:2;--k:3"><span>PIN</span><i></i></div>
+              <div class="sq__m is-ok" style="--s:2;--k:2"><span>COMPLETED · PIN 저장</span><i></i></div>
+            </div>
+            <div class="sq__br"><p class="sq__g is-bad">분명한 거절</p>
+              <div class="sq__m is-l is-ret is-bad" style="--s:2;--k:3"><span>발행 거절</span><i></i></div>
+              <div class="sq__m" style="--s:2;--k:2"><span>FAILED · 포인트 환불</span><i></i></div>
+            </div>
+            <div class="sq__br"><p class="sq__g is-warn">타임아웃 · 응답 유실</p>
+              <div class="sq__do is-warn is-wide" style="--s:2">발행됐는지 알 수 없음</div>
+              <div class="sq__m is-warn" style="--s:2;--k:2"><span>UNKNOWN · 환불하지 않음</span><i></i></div>
+              <div class="sq__m is-l is-ret" style="--s:1;--k:2"><span>확인 중 안내</span><i></i></div>
+              <p class="sq__note" style="--s:2;--k:3">발행사에 거래 조회 API가 없어서, 운영자가 실제 발행 여부를 확인해 확정하거나 환불합니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <dl class="sqp__why">
+        <div><dt>고치기 전</dt><dd>발행 호출이 트랜잭션 안에 있어서 응답만 유실돼도 롤백하고 포인트를 돌려줬습니다. 쿠폰은 이미 나간 뒤였고, 재시도는 새 거래 ID로 나가 중복 발행도 가능했습니다.</dd></div>
+        <div><dt>판단</dt><dd>실패를 분명한 거절과 결과를 모르는 경우로 나눴습니다. 결과를 모를 때 자동으로 환불하면 쿠폰과 포인트가 함께 나갈 수 있어서, 그때는 환불하지 않고 멈춰 둡니다.</dd></div>
+      </dl>
+    </article>
+
+    <article class="panel sqp" id="sq-cb" role="tabpanel" aria-labelledby="sqt-cb" hidden>
+      <div class="sqp__head">
+        <div><p class="panel__k mono">미네르바 · 다른 회사 앱에 넣는 혜택 SDK</p><h3 class="sqp__t">고칠 수 없는 서버의 콜백을 받는 쪽에서 막기</h3></div>
+        <button type="button" class="sqp__replay">다시 재생 ↺</button>
+      </div>
+      <div class="sq" style="--n:4">
+        <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="sq__heads"><p><b>매체사 앱</b><span>SDK</span></p><p><b>외부사 서버</b><span>콘텐츠 · 판정</span></p><p><b>매체사 서버</b></p><p><b>원장</b><span>DB</span></p></div>
+        <div class="sq__rows">
+          <div class="sq__m" style="--s:1;--k:2"><span>콘텐츠 이용 결과</span><i></i></div>
+          <div class="sq__do is-wide" style="--s:2">보상 판정</div>
+          <div class="sq__m is-acc" style="--s:2;--k:2"><span>적립 콜백</span><i></i><em>거래 ID · 서명</em></div>
+          <div class="sq__grp" style="--gs:3;--gk:2"><p class="sq__k">받는 쪽 방어</p>
+            <div class="sq__do is-acc is-wide" style="--s:3">서명 · 콘텐츠 타입 허용 목록 · 일일 상한 확인</div>
+            <div class="sq__m" style="--s:3;--k:2"><span>거래 ID로 한 번만 기록</span><i></i><em>같은 라운드가 다시 와도 중복 없음</em></div>
+          </div>
+          <div class="sq__m is-l is-ret" style="--s:2;--k:2"><span>응답</span><i></i></div>
+          <div class="sq__m" style="--s:1;--k:3"><span>잔액 재조회</span><i></i><em>SDK는 포인트를 직접 더하지 않음</em></div>
+          <div class="sq__m is-l is-ret" style="--s:1;--k:3"><span>잔액</span><i></i></div>
+        </div>
+      </div>
+      <dl class="sqp__why">
+        <div><dt>판단</dt><dd>콘텐츠와 보상 판정은 외부사 서버가 주고, 그 코드는 고칠 수 없습니다. 그대로 믿으면 같은 라운드가 두 번 들어오거나 서명이 틀린 요청도 통과할 수 있어서, 방어를 받는 쪽에 뒀습니다.</dd></div>
+        <div><dt>구조</dt><dd>SDK는 포인트를 들고 있지 않습니다. 적립은 서버 간 콜백으로만 일어나고, 앱은 잔액을 다시 조회만 합니다. 이 보상도 마블워크의 다른 보상과 같은 원장에 쌓입니다.</dd></div>
+      </dl>
+    </article>
+
+    <article class="panel sqp" id="sq-deploy" role="tabpanel" aria-labelledby="sqt-deploy" hidden>
+      <div class="sqp__head">
+        <div><p class="panel__k mono">마블워크 · 상용 배포 파이프라인</p><h3 class="sqp__t">마이그레이션은 배포와 떼어 한 번만</h3></div>
+        <button type="button" class="sqp__replay">다시 재생 ↺</button>
+      </div>
+      <div class="sq" style="--n:4">
+        <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="sq__heads"><p><b>승인자</b></p><p><b>파이프라인</b></p><p><b>DB</b></p><p><b>상용 환경</b><span>AWS</span></p></div>
+        <div class="sq__rows">
+          <div class="sq__m" style="--s:1;--k:2"><span>승인 ① 소스 확인</span><i></i></div>
+          <div class="sq__do is-wide" style="--s:2">빌드 · 커밋 해시를 이미지 태그로</div>
+          <div class="sq__grp" style="--gs:2;--gk:2"><p class="sq__k">마이그레이션 전용 단계 · 1회</p>
+            <div class="sq__m is-acc" style="--s:2;--k:2"><span>방금 빌드한 이미지로 마이그레이션</span><i></i></div>
+            <div class="sq__do is-acc is-wide" style="--s:3">DB 잠금으로 직렬화</div>
+            <div class="sq__m is-l is-ret" style="--s:2;--k:2"><span>완료 후 종료</span><i></i></div>
+          </div>
+          <div class="sq__m" style="--s:1;--k:2"><span>승인 ② 빌드 결과 확인</span><i></i></div>
+          <div class="sq__m is-ok" style="--s:2;--k:3"><span>상용 배포</span><i></i><em>인스턴스는 마이그레이션을 돌리지 않음</em></div>
+        </div>
+      </div>
+      <dl class="sqp__why">
+        <div><dt>고치기 전</dt><dd>인스턴스마다 배포 전 훅으로 마이그레이션을 돌려서, 여러 대가 동시에 실행할 위험이 있었습니다.</dd></div>
+        <div><dt>결과</dt><dd>7월 첫 상용 승격을 이 절차대로 사고 없이 마쳤습니다. 별도 저장소로 시작한 해외판도 같은 절차로 세워서, 다시 쓸 수 있는 절차라는 것을 확인했습니다.</dd></div>
+      </dl>
+    </article>
+
+    <article class="panel sqp" id="sq-rapi" role="tabpanel" aria-labelledby="sqt-rapi" hidden>
+      <div class="sqp__head">
+        <div><p class="panel__k mono">라피 · 개인 AI 에이전트</p><h3 class="sqp__t">권한은 넓게, 멈출 장치와 기록은 먼저</h3></div>
+        <button type="button" class="sqp__replay">다시 재생 ↺</button>
+      </div>
+      <div class="sq" style="--n:4">
+        <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <div class="sq__heads"><p><b>나</b></p><p><b>라피</b></p><p><b>게이트</b></p><p><b>도구</b><span>파일 · 셸 · 브라우저</span></p></div>
+        <div class="sq__rows">
+          <div class="sq__m" style="--s:1;--k:2"><span>요청</span><i></i></div>
+          <div class="sq__m is-acc" style="--s:2;--k:2"><span>도구 호출</span><i></i></div>
+          <div class="sq__do is-acc is-wide" style="--s:3">금지 경로 · 위험 명령 · 긴급 정지 확인</div>
+          <div class="sq__grp" style="--gs:2;--gk:3"><p class="sq__k">판정</p>
+            <div class="sq__br"><p class="sq__g is-ok">허용</p>
+              <div class="sq__m is-ok" style="--s:3;--k:2"><span>실행</span><i></i><em>커널 샌드박스 안에서</em></div>
+              <div class="sq__m is-l is-ret" style="--s:2;--k:3"><span>결과</span><i></i></div>
+            </div>
+            <div class="sq__br"><p class="sq__g is-bad">차단</p>
+              <div class="sq__m is-l is-ret is-bad" style="--s:2;--k:2"><span>거부 사유</span><i></i></div>
+            </div>
+          </div>
+          <div class="sq__do is-wide" style="--s:3">모든 호출을 감사 로그에 기록</div>
+          <div class="sq__m is-l" style="--s:1;--k:3"><span>밖으로 영향이 나가는 행동은 사후 알림</span><i></i></div>
+          <div class="sq__grp" style="--gs:1;--gk:4"><p class="sq__k">규칙을 바꿀 때</p>
+            <div class="sq__m is-l" style="--s:1;--k:2"><span>프롬프트 · 스킬 · 코드 변경을 패치로 제안</span><i></i></div>
+            <div class="sq__m is-ok" style="--s:1;--k:4"><span>승인하면 적용 · 테스트 · 커밋 · 배포</span><i></i><em>테스트가 깨지면 되돌림</em></div>
+          </div>
+        </div>
+      </div>
+      <dl class="sqp__why">
+        <div><dt>판단</dt><dd>승인 없이 일하게 하는 대신, 멈출 수 있는 장치와 기록을 먼저 만들었습니다. 긴급 정지를 걸면 라피는 읽기만 할 수 있습니다.</dd></div>
+        <div><dt>경계</dt><dd>라피는 자기 설정과 승인 경로에 쓸 수 없습니다. 규칙을 바꾸는 길은 제가 승인하는 제안 하나뿐입니다.</dd></div>
+      </dl>
+    </article>
+  </div>
+</section>
+
 <section class="section cases" id="cases">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">05</span>장애 대응 · 문제 해결</p>
+    <p class="eyebrow"><span class="eyebrow__idx">06</span>장애 대응 · 문제 해결</p>
     <h2 class="h-lg" data-split>원인을 확인하고 재발을 막은 사례</h2>
     <article class="incx" data-reveal>
       <div class="incx__head">
@@ -488,17 +615,16 @@
         <li><b class="mono">증거</b><p>외부에서 보낸 요청의 남은 한도가 119가 아니라 50으로 왔습니다. 모든 사용자가 분당 120회짜리 버킷 하나를 나눠 쓰고 있다는 직접 증거였습니다.</p></li>
         <li><b class="mono">원인</b><p>프록시 뒤에서 실제 IP를 복원하지 않아 모든 요청이 같은 주소로 보였습니다. 헬스체크도 분당 8회씩 한도를 깎았고, 화면 하나를 열 때 요청이 19~25개 나가서 다섯 명만 동시에 들어와도 한도가 찼습니다.</p></li>
         <li><b class="mono">조치</b><p>서명을 검증한 토큰으로 사용자를 식별해 버킷을 나누고, 실제 IP는 홉 수가 아닌 신뢰 대역으로 복원해 헤더 위조가 통하지 않게 했습니다. 헬스체크는 한도에서 빼고, 한도 값은 환경변수로 조절하게 했습니다.</p></li>
-        <li><b class="mono">재발 방지</b><p>테스트 36건으로 버킷 분리, 위조 헤더 무효, 가드 실행 순서를 고정했습니다. 한도 초과가 헬스체크 실패로 잡혀 서버가 내려갈 수 있던 경로도 함께 막았고, 로그로 확인하지 못한 부분은 확인 방법과 함께 장애 보고서에 남겼습니다.</p></li>
+        <li><b class="mono">재발 방지</b><p>테스트로 버킷 분리, 위조 헤더 무효, 가드 실행 순서를 고정했습니다. 한도 초과가 헬스체크 실패로 잡혀 서버가 내려갈 수 있던 경로도 함께 막았고, 로그로 확인하지 못한 부분은 확인 방법과 함께 장애 보고서에 남겼습니다.</p></li>
       </ol>
       <div class="incx__nums">
         <p><span class="mono">4.5×</span>2주 새 늘어난 하루 요청량</p>
         <p><span class="mono">5 → 73분</span>하루 중 한도를 넘은 시간</p>
-        <p><span class="mono">36</span>새로 넣은 테스트</p>
       </div>
     </article>
     <div class="cases__grid">
-      <article class="case case--wide" data-reveal><p class="case__tag mono">정합성 · 마블워크</p><h3>쿠폰과 환불이 함께 나가던 경로</h3><dl><div><dt>상황</dt><dd>기프티콘 발행 API 호출이 트랜잭션 안에 있어, 응답만 유실돼도 실패로 보고 포인트를 환불했습니다. 재시도는 새 거래 ID로 나가 중복 발행까지 가능했습니다.</dd></div><div><dt>원인</dt><dd>거절, 응답 유실, 결과 미확인이라는 서로 다른 실패를 하나로 처리하고 있었습니다.</dd></div><div><dt>조치</dt><dd>포인트를 먼저 예약해 커밋하고, 외부 호출은 트랜잭션 밖에서 고정 거래 ID로 보냅니다. 응답이 없으면 보류로 두고 배치가 거래 ID로 재조회해 확정합니다.</dd></div><div><dt>결과</dt><dd>출시 전 AI 교차 코드 리뷰에서 잡아 고쳤습니다. 티켓 발행 · 회수와 어드민 취소 환불도 같은 원장 규칙을 따릅니다.</dd></div></dl></article>
-      <article class="case" data-reveal><p class="case__tag mono">설계 · 마블워크</p><h3>정책이 바뀔 때마다 배포하던 구조</h3><dl><div><dt>상황</dt><dd>보상 수치가 코드에 들어 있어 정책이 바뀔 때마다 배포가 필요했습니다.</dd></div><div><dt>조치</dt><dd>정책 값을 DB 설정 테이블 7종으로 옮기고 어드민에서 바꾸게 했습니다. 메모리 · 캐시 · DB 3단으로 읽고, 값이 바뀌면 pub/sub으로 캐시를 무효화합니다.</dd></div><div><dt>결과</dt><dd>운영자가 배포 없이 수치를 바꾸고, 정책 문서와 실제 동작이 어긋날 여지가 줄었습니다.</dd></div></dl></article>
+      <article class="case case--wide" data-reveal><p class="case__tag mono">정합성 · 마블워크</p><h3>쿠폰과 환불이 함께 나가던 경로</h3><dl><div><dt>상황</dt><dd>기프티콘 발행 API 호출이 트랜잭션 안에 있어, 응답만 유실돼도 실패로 보고 포인트를 환불했습니다. 재시도는 새 거래 ID로 나가 중복 발행까지 가능했습니다.</dd></div><div><dt>원인</dt><dd>거절, 응답 유실, 결과 미확인이라는 서로 다른 실패를 하나로 처리하고 있었습니다.</dd></div><div><dt>조치</dt><dd>포인트를 먼저 예약해 커밋하고, 외부 호출은 트랜잭션 밖에서 고정 거래 ID로 보냅니다. 분명히 거절됐을 때만 환불하고, 응답이 없으면 환불하지 않고 보류로 둡니다.</dd></div><div><dt>결과</dt><dd>출시 전 AI 교차 코드 리뷰에서 잡아 고쳤습니다. 티켓 발행 · 회수와 어드민 취소 환불도 같은 원장 규칙을 따릅니다.</dd></div></dl></article>
+      <article class="case" data-reveal><p class="case__tag mono">설계 · 마블워크</p><h3>정책이 바뀔 때마다 배포하던 구조</h3><dl><div><dt>상황</dt><dd>보상 수치가 코드에 들어 있어 정책이 바뀔 때마다 배포가 필요했습니다.</dd></div><div><dt>조치</dt><dd>정책 값을 DB 설정 테이블로 옮기고 어드민에서 바꾸게 했습니다. 메모리 · 캐시 · DB 3단으로 읽고, 값이 바뀌면 pub/sub으로 캐시를 무효화합니다.</dd></div><div><dt>결과</dt><dd>운영자가 배포 없이 수치를 바꾸고, 정책 문서와 실제 동작이 어긋날 여지가 줄었습니다.</dd></div></dl></article>
       <article class="case" data-reveal><p class="case__tag mono">장애 대응 · 마블워크</p><h3>푸시 발송이 전부 멈춘 장애</h3><dl><div><dt>상황</dt><dd>상용에서 푸시 발송이 전면 중단됐습니다.</dd></div><div><dt>원인</dt><dd>시크릿에 저장된 키의 개행 이스케이프가 어긋나 있었습니다.</dd></div><div><dt>조치</dt><dd>키 파싱이 어긋나면 조용히 넘어가지 않고 바로 실패하게 바꿨습니다.</dd></div><div><dt>재발 방지</dt><dd>배포 검증에 왕복 테스트를 추가해, 같은 설정 오류는 이제 배포 단계에서 걸립니다.</dd></div></dl></article>
       <article class="case" data-reveal><p class="case__tag mono">플랫폼 · 미네르바</p><h3>고칠 수 없는 외부 서버를 전제로</h3><dl><div><dt>상황</dt><dd>콘텐츠와 보상 판정을 외부사 서버가 줍니다. 그대로 믿으면 같은 라운드가 두 번 들어오거나 서명이 틀린 요청도 통과할 수 있었습니다.</dd></div><div><dt>판단</dt><dd>상대 코드를 고칠 수 없으니 방어는 받는 쪽에 둬야 한다고 봤습니다.</dd></div><div><dt>조치</dt><dd>매체사 서버에 서명 확인, 콘텐츠 타입 허용 목록, 콘텐츠별 일일 상한, 거래 ID 멱등 처리를 넣었습니다.</dd></div><div><dt>결과</dt><dd>외부사 코드를 건드리지 않고 막았고, 보상은 마블워크의 다른 경로와 같은 원장으로 모였습니다.</dd></div></dl></article>
       <article class="case" data-reveal><p class="case__tag mono">장애 대응 · 홈서버</p><h3>주소가 바뀌자 세 곳에 남은 옛 주소</h3><dl><div><dt>상황</dt><dd>관리 화면만 502가 났고, 게임 자동 배포도 그때부터 조용히 멈춰 있었습니다.</dd></div><div><dt>원인</dt><dd>공유기가 준 주소가 바뀌었는데 터널 규칙, 에이전트 설정, 컨테이너 환경변수 세 곳에 옛 주소가 남아 있었습니다.</dd></div><div><dt>재발 방지</dt><dd>5분마다 자기 주소를 확인하고, 바뀌면 관련 규칙만 갱신하는 서비스를 넣었습니다.</dd></div><div><dt>결과</dt><dd>다음 공유기 재부팅 때는 자가 복구가 먼저 잡았습니다.</dd></div></dl></article>
@@ -509,7 +635,7 @@
 <!-- PERSONAL -->
 <section class="section lab" id="lab">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">06</span>개인 프로젝트</p>
+    <p class="eyebrow"><span class="eyebrow__idx">07</span>개인 프로젝트</p>
     <h2 class="h-lg" data-split>직접 쓰려고 만든 도구들</h2>
   </div>
 
@@ -519,15 +645,15 @@
         <div class="proj__meta mono"><span>2026.08 – 진행 중</span><span>2세대</span></div>
         <h3 class="lab__title" data-split>라피 · rapibrain</h3>
         <p class="lab__sub">장기기억을 붙인 개인 AI 에이전트</p>
-        <p class="lab__desc" data-reveal>라피는 제가 쓰려고 직접 만든 AI 에이전트입니다. 코드 작업과 조사, 브라우저 조작, 일정과 할 일 관리를 맡기고, 큰 일은 하위 에이전트를 최대 세 개까지 나눠 띄워 처리합니다. rapibrain은 라피의 장기기억입니다. 코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP 도구 8개로 돌려줍니다.</p>
+        <p class="lab__desc" data-reveal>라피는 제가 쓰려고 직접 만든 AI 에이전트입니다. 코드 작업과 조사, 브라우저 조작, 일정과 할 일 관리를 맡기고, 큰 일은 하위 에이전트에게 나눠 맡깁니다. rapibrain은 라피의 장기기억입니다. 코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP로 돌려줍니다.</p>
         <p class="lab__desc" data-reveal>1세대는 실행 환경까지 직접 만들다가 유지 부담이 커서 접었습니다. 2세대는 기억과 규칙만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다.</p>
         <p class="lab__desc" data-reveal>라피는 제 계정 권한으로 승인 없이 일합니다. 대신 자기 설정과 승인 경로는 커널 샌드박스로 쓰기를 막았고, 모든 도구 호출을 감사 로그에 남기며, 긴급 정지를 걸면 읽기만 할 수 있습니다. 시스템 프롬프트 · 스킬 · 코드는 라피가 패치로 제안하고 제가 승인해야 바뀝니다. 승인하면 적용 · 테스트 · 커밋 · 배포가 이어지고, 테스트가 깨지면 되돌립니다.</p>
         <ul class="layers mono" data-reveal>
           <li><b>실행</b><span>Hermes Agent + Claude Code, 직접 만든 브리지로 연결</span></li>
-          <li><b>기억</b><span>마크다운 볼트 · MCP 도구 8개 · 15분 주기 수집</span></li>
+          <li><b>기억</b><span>마크다운 볼트 · MCP로 조회 · 15분 주기 수집</span></li>
           <li><b>규칙</b><span>고정된 안전 규칙과, 승인해야 바뀌는 시스템 프롬프트</span></li>
           <li><b>앱</b><span>대화 · 승인 · 변경 제안 검토</span></li>
-          <li><b>도구</b><span>브라우저 · 맥 화면 제어, 하위 에이전트 최대 3개</span></li>
+          <li><b>도구</b><span>브라우저 · 맥 화면 제어, 하위 에이전트</span></li>
         </ul>
         <ul class="chips" data-reveal><li>Hermes Agent</li><li>Claude Code</li><li>MCP</li><li>TypeScript</li><li>Node.js</li><li>Obsidian</li></ul>
       </div>
@@ -653,7 +779,7 @@
 <!-- SCHOOL -->
 <section class="section school" id="school">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">07</span>팀 · 사이드 프로젝트</p>
+    <p class="eyebrow"><span class="eyebrow__idx">08</span>팀 · 사이드 프로젝트</p>
     <h2 class="h-lg" data-split>회사 밖에서 만든 것</h2>
     <p class="sp__lead" data-reveal>팀 프로젝트, 동아리와 해커톤, 혼자 쓰려고 만든 도구까지. 프로젝트마다 맡은 일과 풀었던 문제, 결과를 적었습니다.</p>
     <div class="sp__grid">
@@ -781,7 +907,7 @@
 <!-- EDUCATION -->
 <section class="section edu" id="edu">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">08</span>학력 · 활동 · 수상</p>
+    <p class="eyebrow"><span class="eyebrow__idx">09</span>학력 · 활동 · 수상</p>
     <dl class="edu__list">
       <div data-reveal><dt class="mono">2021.03 – 2025.08</dt><dd><b>상명대학교</b>스마트정보통신공학과, 웹&amp;앱 연계전공(복수학위)</dd></div>
       <div data-reveal><dt class="mono">2023.01 – 2024.12</dt><dd><b>멋쟁이사자처럼 대학 11 · 12기 운영진</b>커리큘럼 운영, 해커톤 총괄, 멘토링</dd></div>
@@ -796,7 +922,7 @@
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="wrap">
-    <p class="eyebrow"><span class="eyebrow__idx">09</span>연락</p>
+    <p class="eyebrow"><span class="eyebrow__idx">10</span>연락</p>
     <a class="contact__mail" href="mailto:devcms21@gmail.com" data-cursor="메일" data-magnetic><span class="contact__mail-in">devcms21@gmail.com</span></a>
     <ul class="contact__links">
       <li><a href="https://github.com/mstagon" target="_blank" rel="noopener" data-magnetic>GitHub<span>↗</span></a></li>
@@ -821,7 +947,8 @@
 <script src="vendor/Flip.min.js"></script>
 <script src="vendor/lenis.min.js"></script>
 <script src="js/hero.js"></script>
-<script src="js/scenes.js?v=20260930a"></script>
+<script src="js/scenes.js?v=20260930c"></script>
 <script src="js/main.js?v=20260930b"></script>
+<script src="js/seq.js?v=20260930a"></script>
 </body>
 </html>
