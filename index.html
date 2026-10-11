@@ -798,12 +798,12 @@
           <p class="sp__tag mono">팀 프로젝트 · 9일 · 2025.03</p>
           <h3>DOSS <span>모바일 우선 주식 조회</span></h3>
           <dl>
-            <div><dt>역할</dt><dd>풀스택 · 서버 API</dd></div>
-            <div><dt>문제</dt><dd>증권사 API는 부를 때마다 응답이 느렸고, 여러 사용자가 동시에 부르면 호출 제한에 걸릴 수 있었습니다. 6천 개가 넘는 종목을 LIKE 쿼리로 찾으니 검색도 느렸습니다.</dd></div>
-            <div><dt>해결</dt><dd>마지막 갱신 시각을 보고 오래된 데이터만 외부 API로 갱신하고, 사용자 요청은 항상 DB에서 읽게 했습니다. 종목 검색은 Elasticsearch로 분리해 한글 형태소 분석기로 자동완성을 만들었습니다. 로그인은 5회 실패하면 5분 잠그고, 서버가 재시작돼도 유지됩니다.</dd></div>
-            <div><dt>결과</dt><dd>조회가 외부 API 호출에 기대지 않게 됐고, 종목이 많아도 자동완성이 됩니다.</dd></div>
+            <div><dt>역할</dt><dd>풀스택. 로그인 · 설정 · 찜하기 화면과 서버 API를 맡았습니다.</dd></div>
+            <div><dt>문제</dt><dd>증권사 API는 부를 때마다 응답이 느렸고, 여러 사용자가 동시에 부르면 호출 제한에 걸릴 수 있었습니다.</dd></div>
+            <div><dt>해결</dt><dd>마지막 갱신 시각을 보고 오래된 데이터만 외부 API로 갱신하고, 사용자 요청은 항상 DB에서 읽게 했습니다. 로그인은 5회 실패하면 5분 잠그고, 서버가 재시작돼도 유지됩니다.</dd></div>
+            <div><dt>결과</dt><dd>조회가 외부 API 호출에 기대지 않게 됐습니다.</dd></div>
           </dl>
-          <p class="sp__stack mono">Next.js · Spring Boot · MyBatis · MySQL · Elasticsearch</p>
+          <p class="sp__stack mono">Next.js · Spring Boot · MyBatis · MySQL</p>
           <a class="sp__link" href="https://github.com/mstagon/DOSS" target="_blank" rel="noopener">저장소 보기 ↗</a>
         </div>
       </article>
@@ -877,7 +877,7 @@
       <div><dt>AI · AX</dt><dd>Claude Code, Codex, MCP 서버 개발, 에이전트 운용 환경 설계, LLM 교차 코드 리뷰, 개인 AI 에이전트 개발(Hermes Agent), 파인튜닝(LoRA · DPO)</dd></div>
       <div><dt>Backend</dt><dd>NestJS, TypeORM, FastAPI, Spring Boot</dd></div>
       <div><dt>Mobile · Frontend</dt><dd>Flutter, Next.js, React, TypeScript</dd></div>
-      <div><dt>DB</dt><dd>PostgreSQL, MySQL, MongoDB, Redis, Elasticsearch</dd></div>
+      <div><dt>DB</dt><dd>PostgreSQL, MySQL, MongoDB, Redis</dd></div>
       <div><dt>Infra · DevOps</dt><dd>AWS, Docker, Nginx, GitHub Actions, Codemagic, Grafana</dd></div>
     </dl>
   </div>
