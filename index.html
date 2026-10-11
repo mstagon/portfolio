@@ -584,7 +584,7 @@
         <h3 class="lab__title" data-split>라피 · rapibrain</h3>
         <p class="lab__sub">장기기억을 붙인 개인 AI 에이전트</p>
         <p class="lab__desc" data-reveal>라피는 제가 쓰려고 직접 만든 AI 에이전트입니다. 코드 작업과 조사, 브라우저 조작, 일정과 할 일 관리를 맡기고, 큰 일은 하위 에이전트에게 나눠 맡깁니다. rapibrain은 라피의 장기기억입니다. 코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP로 돌려줍니다.</p>
-        <p class="lab__desc" data-reveal>1세대는 실행 환경까지 직접 만들다가 유지 부담이 커서 접었습니다. 2세대는 기억과 규칙만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다.</p>
+        <p class="lab__desc" data-reveal>1세대는 실행 환경까지 직접 만들었는데, 돌아보니 시간 대부분을 거기에 썼습니다. 그래서 2세대는 기억과 규칙만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다.</p>
         <p class="lab__desc" data-reveal>라피는 제 계정 권한으로 승인 없이 일합니다. 대신 자기 설정과 승인 경로는 커널 샌드박스로 쓰기를 막았고, 모든 도구 호출을 감사 로그에 남기며, 긴급 정지를 걸면 읽기만 할 수 있습니다. 시스템 프롬프트 · 스킬 · 코드는 라피가 패치로 제안하고 제가 승인해야 바뀝니다. 승인하면 적용 · 테스트 · 커밋 · 배포가 이어지고, 테스트가 깨지면 되돌립니다.</p>
         <ul class="layers mono" data-reveal>
           <li><b>실행</b><span>Hermes Agent + Claude Code, 직접 만든 브리지로 연결</span></li>
@@ -748,7 +748,7 @@
         <div class="proj__meta mono"><span>2025.12 – 2026.05</span><span>종료</span></div>
         <h3 class="mini__t">라피 1세대 · 자율 데스크톱 에이전트</h3>
         <p>Qwen2.5-3B를 MLX LoRA · DPO로 파인튜닝해 먼저 말을 거는 기능에 쓰고, 로컬 모델과 API를 나누는 모델 라우터를 구성했습니다.</p>
-        <p>회고에서 시간 대부분을 차별점이 아닌 인프라에 썼다고 정리하고 접었습니다. 기억과 규칙만 직접 만들고 나머지는 검증된 플랫폼에 맡긴다는 결론이 2세대 라피의 설계가 됐습니다.</p>
+        <p>회고에서 시간 대부분을 차별점이 아닌 인프라에 썼다고 정리했습니다. 기억과 규칙만 직접 만들고 나머지는 검증된 플랫폼에 맡긴다는 결론이 2세대 라피의 설계가 됐습니다.</p>
         <ul class="chips"><li>Electron</li><li>Qwen2.5-3B</li><li>MLX LoRA</li><li>DPO</li></ul>
       </div>
     </div>
