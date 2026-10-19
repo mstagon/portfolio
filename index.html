@@ -584,16 +584,17 @@
         <h3 class="lab__title" data-split>라피 · rapibrain</h3>
         <p class="lab__sub">장기기억을 붙인 개인 AI 에이전트</p>
         <p class="lab__desc" data-reveal>라피는 제가 쓰려고 직접 만든 AI 에이전트입니다. 코드 작업과 조사, 브라우저 조작, 일정과 할 일 관리를 맡기고, 큰 일은 하위 에이전트에게 나눠 맡깁니다. rapibrain은 라피의 장기기억입니다. 코딩 에이전트 세션과 git 기록을 15분마다 모아 마크다운 볼트로 정리하고, MCP로 돌려줍니다.</p>
-        <p class="lab__desc" data-reveal>1세대는 실행 환경까지 직접 만들었는데, 돌아보니 시간 대부분을 거기에 썼습니다. 그래서 2세대는 기억과 규칙만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다.</p>
-        <p class="lab__desc" data-reveal>라피는 제 계정 권한으로 승인 없이 일합니다. 대신 자기 설정과 승인 경로는 커널 샌드박스로 쓰기를 막았고, 모든 도구 호출을 감사 로그에 남기며, 긴급 정지를 걸면 읽기만 할 수 있습니다. 시스템 프롬프트 · 스킬 · 코드는 라피가 패치로 제안하고 제가 승인해야 바뀝니다. 승인하면 적용 · 테스트 · 커밋 · 배포가 이어지고, 테스트가 깨지면 되돌립니다.</p>
+        <p class="lab__desc" data-reveal>1세대는 실행 환경까지 직접 만들었는데, 돌아보니 시간 대부분을 거기에 썼습니다. 그래서 2세대는 기억과 규칙만 직접 만들고, 실행은 Hermes Agent와 Claude Code에 맡겼습니다. Hermes에는 CLI를 모델로 붙이는 통로가 없어 OpenAI 호환 브리지를 직접 만들었고, 토큰을 생성되는 대로 흘려보내게 바꿔 짧은 답의 첫 토큰을 3.65초에서 1.55초로 줄였습니다. 써 보니 OpenAI 호환 API로는 도구 진행 표시, 중단, 여러 기기 동기화, 승인 요청을 실을 수 없어서, 서버가 Hermes의 역할을 흡수하게 바꿨습니다. 지금 라피 본체는 서버가 열어 둔 Claude Agent SDK 세션이고, 맥 앱과 웹이 서버에 붙습니다. 첫 글자까지의 시간은 2.29초에서 1.11초로 줄었습니다.</p>
+        <p class="lab__desc" data-reveal>라피는 제 계정 권한으로 승인 없이 일합니다. 대신 자기 설정과 승인 경로는 실행 전 게이트가 쓰기를 막고, 모든 도구 호출을 감사 로그에 남기며, 긴급 정지를 걸면 읽기만 할 수 있습니다. 시스템 프롬프트 · 스킬 · 코드는 라피가 패치로 제안하고 제가 승인해야 바뀝니다. 승인하면 적용 · 테스트 · 커밋 · 배포가 이어지고, 테스트가 깨지면 되돌립니다.</p>
         <ul class="layers mono" data-reveal>
-          <li><b>실행</b><span>Hermes Agent + Claude Code, 직접 만든 브리지로 연결</span></li>
+          <li><b>실행</b><span>서버가 열어 둔 Claude Agent SDK 세션 (처음엔 Hermes + 직접 만든 브리지)</span></li>
           <li><b>기억</b><span>마크다운 볼트 · MCP로 조회 · 15분 주기 수집</span></li>
           <li><b>규칙</b><span>고정된 안전 규칙과, 승인해야 바뀌는 시스템 프롬프트</span></li>
-          <li><b>앱</b><span>대화 · 승인 · 변경 제안 검토</span></li>
+          <li><b>앱</b><span>맥 앱 · 웹, 대화 · 승인 · 변경 제안 검토</span></li>
           <li><b>도구</b><span>브라우저 · 맥 화면 제어, 하위 에이전트</span></li>
         </ul>
-        <ul class="chips" data-reveal><li>Hermes Agent</li><li>Claude Code</li><li>MCP</li><li>TypeScript</li><li>Node.js</li><li>Obsidian</li></ul>
+        <ul class="chips" data-reveal><li>Claude Agent SDK</li><li>Claude Code</li><li>MCP</li><li>TypeScript</li><li>Node.js</li><li>Obsidian</li><li>Hermes Agent</li></ul>
+        <a class="link-arrow" href="https://velog.io/@devcms21/rapi-personal-ai-agent" target="_blank" rel="noopener" data-cursor="열기" data-magnetic>만든 과정 읽기<span>↗</span></a>
       </div>
       <div class="lab__media">
         <div class="brain" aria-hidden="true">
@@ -612,7 +613,7 @@
           <div class="brain__node brain__node--vault" style="--x:50%;--y:50%"><b>볼트</b><span>마크다운</span></div>
           <div class="brain__node brain__node--mcp" style="--x:86%;--y:50%"><b>라피</b><span>MCP 8 tools</span></div>
           <p class="brain__tag mono" style="--x:33%;--y:12%">every 15 min</p>
-          <ul class="brain__guards mono"><li>실행 전 게이트</li><li>커널 샌드박스</li><li>감사 로그</li><li>긴급 정지</li></ul>
+          <ul class="brain__guards mono"><li>실행 전 게이트</li><li>감사 로그</li><li>사후 알림</li><li>긴급 정지</li></ul>
         </div>
       </div>
     </div>
@@ -632,7 +633,7 @@
           <div class="sq__do is-acc is-wide" style="--s:3">금지 경로 · 위험 명령 · 긴급 정지 확인</div>
           <div class="sq__grp" style="--gs:2;--gk:3"><p class="sq__k">판정</p>
             <div class="sq__br"><p class="sq__g is-ok">허용</p>
-              <div class="sq__m is-ok" style="--s:3;--k:2"><span>실행</span><i></i><em>커널 샌드박스 안에서</em></div>
+              <div class="sq__m is-ok" style="--s:3;--k:2"><span>실행</span><i></i><em>내 계정 권한으로</em></div>
               <div class="sq__m is-l is-ret" style="--s:2;--k:3"><span>결과</span><i></i></div>
             </div>
             <div class="sq__br"><p class="sq__g is-bad">차단</p>
