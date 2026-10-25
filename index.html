@@ -272,12 +272,12 @@
         <div class="sq__rows">
           <div class="sq__m" style="--s:1;--k:2"><span>승인 ① 소스 확인</span><i></i></div>
           <div class="sq__do is-wide" style="--s:2">빌드 · 커밋 해시를 이미지 태그로</div>
+          <div class="sq__m" style="--s:1;--k:2"><span>승인 ② 빌드 결과 확인</span><i></i></div>
           <div class="sq__grp" style="--gs:2;--gk:2"><p class="sq__k">마이그레이션 전용 단계 · 1회</p>
             <div class="sq__m is-acc" style="--s:2;--k:2"><span>방금 빌드한 이미지로 마이그레이션</span><i></i></div>
             <div class="sq__do is-acc is-wide" style="--s:3">DB 잠금으로 직렬화</div>
             <div class="sq__m is-l is-ret" style="--s:2;--k:2"><span>완료 후 종료</span><i></i></div>
           </div>
-          <div class="sq__m" style="--s:1;--k:2"><span>승인 ② 빌드 결과 확인</span><i></i></div>
           <div class="sq__m is-ok" style="--s:2;--k:3"><span>상용 배포</span><i></i><em>인스턴스는 마이그레이션을 돌리지 않음</em></div>
         </div>
       </div>
@@ -385,18 +385,18 @@
         <section class="inc__card">
           <div class="inc__vis inc__vis--xff" aria-hidden="true">
             <p class="xff__row xff__row--bad"><span>X-Forwarded-For</span><em>신뢰 안 함</em></p>
-            <p class="xff__row xff__row--good"><span>socket address</span><em>판정 기준</em></p>
+            <p class="xff__row xff__row--good"><span>신뢰한 프록시로 복원한 IP</span><em>판정 기준</em></p>
           </div>
           <h4>오퍼월 콜백 위조 경로 차단</h4>
-          <p>어트리뷰션과 반대 방향으로, 우리 앱에 붙인 오퍼월이 보내는 적립 콜백을 받는 경로입니다. 조작할 수 있는 X-Forwarded-For 대신 실제 접속 주소로 판정하게 바꿨습니다. 주소가 IPv4-mapped IPv6(::ffff:) 형태로 들어와 진짜 콜백까지 거절되고 적립이 0이 되던 문제도 정규화로 고쳤습니다.</p>
+          <p>어트리뷰션과 반대 방향으로, 우리 앱에 붙인 오퍼월이 보내는 적립 콜백을 받는 경로입니다. 조작할 수 있는 X-Forwarded-For 헤더 대신, 신뢰한 프록시 설정으로 복원한 접속 IP로 판정하게 바꿨습니다. 주소가 IPv4-mapped IPv6(::ffff:) 형태로 들어와 진짜 콜백까지 거절되고 적립이 0이 되던 문제도 정규화로 고쳤습니다.</p>
         </section>
         <section class="inc__card">
           <div class="inc__vis inc__vis--xff" aria-hidden="true">
             <p class="xff__row xff__row--bad"><span>키 개행 이스케이프 어긋남</span><em>조용히 실패</em></p>
-            <p class="xff__row xff__row--good"><span>파싱 즉시 실패</span><em>배포 검증에서 차단</em></p>
+            <p class="xff__row xff__row--good"><span>값 교정 · 파싱 확인</span><em>절차로 남김</em></p>
           </div>
           <h4>상용 푸시 발송 전면 중단</h4>
-          <p>시크릿에 저장된 인증 키의 개행 이스케이프가 어긋난 것이 원인이었습니다. 키를 잘못 읽으면 조용히 넘어가지 않고 바로 실패하게 바꾸고, 배포 검증에 왕복 테스트를 넣어 같은 설정 오류는 배포 단계에서 걸리게 했습니다.</p>
+          <p>시크릿에 저장된 인증 키의 개행 이스케이프가 어긋나 JSON 파싱이 실패했고, 발송 서비스는 오류만 남긴 채 조용히 꺼져 있었습니다. 저장된 값을 바로잡아 복구했고, 컨테이너에서 키 파싱과 초기화 로그를 확인한 뒤 끝냈습니다. 그 뒤로 시크릿 JSON은 넣은 직후 소비 지점에서 파싱을 검증하는 것을 절차로 남겼습니다.</p>
         </section>
       </div>
     </div>
@@ -766,7 +766,7 @@
     <section class="panel gate" aria-labelledby="gate-t">
       <div class="panel__head">
         <p class="panel__k mono">AI 교차 코드 리뷰</p>
-        <h4 class="panel__t" id="gate-t">두 AI가 똑같이 지적한 문제만 남깁니다.</h4>
+        <h4 class="panel__t" id="gate-t">두 AI가 같은 줄을 지적한 문제만 차단 기준으로 삼습니다.</h4>
       </div>
       <div class="gate__stage">
         <div class="gate__diff">
@@ -796,7 +796,7 @@
           <p class="gate__status mono"><span class="gate__status-dot"></span><span class="gate__status-t">리뷰 중</span></p>
         </div>
       </div>
-      <p class="panel__cap">Claude와 GPT가 서로의 결과를 모른 채 같은 PR을 리뷰합니다. 둘 다 같은 줄을 지적한 문제만 남기고, 그중 심각한 문제가 있으면 PR 체크를 실패시켜 머지 전에 걸러냅니다. 회사 저장소에 적용했습니다.</p>
+      <p class="panel__cap">마블워크 출시 전 Claude와 GPT가 같은 코드를 서로의 결과를 모른 채 검수했습니다. 둘 다 같은 줄을 지적한 문제만 차단 기준으로 삼고 한쪽만 지적한 것은 참고로 표시했으며, 공통 지적 4건을 출시 차단으로 정해 고친 뒤 공개했습니다.</p>
     </section>
 
     <div class="ax-row">
@@ -974,7 +974,7 @@
           <p class="lab__sub">코딩 에이전트 팀 운용 도구</p>
         </div>
         <div class="lab__text">
-          <p class="lab__desc" data-reveal>작업자마다 worktree를 나누고, 파일 범위가 겹치면 순차로 실행하고, 머지 전에 AI 교차 코드 리뷰를 거치는 Electron 앱입니다. 회사 저장소에 붙인 AI 코드 리뷰도 이 앱에서 빌드합니다.</p>
+          <p class="lab__desc" data-reveal>작업자마다 worktree를 나누고, 파일 범위가 겹치면 순차로 실행하고, 머지 전에 AI 교차 코드 리뷰를 거치는 Electron 앱입니다. 마블워크 출시 전 검수에 쓴 AI 교차 리뷰도 이 앱에서 빌드합니다.</p>
           <ul class="chips" data-reveal><li>Electron</li><li>React</li><li>Zustand</li><li>xterm</li><li>node-pty</li></ul>
           <a class="link-arrow" href="https://github.com/mstagon/forge-studiov2" target="_blank" rel="noopener" data-cursor="열기" data-magnetic>GitHub에서 보기<span>↗</span></a>
         </div>
