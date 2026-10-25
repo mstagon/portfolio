@@ -267,7 +267,7 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
 /* incidents */
 .inc{margin-top:clamp(56px,8vw,110px)}
 .inc__k{color:var(--acc);text-transform:uppercase;letter-spacing:.12em;font-size:11px;margin-bottom:20px}
-.inc__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.inc__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .inc__card{padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg-2);display:flex;flex-direction:column;gap:10px;transition:border-color .4s,transform .7s var(--ease)}
 .inc__card:hover{border-color:rgba(255,106,43,.45);transform:translateY(-5px)}
 .inc__vis{position:relative;height:150px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;border-radius:12px;background:rgba(255,255,255,.025);overflow:hidden}
