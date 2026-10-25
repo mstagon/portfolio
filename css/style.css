@@ -409,11 +409,12 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
 .phone:nth-child(even){margin-top:clamp(40px,6vw,90px)}
 .phone img{display:block;width:100%;height:auto;aspect-ratio:390/844;object-fit:cover;object-position:top}
 .phone img.phone__fit{object-fit:contain;object-position:center;background:#fff}
-@media (max-width:760px){.phones{gap:10px}.phone:nth-child(4){display:none}}
+@media (max-width:760px){.phones{gap:10px}.phone:nth-child(n+4){display:none}}
+@media (min-width:761px) and (max-width:1100px){.phone:nth-child(n+5){display:none}}
 .mn-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .mn-row .panel{margin-top:0}
 .games__n{color:var(--acc);font-variant-numeric:tabular-nums;display:inline-block;min-width:1.2em;text-align:center}
-.games__grid{position:relative;display:grid;grid-template-columns:repeat(11,1fr);gap:6px;padding:16px 14px 14px;border-radius:14px;border:1.5px dashed rgba(0,0,0,.2)}
+.games__grid{position:relative;display:grid;grid-template-columns:repeat(12,1fr);gap:6px;padding:16px 14px 14px;border-radius:14px;border:1.5px dashed rgba(0,0,0,.2)}
 .games__grid::before{content:"SDK container";position:absolute;top:-9px;left:14px;padding:0 6px;background:var(--bg-2);font-family:var(--mono);font-size:10px;color:var(--mute)}
 .game{display:block;aspect-ratio:1;border-radius:6px;background:hsl(var(--h) 82% 60%);box-shadow:inset 0 -3px 0 rgba(0,0,0,.14)}
 .bridge__stage{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;height:160px}
@@ -910,3 +911,34 @@ html:not(.js) .fan__card{transform:translate(-50%,-50%)}
 .sheet .incx__nums p,.sheet .bk{background:rgba(0,0,0,.035)}
 .sheet .bk__bar{background:rgba(0,0,0,.08)}
 .sheet .sqp,.sheet .incx{--ink:#121214}
+
+/* 2026-10-25 경력 v2: 알림 · 그로스 아티클 추가, 미네르바 보강, AX를 밝은 시트 뒤로 */
+.flow .pl__steps{grid-template-columns:repeat(var(--n,6),1fr)}
+.flow .pl__line{left:calc(50% / var(--n,6));right:calc(50% / var(--n,6))}
+.flow .pl__stage{margin-top:6px}
+.flow .pl__step>span{max-width:15em}
+.share--in{margin-top:0;padding:0;border:0;background:none}
+.share--wide .share__row{grid-template-columns:minmax(120px,190px) 1fr 64px}
+.share__row.is-lo .share__fill{background:var(--mute);box-shadow:none}
+.layers--w li{grid-template-columns:88px 1fr}
+.panel .incx__nums{margin-top:4px}
+.incx__nums--3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.chart{margin:clamp(20px,3vw,30px) 0 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f5f3ee}
+.chart img{display:block;width:100%;height:auto}
+.chart figcaption{padding:12px 16px;font-size:12.5px;line-height:1.6;color:var(--mute);border-top:1px solid var(--line);background:var(--bg-2)}
+.bridge__stage+.bridge__count{margin-top:10px}
+.panel .incx__nums+.incx__vis--rows,.panel .incx__vis--rows+.incx__nums{margin-top:14px}
+.proj--cap{z-index:2;background:var(--bg);border-radius:clamp(24px,4vw,48px) clamp(24px,4vw,48px) 0 0;margin-top:calc(-1 * clamp(24px,4vw,48px))}
+.sheet--band .ow{border-top:0;padding-top:clamp(20px,3vw,40px)}
+.sheet .panel{--ink:#121214}
+.share--in .share__t{flex-wrap:wrap;gap:4px 12px}
+.bridge__count{flex-wrap:wrap;gap:4px 16px}
+@media (max-width:760px){.sq__note{grid-column:1/-1;margin:0}}
+@media (max-width:760px){
+  .flow .pl__steps{grid-template-columns:repeat(2,1fr);row-gap:30px}
+  .incx__nums--3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .incx__nums--3 p:last-child{grid-column:1/-1}
+  .share--wide .share__row{grid-template-columns:minmax(96px,150px) 1fr 56px;gap:10px}
+  .bridge__env{top:-64px}
+  .incx__nums--stack{grid-template-columns:1fr}
+}
