@@ -115,7 +115,7 @@
     });
     d.addEventListener('pointerleave', () => gsap.to(c, { opacity: 0, duration: 0.3 }));
     d.addEventListener('pointerenter', () => gsap.to(c, { opacity: 1, duration: 0.3 }));
-    ScrollTrigger.create({ trigger: '.sheet', start: 'top 50%', end: 'bottom 50%', onToggle: s => root.classList.toggle('on-light', s.isActive) });
+    $$('.sheet').forEach(sh => ScrollTrigger.create({ trigger: sh, start: 'top 50%', end: 'bottom 50%', onToggle: s => root.classList.toggle('on-light', s.isActive) }));
   }
 
   function magnetic() {
@@ -136,7 +136,7 @@
   function nav() {
     const n = $('.nav');
     ScrollTrigger.create({ start: 0, end: 'max', onUpdate: s => n.classList.toggle('is-hidden', s.direction === 1 && s.scroll() > innerHeight * 0.6) });
-    const map = { '#about': ['#about', '#path'], '#work': ['#work', '.sheet'], '#lab': ['#lab', '#lab'], '#school': ['#school', '#school'] };
+    const map = { '#about': ['#about', '#path'], '#work': ['#work', '#offerwall'], '#lab': ['#lab', '#lab'], '#school': ['#school', '#school'] };
     $$('.nav__links a').forEach(a => {
       const m = map[a.getAttribute('href')]; if (!m || !$(m[0])) return;
       ScrollTrigger.create({ trigger: m[0], endTrigger: m[1], start: 'top 50%', end: 'bottom 50%', onToggle: s => a.classList.toggle('is-active', s.isActive) });
@@ -269,7 +269,7 @@
 
   function sheet() {
     if (RM) return;
-    gsap.fromTo('.sheet', { scale: 0.94, y: 40 }, { scale: 1, y: 0, ease: 'none', transformOrigin: '50% 0%', scrollTrigger: { trigger: '.sheet', start: 'top bottom', end: 'top 25%', scrub: true } });
+    $$('.sheet').forEach(sh => gsap.fromTo(sh, { scale: 0.94, y: 40 }, { scale: 1, y: 0, ease: 'none', transformOrigin: '50% 0%', scrollTrigger: { trigger: sh, start: 'top bottom', end: 'top 25%', scrub: true } }));
     $$('.phone').forEach(p => {
       const s = +p.dataset.speed || 0;
       gsap.fromTo(p, { y: -s * 9 }, { y: s * 9, ease: 'none', scrollTrigger: { trigger: '.phones', start: 'top bottom', end: 'bottom top', scrub: true } });

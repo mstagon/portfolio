@@ -271,9 +271,9 @@
     whileVisible(el, tl);
   }
 
-  /* 웹게임 — 타일 44개가 컨테이너에 붙고, 숫자는 40종 이상으로 표시한다 */
+  /* 웹게임 — 타일 48개가 컨테이너에 붙고, 숫자는 게임 · 콘텐츠 48종으로 표시한다 */
   function games(el) {
-    const grid = $('.games__grid', el), n = $('.games__n', el), N = 44, L = 40;
+    const grid = $('.games__grid', el), n = $('.games__n', el), N = 48, L = 48;
     const tiles = Array.from({ length: N }, (_, i) => {
       const t = d.createElement('i'); t.className = 'game';
       t.style.setProperty('--h', Math.round((i * 137.5) % 360));
