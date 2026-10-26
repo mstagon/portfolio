@@ -136,7 +136,7 @@
   function nav() {
     const n = $('.nav');
     ScrollTrigger.create({ start: 0, end: 'max', onUpdate: s => n.classList.toggle('is-hidden', s.direction === 1 && s.scroll() > innerHeight * 0.6) });
-    const map = { '#about': ['#about', '#path'], '#work': ['#work', '#offerwall'], '#lab': ['#lab', '#lab'], '#school': ['#school', '#school'] };
+    const map = { '#about': ['#about', '#path'], '#work': ['#work', '#global'], '#lab': ['#lab', '#lab'], '#school': ['#school', '#school'] };
     $$('.nav__links a').forEach(a => {
       const m = map[a.getAttribute('href')]; if (!m || !$(m[0])) return;
       ScrollTrigger.create({ trigger: m[0], endTrigger: m[1], start: 'top 50%', end: 'bottom 50%', onToggle: s => a.classList.toggle('is-active', s.isActive) });
