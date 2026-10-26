@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>최민석 · Software Engineer · 백엔드</title>
+<meta name="description" content="최민석, 걷기 보상 앱 마블워크의 서버 세 개와 적립 기록, 배치, 배포 파이프라인, 관측 스택을 설계하고 운영합니다. 백엔드 지원용 포트폴리오입니다.">
+<meta name="theme-color" content="#100F0D">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23100F0D'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23FF6A2B'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../fonts/pretendard/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="backend.css?v=20261026a">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav-id" href="#top"><span class="nav-name">최민석</span><span class="nav-role mono">Software Engineer</span></a>
+  <nav class="nav-links" aria-label="사례">
+    <a href="#overview">개요</a>
+    <a href="#arch">아키텍처</a>
+    <a href="#ledger">보상 기록</a>
+    <a href="#notif">알림</a>
+    <a href="#adreward">광고 보상</a>
+    <a href="#deploy">배포 · 관측</a>
+    <a href="#minerva">미네르바</a>
+    <a href="#ai">일하는 방식</a>
+  </nav>
+  <div class="nav-end"><a class="nav-mail" href="mailto:devcms21@gmail.com">devcms21@gmail.com</a></div>
+  <div class="nav-progress" aria-hidden="true"><span></span></div>
+</header>
+
+<main>
+<!-- ═════════ HERO ═════════ -->
+<section class="hero" id="top" aria-labelledby="hero-name">
+  <div class="hero-in">
+    <div class="hero-main">
+      <p class="kicker mono"><span>백엔드 설계와 운영</span><span>Software Engineer</span><span>마블워크 · 미네르바</span></p>
+      <div class="hero-block">
+        <h1 class="hero-name" id="hero-name">최민석</h1>
+        <p class="hero-role mono"><b>Software Engineer</b><span>Choi Minseok</span></p>
+        <p class="hero-line">끊기지 않는 사용자 흐름을 설계하고, 측정한 수치로 제품을 계속 바꿉니다.</p>
+        <p class="hero-what">서버 세 개와 적립 기록, 배치, 배포 파이프라인, 관측 스택을 설계했고, 출시 시점 서버 커밋의 94%를 직접 작성했습니다.</p>
+        <dl class="hero-meta">
+          <div><dt>Now</dt><dd>더줌코리아 개발 파트장 · 마블워크 · 미네르바 PM<br>AI 부팀장 · 2026.02 –</dd></div>
+          <div><dt>Backend</dt><dd>NestJS · TypeORM · PostgreSQL · Redis(Valkey) · SQS · AWS · CloudFormation · CodePipeline · GitHub Actions · Grafana · Loki · OpenTelemetry</dd></div>
+          <div><dt>학력</dt><dd>상명대 스마트정보통신공학 · 웹&amp;앱 연계전공(복수학위), 2021.03 – 2025.08</dd></div>
+          <div><dt>병역</dt><dd>보충역 산업기능요원 복무 중 · 전직 가능</dd></div>
+        </dl>
+      </div>
+    </div>
+    <aside class="hero-facts" aria-label="마블워크 서버 규모">
+      <h2>마블워크 서버 · 2026.03 –</h2>
+      <dl>
+        <div><dt>서버</dt><dd>3<i>개</i><small>main-api · cms-api · maintenance-worker</small></dd></div>
+        <div><dt>배치 잡</dt><dd>37<i>종</i><small>cron 36개 · SQS + DLQ</small></dd></div>
+        <div><dt>라우트 핸들러</dt><dd>527</dd></div>
+        <div><dt>엔티티</dt><dd>110</dd></div>
+        <div><dt>마이그레이션</dt><dd>316</dd></div>
+        <div><dt>CloudFormation 템플릿</dt><dd>8<i>개</i></dd></div>
+      </dl>
+    </aside>
+    <ol class="hero-stats" aria-label="대표 수치 네 개">
+      <li><a href="#arch"><span class="stat-n mono">94<i>%</i></span><span class="stat-l">출시 시점 서버 커밋 중 직접 작성한 비중</span><span class="stat-d mono">앱 91% · 어드민 87%</span></a></li>
+      <li><a href="#deploy"><span class="stat-n mono">92<i>회</i></span><span class="stat-l">6월부터 서버를 상용에 승격한 횟수</span><span class="stat-d mono">6/5~10/23 · 앱 137회 · 어드민 42회</span></a></li>
+      <li><a href="#ledger"><span class="stat-n mono">4<i>곳</i></span><span class="stat-l">막은 이중 지급 · 환불 경로</span><span class="stat-d mono">교환 2단계 커밋 · UNKNOWN 보류</span></a></li>
+      <li><a href="#ai"><span class="stat-n mono">85<i>건</i></span><span class="stat-l">출시 전 에이전트 감사로 확정한 결함</span><span class="stat-d mono">교차 검증을 통과한 것만</span></a></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 00 개요 ═════════ -->
+<section class="fit" id="overview" aria-labelledby="ov-title">
+  <p class="case-index mono"><span class="case-no">00</span><span>개요</span></p>
+  <div class="fit-head">
+    <h2 class="fit-title" id="ov-title">마블워크 백엔드 설계와 운영</h2>
+    <p class="ov-lead">걷기 보상 앱 마블워크를 2026년 3월 재시작부터 8월 세 스토어 출시, 지금의 운영까지 PM으로 이끌고 있습니다. 서버 세 개와 적립 기록, 배치, 배포 파이프라인, 관측 스택을 설계했고, 출시 시점 서버 커밋의 <b>94%</b>를 직접 작성했습니다. 서버는 6월부터 상용에 <b>92번</b> 승격했습니다. 개발 파트장이자 AI 부팀장으로 코딩 에이전트(Claude Code · Codex) 하네스와 교차 검수 절차를 팀에 들였습니다.</p>
+  </div>
+
+  <section class="span" aria-labelledby="span-k">
+    <h3 class="span-k" id="span-k">경험의 확장</h3>
+    <ol class="span-list">
+      <li class="span-i"><p class="span-d mono">2026.02</p><p class="span-t">더줌코리아 합류<span>레거시 커머스 어드민</span></p><p class="span-s">상품 등록 검증과 판매 상태 변경을 맡았습니다.</p></li>
+      <li class="span-i"><p class="span-d mono">2026.03</p><p class="span-t">마블워크 재시작<span>서버 · 앱 · 어드민 · 인프라</span></p><p class="span-s">3월 24일 기획 원본, 37화면 명세, 기술 스펙, 8스프린트 계획을 쓰고 다음 날 세 저장소와 첫 스키마를 만들었습니다.</p></li>
+      <li class="span-i"><p class="span-d mono">2026.06</p><p class="span-t">미네르바 분리<span>SDK · 웹 플랫폼</span></p><p class="span-s">앱 안의 미니게임을 다른 회사 앱에도 붙는 플랫폼으로 떼어 냈습니다.</p></li>
+      <li class="span-i"><p class="span-d mono">2026.07</p><p class="span-t">상용 승격 · 해외판<span>같은 절차의 재사용</span></p><p class="span-s">서버 46커밋과 마이그레이션 9개를 Migrate 단계로 상용에 올렸고, 같은 인프라 코드로 해외판을 세웠습니다.</p></li>
+      <li class="span-i"><p class="span-d mono">2026.08</p><p class="span-t">세 스토어 출시<span>교차 검수 뒤 공개</span></p><p class="span-s">출시 직전 AI 교차 검수에서 NO-GO가 나와 P0를 고친 뒤 공개했습니다.</p></li>
+      <li class="span-i is-now"><p class="span-d mono">Now</p><p class="span-t">개발 파트장 · AI 부팀장</p><p class="span-s">파트장으로 프로젝트를 리딩하고, 사내 AX와 하네스를 설계하고 있습니다.</p></li>
+    </ol>
+  </section>
+
+  <div class="fit-head">
+    <h3 class="fit-title fit-title--s" id="toc-k">사례와 결과</h3>
+  </div>
+  <ol class="fit-rows" aria-labelledby="toc-k">
+    <li><a class="fit-link" href="#arch">
+      <span class="fit-no mono">01</span>
+      <span class="fit-main"><b class="fit-t">시스템 아키텍처</b><span class="fit-how">EB 3앱 · Aurora · Valkey pub/sub · SQS 잡 37종 · CloudFormation</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">100%</b><small>3~6월 세 저장소 커밋</small></span>
+        <span class="fr"><b class="mono">527 · 110 · 316</b><small>라우트 · 엔티티 · 마이그레이션</small></span>
+      </span>
+      <span class="fit-role mono">마블워크 · PM · 설계 · 구축</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#ledger">
+      <span class="fit-no mono">02</span>
+      <span class="fit-main"><b class="fit-t">보상 기록과 쿠폰 교환 보류</b><span class="fit-how">쿠폰 교환 2단계 커밋 · UNKNOWN 보류 · 서명 → 거래 ID 멱등 → 행 잠금 → 한도 → 기록</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">4곳</b><small>차단한 이중 지급 · 환불 경로</small></span>
+        <span class="fr"><b class="mono">38건</b><small>테스트 통과, gift 28 · coupon 10</small></span>
+      </span>
+      <span class="fit-role mono">마블워크 · 설계 · 구현</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#notif">
+      <span class="fit-no mono">03</span>
+      <span class="fit-main"><b class="fit-t">알림 발송 계층</b><span class="fit-how">SQS 재전달에도 한 번만 · 실행 키를 DB에서 먼저 차지 · 광고성/서비스성 게이트 · 500건 묶음 발송</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">170회</b><small>운영자 발송</small></span>
+        <span class="fr"><b class="mono">10종</b><small>사건 알림</small></span>
+      </span>
+      <span class="fit-role mono">마블워크 · 설계 · 구현</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#adreward">
+      <span class="fit-no mono">04</span>
+      <span class="fit-main"><b class="fit-t">광고 보상 유실 복구와 콜백 검증</b><span class="fit-how">보상 의도 기록 · 5분마다 도는 복구 작업 · 호출 재생 · req.ip와 ::ffff: 정규화</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">6곳</b><small>서버가 대신 지급하는 대상 지면</small></span>
+        <span class="fr"><b class="mono">7건</b><small>IP 가드 회귀 테스트</small></span>
+      </span>
+      <span class="fit-role mono">마블워크 · 원인 분석 · 구현</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#deploy">
+      <span class="fit-no mono">05</span>
+      <span class="fit-main"><b class="fit-t">배포 파이프라인과 관측</b><span class="fit-how">Migrate 단계 · advisory lock · 등록 1:1 CI 가드 · 무수신 알림</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">36건</b><small>OTA 패치, 롤백 0</small></span>
+        <span class="fr"><b class="mono">99%</b><small>해외판 서버 커밋</small></span>
+      </span>
+      <span class="fit-role mono">마블워크 · 인프라 · 배포 · 관측</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#minerva">
+      <span class="fit-no mono">06</span>
+      <span class="fit-main"><b class="fit-t">미네르바 매체사 수신부와 장애 대응</b><span class="fit-how">원문 HMAC · timing-safe 다중 키 · 같은 txId는 한 번만 · 사용자 단위 버킷</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">91%</b><small>SDK 커밋</small></span>
+        <span class="fr"><b class="mono">35/37</b><small>레퍼런스 서버 커밋</small></span>
+        <span class="fr"><b class="mono">36건</b><small>신규 테스트, 전체 440건 통과</small></span>
+      </span>
+      <span class="fit-role mono">미네르바 · PM · SDK · 수신부</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+    <li><a class="fit-link" href="#ai">
+      <span class="fit-no mono">07</span>
+      <span class="fit-main"><b class="fit-t">사내 AI 도입과 일하는 방식</b><span class="fit-how">Claude Code · Codex 교차 리뷰 · 공통 계약 문서 · 사람 결정 6지점 · 학습 루프</span></span>
+      <span class="fit-res">
+        <span class="fr is-key"><b class="mono">4건</b><small>공통 지적으로 출시 차단</small></span>
+        <span class="fr"><b class="mono">85건</b><small>출시 전 감사 결함</small></span>
+      </span>
+      <span class="fit-role mono">AI 부팀장 · 하네스 설계</span>
+      <span class="fit-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a></li>
+  </ol>
+</section>
+
+<!-- ═════════ 01 시스템 아키텍처 ═════════ -->
+<section class="case" id="arch" aria-labelledby="c1-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>마블워크</b>2026.03 –</span><span class="ctx-w">걸음 수로 주사위를 얻어 보드를 도는 리워드 앱의 서버 세 개와 어드민, AWS 인프라, 배포 파이프라인, 관측 스택</span><span class="ctx-r mono">PM · 서버 · 인프라 설계와 구축</span></p>
+    <p class="case-index mono"><span class="case-no">01</span><span>전체 구성</span></p>
+    <h2 class="case-title" id="c1-title">시스템 아키텍처</h2>
+    <div class="case-aside">
+      <p class="case-sum">서버 세 개와 어드민, AWS 인프라, 배포 파이프라인, 관측 스택을 설계하고 구축했습니다. 3~6월 서버 · 앱 · 어드민 커밋은 모두 제 것이고, 출시 시점 비중은 <b>서버 94% · 앱 91% · 어드민 87%</b>입니다.</p>
+      <p class="case-stack mono">라우트 핸들러 527 · 엔티티 110 · 마이그레이션 316 · 배치 잡 37종</p>
+    </div>
+  </header>
+
+  <figure class="arch">
+    <div class="dg dg--wide"><svg viewBox="0 0 1000 308" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="마블워크 전체 구성"><defs><marker id="ah-s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nr" x="184" y="16" width="584" height="290" rx="8" fill="#F7F8FA" stroke="#E3E6EB"/><text class="t3" x="196" y="300" font-size="10.5" font-weight="700" fill="#8A909C" text-anchor="start">AWS · prd와 test를 VPC · DB · 캐시 · SQS까지 분리</text><rect class="nd" x="10" y="22" width="150" height="52" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="85" y="45.31" font-size="13" font-weight="700" fill="#1D2330" text-anchor="middle">Flutter 앱</text><text class="t2" x="85" y="59.010000000000005" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">iOS · Android · 원스토어</text><rect class="nd" x="10" y="86" width="150" height="52" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="85" y="109.31" font-size="13" font-weight="700" fill="#1D2330" text-anchor="middle">미네르바 SDK · 웹 셸</text><text class="t2" x="85" y="123.01" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">혜택 웹게임 · 보상형 광고</text><rect class="nx" x="10" y="150" width="150" height="56" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="85" y="168.46" font-size="13" font-weight="700" fill="#4B5160" text-anchor="middle">보상 콜백</text><text class="t3" x="85" y="182.16" font-size="10.5" font-weight="500" fill="#8A909C" text-anchor="middle">광고 SSV · 오퍼월</text><text class="t3" x="85" y="195.85999999999999" font-size="10.5" font-weight="500" fill="#8A909C" text-anchor="middle">미네르바 포스트백</text><rect class="nd" x="10" y="232" width="150" height="52" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="85" y="255.31" font-size="13" font-weight="700" fill="#1D2330" text-anchor="middle">어드민</text><text class="t2" x="85" y="269.01" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">운영 설정 · 발송 · 관제</text><rect class="nd" x="198" y="40" width="112" height="120" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="254" y="90.46" font-size="13" font-weight="700" fill="#1D2330" text-anchor="middle">ALB · WAF</text><text class="t2" x="254" y="104.16" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">인터넷 쪽 진입</text><text class="t2" x="254" y="117.86" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">EB Web tier</text><rect class="nd" x="198" y="232" width="112" height="52" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="254" y="255.31" font-size="13" font-weight="700" fill="#1D2330" text-anchor="middle">internal ALB</text><text class="t2" x="254" y="269.01" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">공인 도메인 없음</text><rect class="nd" x="338" y="24" width="174" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="425" y="46.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">maintenance-worker</text><text class="t2" x="425" y="60.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">SQS 잡 37종 · cron 36개</text><text class="t2" x="425" y="74.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">추첨 · 소멸 · 복구 · 예약 푸시</text><rect class="nd" x="338" y="124" width="174" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="425" y="146.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">main-api</text><text class="t2" x="425" y="160.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">사용자 API · 라우트 216</text><text class="t2" x="425" y="174.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">적립 · 보상 · 알림 · 전환</text><rect class="nd" x="338" y="226" width="174" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="425" y="248.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">cms-api</text><text class="t2" x="425" y="262.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">어드민 API · 라우트 309</text><text class="t2" x="425" y="276.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">감사 로그 · 2FA · 발송</text><rect class="nd" x="574" y="24" width="180" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="664" y="46.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">SQS + DLQ</text><text class="t2" x="664" y="60.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">EB Worker cron.yaml</text><text class="t2" x="664" y="74.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">실패는 재시도 · DLQ 보존</text><rect class="nd" x="574" y="124" width="180" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="664" y="146.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">Aurora PostgreSQL</text><text class="t2" x="664" y="160.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">Serverless v2 · Multi-AZ</text><text class="t2" x="664" y="174.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">세 앱이 같은 DataSource</text><rect class="nd" x="574" y="226" width="180" height="64" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="664" y="248.62" font-size="13.5" font-weight="700" fill="#1D2330" text-anchor="middle">Valkey</text><text class="t2" x="664" y="262.32" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">설정 캐시</text><text class="t2" x="664" y="276.02" font-size="10.5" font-weight="500" fill="#5B6170" text-anchor="middle">pub/sub로 모든 인스턴스 무효화</text><rect class="nx" x="808" y="26" width="182" height="46" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="899" y="46.4" font-size="12.5" font-weight="700" fill="#4B5160" text-anchor="middle">FCM · APNs · 알림톡</text><text class="t3" x="899" y="59.599999999999994" font-size="10" font-weight="500" fill="#8A909C" text-anchor="middle">푸시 500개 단위</text><rect class="nx" x="808" y="80" width="182" height="46" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="899" y="100.4" font-size="12.5" font-weight="700" fill="#4B5160" text-anchor="middle">쿠폰 발행사</text><text class="t3" x="899" y="113.60000000000001" font-size="10" font-weight="500" fill="#8A909C" text-anchor="middle">고정 거래 ID · 보류 상태</text><rect class="nx" x="808" y="134" width="182" height="46" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="899" y="154.4" font-size="12.5" font-weight="700" fill="#4B5160" text-anchor="middle">광고 매체 8곳</text><text class="t3" x="899" y="167.6" font-size="10" font-weight="500" fill="#8A909C" text-anchor="middle">전환 포스트백 · 10분 회수</text><rect class="nd" x="808" y="202" width="182" height="46" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="899" y="222.4" font-size="12.5" font-weight="700" fill="#1D2330" text-anchor="middle">Grafana · Loki · Tempo</text><text class="t2" x="899" y="235.6" font-size="10" font-weight="500" fill="#5B6170" text-anchor="middle">OTel → Alloy · 알림 17개</text><rect class="nx" x="808" y="256" width="182" height="40" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="899" y="273.23999999999995" font-size="12" font-weight="700" fill="#4B5160" text-anchor="middle">CloudWatch · SNS</text><text class="t3" x="899" y="286.43999999999994" font-size="10" font-weight="500" fill="#8A909C" text-anchor="middle">알람 15개</text><line class="ln" x1="160" y1="48" x2="197" y2="70" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="160" y1="112" x2="197" y2="100" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="160" y1="178" x2="197" y2="132" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="160" y1="258" x2="197" y2="258" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="310" y1="146" x2="337" y2="146" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="310" y1="258" x2="337" y2="258" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="574" y1="56" x2="513" y2="56" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><text class="t2" x="543" y="50" font-size="10" font-weight="600" fill="#5B6170" text-anchor="middle">POST</text><line class="ln" x1="512" y1="80" x2="573" y2="131" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="512" y1="156" x2="573" y2="156" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><text class="t2" x="542" y="150" font-size="10" font-weight="600" fill="#5B6170" text-anchor="middle">기록 · 상태</text><line class="ln" x1="512" y1="236" x2="573" y2="181" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="la" x1="512" y1="268" x2="573" y2="268" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s1)"/><text class="ta" x="542" y="262" font-size="10" font-weight="700" fill="#E2541B" text-anchor="middle">publish</text><line class="ln" x1="425" y1="24" x2="425" y2="9" stroke="#5B6170" stroke-width="1.3"/><path class="ln" d="M360 124 L360 106 L326 106 L326 9 L796 9 L796 49 L807 49" fill="none" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="796" y1="49" x2="796" y2="103" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="796" y1="103" x2="807" y2="103" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><line class="ln" x1="796" y1="103" x2="796" y2="157" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="796" y1="157" x2="807" y2="157" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s1)"/><text class="t2 halo" x="600" y="7" font-size="10" font-weight="600" fill="#5B6170" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">트랜잭션 밖 · 비동기 · 재시도</text><line class="ln" x1="768" y1="225" x2="807" y2="225" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s1)"/><line class="ln" x1="768" y1="276" x2="807" y2="276" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s1)"/><circle class="ca" cx="198" cy="40" r="9" fill="#FF6A2B"/><text class="to" x="198" y="43.78" font-size="11.25" font-weight="800" fill="#fff" text-anchor="middle">1</text><circle class="ca" cx="574" cy="226" r="9" fill="#FF6A2B"/><text class="to" x="574" y="229.78" font-size="11.25" font-weight="800" fill="#fff" text-anchor="middle">2</text><circle class="ca" cx="808" cy="134" r="9" fill="#FF6A2B"/><text class="to" x="808" y="137.78" font-size="11.25" font-weight="800" fill="#fff" text-anchor="middle">3</text></svg></div>
+    <figcaption class="fig-foot"><p class="cap">[마블워크 전체 구성]</p><ul class="legend mono" aria-label="범례"><li class="lg-own">직접 구축</li><li class="lg-ext">외부 연동</li></ul></figcaption>
+  </figure>
+
+  <dl class="ops">
+    <div><dt class="mono">배포</dt><dd>develop → test 자동 배포 · main → 승인 → 이미지 3종 빌드(ECR, 커밋 SHA 태그) → 승인 → Migrate 1회 → EB 배포. 9월 30일부터 GitHub Actions와 OIDC로 옮기고 브랜치별 IAM 역할을 나눴습니다.</dd></div>
+    <div><dt class="mono">운영</dt><dd>CloudFormation 템플릿 8개, VPC 엔드포인트 9개, CloudWatch 알람 15개. Aurora는 최소 0.5 ACU로 두고 자동 일시정지를 막았습니다. 앱은 Codemagic 워크플로 8개와 Shorebird로 OTA 패치 36건을 롤백 없이 보냈습니다.</dd></div>
+  </dl>
+
+  <div class="pts">
+    <div><h3><i>1</i>요청 · 배치 분리</h3><p>사용자 API는 외부 ALB 뒤, 어드민 API는 내부 ALB 뒤에 두어 어드민에는 공인 도메인이 없습니다. 정해진 시각의 일은 EB Worker가 cron.yaml을 SQS 메시지로 넣고, 워커가 잡 37종으로 받아 처리합니다.</p></div>
+    <div><h3><i>2</i>정책 수치 외부화</h3><p>보상 · 한도 · 레벨 · 광고 수치를 설정 테이블로 옮기고 메모리 → Valkey(Redis) → DB 3단 캐시를 두었습니다. 어드민에서 값을 바꾸면 pub/sub으로 모든 인스턴스의 캐시를 지웁니다. 운영자는 7/7~10/24에 배포 없이 설정을 <b>465회</b> 바꿨습니다. 웰컴 보상 조건은 사용자를 무작위로 나눈 A/B 테스트로 비교 중이고, 배정 로직을 직접 만들었습니다.</p></div>
+    <div><h3><i>3</i>유입 · 전환 통보 연결</h3><p>MMP 없이 트래킹 링크, 설치 귀속, 전환 판정, 매체 포스트백을 만들어 매체 8곳(서버 포스트백 5 · 앱 SDK 3)을 붙였습니다. 이미 쓰던 사용자의 전환은 가입 시각과 기기 최초 유입 시각으로 거르고, iOS는 CGNAT 때문에 IP 지문 대신 Apple 캠페인 링크 총량을 따로 셉니다. 전송은 요청 경로에서 떼어 10분마다 도는 정리 작업이 거두어들이며, 서버 포스트백 전송률은 <b>약 99%</b>입니다.</p></div>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n">94<i>%</i></p><p class="rb-l">출시 시점 서버 커밋 중 직접 작성한 비중, 앱 91% · 어드민 87%</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">100<i>%</i></span><span>3~6월 세 저장소 커밋</span></li>
+        <li><span class="rb-sn">92<i>회</i></span><span>6월부터 서버의 상용 승격</span></li>
+        <li><span class="rb-sn">37<i>종</i></span><span>SQS 잡, cron 36개 · 추첨 · 소멸 · 복구 · 예약 푸시</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 02 보상 기록 ═════════ -->
+<section class="case case--light" id="ledger" data-surface="inverse" aria-labelledby="c2-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>마블워크</b>2026.03 –</span><span class="ctx-w">포인트는 기프티콘으로 바꿀 수 있는 현금성 자산입니다. 광고 · 오퍼월 · 미네르바 · 교환 경로의 검증 체인과 적립 기록을 설계하고 구현했습니다.</span><span class="ctx-r mono">포인트 · 주사위 · 티켓 기록, 검증 체인, 쿠폰 교환 상태 설계와 구현</span></p>
+    <p class="case-index mono"><span class="case-no">02</span><span>보상 기록</span></p>
+    <h2 class="case-title" id="c2-title">보상 기록과 쿠폰 교환 보류</h2>
+    <div class="case-aside">
+      <p class="case-sum">어느 경로로 들어오든 <b>같은 검증 체인</b>을 거쳐 기록에 쌓이게 했습니다. 외부 발행 결과를 모를 때는 환불하지 않고 보류합니다.</p>
+    </div>
+  </header>
+
+  <div class="prob grid12">
+    <p class="step-k mono"><span>1</span>문제</p>
+    <div class="prob-body">
+      <p class="prob-lead">같은 거래가 두 번 들어오거나 외부 응답이 끊겨도 잔액과 기록이 어긋나지 않아야 했습니다.</p>
+      <p class="prob-sub">보상은 광고 시청 검증, 오퍼월 콜백, 미네르바 포스트백으로 들어오고 기프티콘 교환으로 나갑니다.</p>
+    </div>
+  </div>
+
+  <div class="pairs-h mono" aria-hidden="true"><span><i>2</i>위험</span><span><i>3</i>설계</span></div>
+  <ul class="pairs" aria-label="위험과 설계">
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">같은 거래가 다시 오면 보상도 다시 나갑니다.</span><span class="pair-d">SQS와 외부 콜백은 같은 메시지를 다시 보낼 수 있고, 동시에 들어온 요청은 조회만으로 막을 수 없습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">서명 → 거래 ID 멱등 → 행 잠금 → 한도 → 기록</span><span class="pair-d">광고 검증은 ECDSA, 포스트백은 HMAC으로 서명을 확인하고, 거래 ID UNIQUE와 <code>pessimistic_write</code> 잠금, 일 · 월 한도를 지난 뒤에만 append-only 기록에 씁니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">잔액만 고치면 왜 그 값이 됐는지 남지 않습니다.</span><span class="pair-d">주사위 잔액을 걸음 기록에서 다시 계산하던 때, 다 쓴 광고 주사위가 동기화마다 다시 생겼는데 흔적이 없었습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">잔액 변동과 적립 기록을 한 트랜잭션에</span><span class="pair-d">적립 기록 함수는 트랜잭션을 받아 잔액 변동과 같은 트랜잭션에서 쓰게 했고, 주사위 기록에는 변동 뒤 잔액을 남깁니다. 포인트 음수는 DB의 CHECK 제약이 막습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">발행 응답이 끊겼을 때 환불하면 쿠폰과 포인트가 함께 나갑니다.</span><span class="pair-d">발행 호출이 트랜잭션 안에 있어 응답만 유실돼도 포인트를 돌려줬고, 재시도는 새 거래 ID로 나갔습니다. 발행사에는 거래 조회 API가 없었고, 출시 전 교차 검수에서 P0로 확정됐습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">2단계 커밋과 UNKNOWN 보류</span><span class="pair-d">포인트 차감과 PENDING을 먼저 커밋하고, 트랜잭션 밖에서 고정 거래 ID로 발행합니다. 분명한 거절만 환불하고, 결과를 모르면 UNKNOWN으로 두어 운영자가 확인해 정산합니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">운영자 취소도 이중 환불 경로였습니다.</span><span class="pair-d">어드민 쿠폰 취소는 REFUNDED만 막아 이미 환불한 FAILED 건을 또 환불할 수 있었고, 잠금 없이 다시 읽어 동시 취소 2건이 모두 통과할 수도 있었습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">허용 상태 목록과 잠금 후 재조회</span><span class="pair-d">취소 대상을 COMPLETED와 UNKNOWN 두 상태로 좁히고, 행을 잠가 다시 읽은 뒤 잔액을 더하는 UPDATE 한 번으로 환불합니다.</span></p>
+    </li>
+  </ul>
+
+  <div class="figs grid12">
+    <figure><div class="dg"><svg viewBox="0 0 400 264" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="보상이 기록에 닿기까지"><defs><marker id="ah-s2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nx" x="4" y="12" width="116" height="34" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="62" y="26.436" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">광고 시청 검증</text><text class="t3" x="62" y="37.836" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">공개키 서명(ECDSA)</text><line class="ln" x1="120" y1="29" x2="134" y2="29" stroke="#5B6170" stroke-width="1.3"/><rect class="nx" x="4" y="56" width="116" height="34" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="62" y="70.43599999999999" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">오퍼월 적립 콜백</text><text class="t3" x="62" y="81.83599999999998" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">허용 IP · 거래 ID</text><line class="ln" x1="120" y1="73" x2="134" y2="73" stroke="#5B6170" stroke-width="1.3"/><rect class="nx" x="4" y="100" width="116" height="34" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="62" y="114.436" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">미네르바 포스트백</text><text class="t3" x="62" y="125.836" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">HMAC 원문 서명</text><line class="ln" x1="120" y1="117" x2="134" y2="117" stroke="#5B6170" stroke-width="1.3"/><rect class="nx" x="4" y="144" width="116" height="34" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="62" y="158.436" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">기프티콘 교환</text><text class="t3" x="62" y="169.836" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">포인트가 나가는 출구</text><line class="ln" x1="120" y1="161" x2="134" y2="161" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="134" y1="29" x2="134" y2="161" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="134" y1="29" x2="151" y2="29" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s2)"/><rect class="nd" x="152" y="12" width="150" height="34" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="227" y="32.263999999999996" font-size="10.2" font-weight="700" fill="#1D2330" text-anchor="middle">서명 · 출처 확인</text><line class="ln" x1="227" y1="46" x2="227" y2="55" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s2)"/><circle class="ca" cx="162" cy="29" r="6" fill="#FF6A2B"/><text class="to" x="162" y="31.52" font-size="7.5" font-weight="800" fill="#fff" text-anchor="middle">1</text><rect class="nd" x="152" y="56" width="150" height="34" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="227" y="70.464" font-size="10.2" font-weight="700" fill="#1D2330" text-anchor="middle">거래 ID 멱등</text><text class="t2" x="227" y="82.06400000000001" font-size="8.4" font-weight="500" fill="#5B6170" text-anchor="middle">UNIQUE · 중복이면 기존 결과</text><line class="ln" x1="227" y1="90" x2="227" y2="99" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s2)"/><circle class="ca" cx="162" cy="73" r="6" fill="#FF6A2B"/><text class="to" x="162" y="75.52" font-size="7.5" font-weight="800" fill="#fff" text-anchor="middle">2</text><rect class="nd" x="152" y="100" width="150" height="34" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="227" y="114.464" font-size="10.2" font-weight="700" fill="#1D2330" text-anchor="middle">행 잠금</text><text class="t2" x="227" y="126.06400000000001" font-size="8.4" font-weight="500" fill="#5B6170" text-anchor="middle">pessimistic write</text><line class="ln" x1="227" y1="134" x2="227" y2="143" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s2)"/><circle class="ca" cx="162" cy="117" r="6" fill="#FF6A2B"/><text class="to" x="162" y="119.52" font-size="7.5" font-weight="800" fill="#fff" text-anchor="middle">3</text><rect class="nd" x="152" y="144" width="150" height="34" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="227" y="164.264" font-size="10.2" font-weight="700" fill="#1D2330" text-anchor="middle">일 · 월 한도</text><line class="ln" x1="227" y1="178" x2="227" y2="187" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s2)"/><circle class="ca" cx="162" cy="161" r="6" fill="#FF6A2B"/><text class="to" x="162" y="163.52" font-size="7.5" font-weight="800" fill="#fff" text-anchor="middle">4</text><rect class="nf" x="152" y="188" width="150" height="34" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="227" y="202.464" font-size="10.2" font-weight="700" fill="#fff" text-anchor="middle">적립 기록</text><text class="to2" x="227" y="214.064" font-size="8.4" font-weight="500" fill="#FFE6DA" text-anchor="middle">append-only · 같은 트랜잭션</text><circle class="cb" cx="162" cy="205" r="6" fill="#fff"/><text class="ta" x="162" y="207.52" font-size="7.5" font-weight="800" fill="#E2541B" text-anchor="middle">5</text><line class="ln" x1="302" y1="29" x2="317" y2="29" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s2)"/><rect class="nn dash" x="318" y="12" width="78" height="34" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="357" y="26.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">401 거절</text><text class="t3" x="357" y="37.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">서명 불일치</text><line class="ln" x1="302" y1="73" x2="317" y2="73" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s2)"/><rect class="nn dash" x="318" y="56" width="78" height="34" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="357" y="70.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">적립 없이 응답</text><text class="t3" x="357" y="81.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">같은 거래 ID</text><line class="ln" x1="302" y1="161" x2="317" y2="161" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s2)"/><rect class="nn dash" x="318" y="144" width="78" height="34" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="357" y="158.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">거절</text><text class="t3" x="357" y="169.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">한도 초과</text><rect class="ns" x="4" y="236" width="392" height="24" rx="4" fill="#FFF1EA" stroke="#FFC7AE"/><text class="ta" x="200" y="252" font-size="9.4" font-weight="700" fill="#E2541B" text-anchor="middle">잔액 하한은 DB 제약이 지킴 · CHECK (reward_points &gt;= 0)</text></svg></div><figcaption class="cap">[보상 검증 체인]</figcaption></figure>
+    <figure><div class="dg"><svg viewBox="0 0 400 236" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="쿠폰 교환 상태"><defs><marker id="ah-s3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nn" x="4" y="10" width="80" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="44" y="31.2" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">교환 요청</text><rect class="nd" x="104" y="10" width="130" height="36" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="169" y="25.5" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">PENDING</text><text class="t2" x="169" y="36.9" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">차감 · 기록 · 먼저 커밋</text><rect class="nx" x="256" y="10" width="140" height="36" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="326" y="25.5" font-size="10" font-weight="700" fill="#4B5160" text-anchor="middle">발행 호출</text><text class="t3" x="326" y="36.9" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">트랜잭션 밖 · 고정 거래 ID</text><line class="ln" x1="84" y1="28" x2="103" y2="28" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><line class="ln" x1="234" y1="28" x2="255" y2="28" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><line class="ln" x1="326" y1="46" x2="326" y2="62" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="62" y1="62" x2="338" y2="62" stroke="#5B6170" stroke-width="1.3"/><line class="ln" x1="62" y1="62" x2="62" y2="95" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><line class="ln" x1="200" y1="62" x2="200" y2="95" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><line class="la" x1="338" y1="62" x2="338" y2="95" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s3)"/><text class="t2" x="66" y="82" font-size="8.6" font-weight="600" fill="#5B6170" text-anchor="start">발행됨</text><text class="t2" x="196" y="82" font-size="8.6" font-weight="600" fill="#5B6170" text-anchor="end">분명한 거절</text><text class="ta" x="334" y="82" font-size="8.6" font-weight="700" fill="#E2541B" text-anchor="end">타임아웃 · 응답 유실</text><rect class="nt" x="4" y="96" width="116" height="36" rx="4" fill="#fff" stroke="#1D2330" stroke-width="1.8"/><text class="t1" x="62" y="111.5" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">COMPLETED</text><text class="t2" x="62" y="122.9" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">PIN 저장</text><rect class="nn" x="142" y="96" width="116" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="200" y="111.5" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">FAILED</text><text class="t2" x="200" y="122.9" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">포인트 자동 환불</text><rect class="ns" x="280" y="96" width="116" height="36" rx="4" fill="#FFF1EA" stroke="#FF6A2B" stroke-width="1.3"/><text class="ta" x="338" y="111.5" font-size="10" font-weight="700" fill="#E2541B" text-anchor="middle">UNKNOWN</text><text class="t2" x="338" y="122.9" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">환불하지 않고 보류</text><line class="ln" x1="338" y1="132" x2="338" y2="171" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><rect class="nx" x="280" y="172" width="116" height="36" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="338" y="187.5" font-size="10" font-weight="700" fill="#4B5160" text-anchor="middle">운영자 확인</text><text class="t3" x="338" y="198.9" font-size="8.2" font-weight="500" fill="#8A909C" text-anchor="middle">발행 여부 확인</text><rect class="nd" x="122" y="172" width="136" height="36" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="190" y="183.536" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">취소 · 환불</text><text class="t2" x="190" y="193.13600000000002" font-size="7.8" font-weight="500" fill="#5B6170" text-anchor="middle">COMPLETED · UNKNOWN만</text><text class="t2" x="190" y="202.73600000000002" font-size="7.8" font-weight="500" fill="#5B6170" text-anchor="middle">행 잠금 뒤 UPDATE 한 번</text><line class="ln" x1="280" y1="190" x2="259" y2="190" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><path class="ln" d="M62 132 L62 152 L190 152 L190 171" fill="none" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><text class="t2" x="66" y="147" font-size="8.4" font-weight="600" fill="#5B6170" text-anchor="start">운영자 취소</text><rect class="nt" x="4" y="172" width="96" height="36" rx="4" fill="#fff" stroke="#1D2330" stroke-width="1.8"/><text class="t1" x="52" y="193.2" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">REFUNDED</text><line class="ln" x1="122" y1="190" x2="101" y2="190" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s3)"/><rect class="ns" x="6" y="220.5" width="11" height="9" rx="2" fill="#FFF1EA" stroke="#FF6A2B" stroke-width="1.3"/><text class="t2" x="21" y="228" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">결과를 모를 때 남는 상태</text><rect class="nt" x="123.92399999999998" y="220.5" width="11" height="9" rx="2" fill="#fff" stroke="#1D2330" stroke-width="1.8"/><text class="t2" x="138.92399999999998" y="228" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">종결 상태</text></svg></div><figcaption class="cap">[쿠폰 교환 상태]</figcaption></figure>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n">4<i>곳</i></p><p class="rb-l">차단한 이중 지급 · 환불 경로, 교환 2단계 커밋, 타임아웃 보류, 보드 상품권 거래 ID 선기록, 어드민 취소 잠금</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">0</span><span>다 쓴 주사위 잔액 유지, 광고 주사위를 다 쓴 뒤 동기화해도 다시 생기지 않음, 회귀 테스트 3건으로 고정</span></li>
+        <li><span class="rb-sn">38<i>건</i></span><span>테스트 통과, gift 28 · coupon 10, 결과를 모르는 발행에서 포인트가 자동으로 돌아가지 않음</span></li>
+      </ul>
+      <p class="rb-lim">UNKNOWN 건은 발행사에 거래 조회 API가 없어 운영자가 발행 여부를 확인해 정산합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 알림 발송 계층 ═════════ -->
+<section class="case" id="notif" aria-labelledby="c3-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>마블워크</b>2026.04 –</span><span class="ctx-w">사건 · 예약 · 운영자 발송을 알림함 · FCM · 알림톡 3채널로 보내는 계층입니다. 개인화 푸시와 우편함 파일을 뺀 서버 알림 코드의 약 92%와 알림 마이그레이션 20개 중 18개를 작성했습니다.</span><span class="ctx-r mono">발송 계층, 운영자 발송 콘솔, 알림함 API 설계와 구현 · 개인화 푸시는 기획과 규칙을 설계하고 구현을 이끎</span></p>
+    <p class="case-index mono"><span class="case-no">03</span><span>알림 · CRM</span></p>
+    <h2 class="case-title" id="c3-title">알림 발송 계층</h2>
+    <div class="case-aside">
+      <p class="case-sum">세 경로에서 생긴 알림을 세 채널로 보냅니다. 중복은 <b>DB에서 먼저 차지하는 방식으로</b>, 법적 동의와 사용자 설정은 서로 다른 게이트로 막았습니다.</p>
+    </div>
+  </header>
+
+  <div class="prob grid12">
+    <p class="step-k mono"><span>1</span>문제</p>
+    <div class="prob-body">
+      <p class="prob-lead">큐 재전달이나 서버 여러 대 때문에 같은 알림이 두 번 나가면 안 되고, 광고성 알림은 정보통신망법 §50의 동의와 야간 제한을 지켜야 했습니다.</p>
+      <p class="prob-sub">알림은 친구 · 추첨 · 랭킹 같은 사건, 정해진 시각의 크론, 운영자 발송에서 생깁니다.</p>
+    </div>
+  </div>
+
+  <div class="pairs-h mono" aria-hidden="true"><span><i>2</i>위험</span><span><i>3</i>설계</span></div>
+  <ul class="pairs" aria-label="위험과 설계">
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">푸시가 막힌 사용자는 당첨 소식도 받지 못했습니다.</span><span class="pair-d">당첨 통지를 FCM으로만 보내, 기기 토큰이 없는 사용자는 당첨을 보지 못했습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">알림함 · FCM · 알림톡을 독립된 3계층으로</span><span class="pair-d">알림함은 수신 설정과 상관없이 항상 1명 1행으로 쌓고, 게이트는 푸시에만 겁니다. 한 채널이 막혀도 다른 채널은 나갑니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">큐 재전달과 다중 인스턴스에서 같은 알림이 두 번 나갑니다.</span><span class="pair-d">SQS는 at-least-once로 다시 전달하고 서버가 여러 대라, 같은 사용자에게 푸시 2회와 알림함 2행이 생길 수 있었습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">실행 키를 DB에서 한 번만 먼저 차지</span><span class="pair-d">예약 잡은 <code>(job_type, run_key)</code>를 PK로 두어 한 번의 INSERT로 먼저 차지하고, 중복이면 건너뜁니다. 운영자 예약은 <code>sent_at IS NULL</code> 조건의 UPDATE 한 번으로 집습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">법적 동의와 사용자 설정을 한 기준에 섞으면 과차단이 납니다.</span><span class="pair-d">예약 푸시가 모두 광고 동의 게이트를 거쳐, 마케팅에 동의하지 않은 사용자는 출석 · 걸음 같은 서비스 알림을 0건 받았습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">광고성은 §50 동의와 야간, 서비스성은 opt-out</span><span class="pair-d">분류가 없으면 광고성으로 보고, 예약 발송은 저장 시점이 아니라 실행 시점에 분류를 읽습니다. 야간 판정은 순수 함수로 떼어 경계 시각을 테스트로 고정했습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">전체 공지를 사용자 ID 배열로 만들면 메모리와 왕복이 사용자 수만큼 늡니다.</span><span class="pair-d">점검 공지와 새 회차 안내는 모든 사용자에게 갑니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">단일 쿼리 적재와 500건 묶음 발송</span><span class="pair-d">전체 공지는 <code>INSERT … SELECT</code> 한 쿼리로 쌓고, 지정 대상은 500건씩 묶어 넣습니다. FCM은 기기 토큰 500개씩 보내고 무효 토큰은 응답 즉시 지웁니다.</span></p>
+    </li>
+  </ul>
+
+  <div class="figs grid12">
+    <figure><div class="dg"><svg viewBox="0 0 400 244" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="알림이 지나는 길"><defs><marker id="ah-s4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nn" x="4" y="6" width="108" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="58" y="22.436" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">예약 발송</text><text class="t2" x="58" y="33.836" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">cron → SQS → 워커</text><rect class="nn" x="4" y="52" width="108" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="58" y="68.43599999999999" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">운영자 발송</text><text class="t2" x="58" y="79.83599999999998" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">즉시 · 예약 · 반복</text><rect class="nn" x="4" y="110" width="108" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="58" y="126.436" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">사건 훅 10종</text><text class="t2" x="58" y="137.836" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">친구 · 추첨 · 랭킹</text><rect class="nd" x="136" y="8" width="136" height="38" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="204" y="24.436" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">실행 키 먼저 차지</text><text class="t2" x="204" y="35.836" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">INSERT 한 번 · 중복이면 건너뜀</text><rect class="nf" x="136" y="72" width="136" height="38" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="204" y="88.436" font-size="9.8" font-weight="700" fill="#fff" text-anchor="middle">알림함 적재 · 항상</text><text class="to2" x="204" y="99.836" font-size="8.2" font-weight="500" fill="#FFE6DA" text-anchor="middle">1명 1행 · 수신 설정과 무관</text><rect class="nd" x="136" y="136" width="136" height="38" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="204" y="152.436" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">푸시 게이트</text><text class="t2" x="204" y="163.836" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">서비스 설정 · §50 동의 · 야간</text><rect class="nd" x="136" y="200" width="136" height="38" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="204" y="216.436" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">발송</text><text class="t2" x="204" y="227.836" font-size="8.2" font-weight="500" fill="#5B6170" text-anchor="middle">기기 토큰 500개 단위</text><line class="ln" x1="112" y1="25" x2="135" y2="25" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><line class="ln" x1="112" y1="71" x2="135" y2="36" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><line class="ln" x1="112" y1="129" x2="135" y2="94" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><text class="t3" x="58" y="160" font-size="8" font-weight="600" fill="#8A909C" text-anchor="middle">본 처리 커밋 뒤 best-effort</text><line class="ln" x1="204" y1="46" x2="204" y2="71" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><line class="ln" x1="204" y1="110" x2="204" y2="135" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><line class="ln" x1="204" y1="174" x2="204" y2="199" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><rect class="nn dash" x="292" y="8" width="104" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="344" y="24.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">재전달 · 다중 서버</text><text class="t3" x="344" y="35.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">같은 알림은 한 번</text><line class="ln" x1="272" y1="27" x2="291" y2="27" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s4)"/><rect class="nn dash" x="292" y="72" width="104" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="344" y="88.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">전체 공지</text><text class="t3" x="344" y="99.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">INSERT … SELECT</text><line class="ln" x1="272" y1="91" x2="291" y2="91" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s4)"/><rect class="nn dash" x="292" y="136" width="104" height="38" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="344" y="152.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">막히면</text><text class="t3" x="344" y="163.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">벨에서만 보임</text><line class="ln" x1="272" y1="155" x2="291" y2="155" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s4)"/><rect class="nx" x="292" y="200" width="104" height="38" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="344" y="216.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">FCM · APNs</text><text class="t3" x="344" y="227.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">알림톡 · 이메일</text><line class="ln" x1="272" y1="219" x2="291" y2="219" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s4)"/><text class="t3" x="344" y="193" font-size="8" font-weight="600" fill="#8A909C" text-anchor="middle">무효 토큰은 바로 삭제</text></svg></div><figcaption class="cap">[알림 발송 경로]</figcaption></figure>
+    <figure><div class="dg"><svg viewBox="0 0 400 182" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="푸시 게이트 판정"><defs><marker id="ah-s5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nd" x="4" y="64" width="90" height="60" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="49" y="86.8" font-size="10" font-weight="700" fill="#1D2330" text-anchor="middle">분류 판정</text><text class="t2" x="49" y="97.2" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">실행 시점에</text><text class="t2" x="49" y="107.60000000000001" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">지정 없으면 광고성</text><path class="ln" d="M94 82 L106 82 L106 30 L119 30" fill="none" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s5)"/><path class="ln" d="M94 106 L106 106 L106 158 L119 158" fill="none" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s5)"/><text class="t1" x="101" y="58" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="end">광고성</text><text class="t1" x="101" y="138" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="end">서비스성</text><rect class="nn" x="120" y="12" width="86" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="163" y="27.472" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">마케팅 동의</text><text class="t2" x="163" y="38.672000000000004" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">§50</text><rect class="nn" x="228" y="12" width="90" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="273" y="27.472" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">KST 21~08시</text><text class="t2" x="273" y="38.672000000000004" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">야간 동의 추가</text><rect class="nf" x="338" y="12" width="58" height="36" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="367" y="33.2" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">발송</text><line class="ln" x1="206" y1="30" x2="227" y2="30" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s5)"/><line class="ln" x1="318" y1="30" x2="337" y2="30" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s5)"/><text class="t2" x="216" y="25" font-size="8" font-weight="700" fill="#5B6170" text-anchor="middle">예</text><text class="t2" x="328" y="25" font-size="8" font-weight="700" fill="#5B6170" text-anchor="middle">예</text><rect class="nn" x="120" y="140" width="86" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="163" y="155.47199999999998" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">서비스 설정</text><text class="t2" x="163" y="166.67199999999997" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">4갈래 opt-out</text><rect class="nf" x="338" y="140" width="58" height="36" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="367" y="161.2" font-size="10" font-weight="700" fill="#fff" text-anchor="middle">발송</text><line class="ln" x1="206" y1="158" x2="337" y2="158" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s5)"/><text class="t2" x="272" y="153" font-size="8" font-weight="600" fill="#5B6170" text-anchor="middle">켜 둠(키 없으면 켜짐)</text><rect class="nn dash" x="228" y="76" width="112" height="36" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1" stroke-dasharray="3 2.5"/><text class="t2" x="284" y="91.472" font-size="9.6" font-weight="700" fill="#4B5160" text-anchor="middle">푸시 제외</text><text class="t3" x="284" y="102.67199999999998" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">알림함에는 남음</text><line class="ln" x1="163" y1="48" x2="236" y2="75" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s5)"/><line class="ln" x1="273" y1="48" x2="273" y2="75" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s5)"/><line class="ln" x1="163" y1="140" x2="236" y2="113" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s5)"/><text class="t3" x="150" y="66" font-size="8" font-weight="600" fill="#8A909C" text-anchor="start">없음</text><text class="t3" x="277" y="64" font-size="8" font-weight="600" fill="#8A909C" text-anchor="start">야간 동의 없음</text><text class="t3" x="176" y="128" font-size="8" font-weight="600" fill="#8A909C" text-anchor="start">끔</text></svg></div><figcaption class="cap">[푸시 게이트 판정]</figcaption></figure>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n"><span class="rb-from">1.1% 대</span>33.5~46.7%</p><p class="rb-l">기존 알림 열람률, 출석 리마인더 대 친구 · 랭킹 알림</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">170<i>회</i></span><span>운영자 발송, 푸시 템플릿 55종 · 예약 발송 스케줄 7개, 사건 알림은 10종</span></li>
+        <li><span class="rb-sn">1명 1행</span><span>9/1 이후 알림함 적재, 수신 설정과 상관없이</span></li>
+      </ul>
+      <p class="rb-lim">개인화 푸시는 9월에 상태 신호 12개로 대상을 고르도록 기획했고, 10월 7일 출시까지 구현을 이끌었습니다. 10월 22일에 조회한 기존 알림 열람률 차이로 방향을 확인했지만, 앱 내 알림함에서 잰 값이고 모두 읽음 처리가 들어가 있어 효과로 보지는 않습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 04 광고 보상 유실 복구 ═════════ -->
+<section class="case case--light" id="adreward" data-surface="inverse" aria-labelledby="c4-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>마블워크</b>2026.06 – 09</span><span class="ctx-w">외부 콜백으로 들어오는 보상 경로에서 유실과 위조를 찾아 원인부터 고쳤습니다.</span><span class="ctx-r mono">원인 분석, 보상 의도 기록과 5분 주기 복구 작업, IP 가드 구현</span></p>
+    <p class="case-index mono"><span class="case-no">04</span><span>광고 보상 복구 · 콜백 검증</span></p>
+    <h2 class="case-title" id="c4-title">광고 보상 유실 복구와 콜백 검증</h2>
+    <div class="case-aside">
+      <p class="case-sum">광고 서버의 시청 검증은 도착했는데 앱이 죽어 보상이 나가지 않던 유실을 <b>서버가 복구</b>하게 했습니다. 오퍼월 콜백 위조와, 수정 뒤 테스트 서버에서 정상 콜백이 막힌 문제도 고쳤습니다.</p>
+    </div>
+  </header>
+
+  <div class="prob grid12">
+    <p class="step-k mono"><span>1</span>문제</p>
+    <div class="prob-body">
+      <p class="prob-lead">24시간 유실 15건 중 13건은 광고를 보는 도중 앱 프로세스가 종료된 경우였고, 서버는 시청 사실을 알고도 무엇을 줄지 몰랐습니다.</p>
+      <p class="prob-sub">보상형 광고는 광고 서버가 시청을 검증(SSV)한 뒤 앱이 지급을 요청해야 보상이 나갔습니다.</p>
+    </div>
+  </div>
+
+  <div class="pairs-h mono" aria-hidden="true"><span><i>2</i>위험</span><span><i>3</i>설계</span></div>
+  <ul class="pairs" aria-label="위험과 설계">
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">지급이 앱 복귀에만 달려 있었습니다.</span><span class="pair-d">검증 기록에는 그 광고가 어느 지면의 무엇을 위한 것인지가 없어, 앱이 죽으면 서버가 줄 것을 정할 수 없었습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">광고 직전 보상 의도 기록과 5분마다 도는 복구 작업</span><span class="pair-d">광고 직전 지면과 대상을 의도로 남기고, 5분마다 소비되지 않은 검증과 조인해 대신 지급합니다. 24시간 안의 건을 한 번에 200건까지 집습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">복구용 지급 경로를 따로 두면 두 경로가 갈라집니다.</span><span class="pair-d">갈라진 경로는 일일 한도 우회 같은 사고로 이어집니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">같은 도메인 호출을 재생, 검증은 한 번만 소비</span><span class="pair-d">앱이 못 한 호출을 그대로 재생해 한도와 KST 날짜 경계가 그대로 적용됩니다. 검증 행은 <code>consumed_at IS NULL</code> 조건부 UPDATE 한 번으로 소비 처리해, 늦게 온 앱 요청과 복구 작업 중 한쪽만 성공합니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">허용 목록 가드가 위조할 수 있는 헤더를 믿었습니다.</span><span class="pair-d">오퍼월 적립 콜백 가드가 <code>X-Forwarded-For</code> 맨 앞 값을 믿어 헤더만으로 우회할 수 있었습니다(상용 검수 blocker).</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">trust proxy가 복원한 req.ip만 신뢰</span><span class="pair-d">ALB 한 홉만 해석하는 <code>req.ip</code>만 쓰고, 주소를 얻지 못하면 거부합니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">테스트 서버에서 정상 콜백이 모두 403이 됐습니다.</span><span class="pair-d"><code>req.ip</code>로 바꾸자 듀얼스택 소켓이 넘긴 <code>::ffff:</code> 형태가 그대로 비교에 들어가 빗나갔고, 기존 e2e는 두 형태를 다 넣어 이 버그를 가렸습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">요청 주소와 허용 목록 양쪽을 정규화</span><span class="pair-d">양쪽에서 <code>::ffff:</code> 접두를 벗겨 비교하고, 정규화가 허용 범위를 넓히지 않는지까지 테스트로 고정했습니다.</span></p>
+    </li>
+  </ul>
+
+  <div class="figs grid12">
+    <figure>
+      <div class="dg"><svg viewBox="0 0 410 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="시청 검증은 왔는데 앱이 돌아오지 못할 때"><defs><marker id="ah-s6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><line class="lg" x1="44.2" y1="28" x2="44.2" y2="258" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="124.60000000000001" y1="28" x2="124.60000000000001" y2="258" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="205" y1="28" x2="205" y2="258" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="285.40000000000003" y1="28" x2="285.40000000000003" y2="258" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="365.8" y1="28" x2="365.8" y2="258" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><rect class="nw" x="8.200000000000003" y="142" width="232.8" height="22" rx="4" fill="#FDEDE6" stroke="#C2410C" stroke-width="1.2"/><text class="tw" x="124.6" y="156.6" font-size="9.4" font-weight="700" fill="#C2410C" text-anchor="middle">광고 도중 앱 종료 · 지급 요청이 오지 않음</text><rect class="nh" x="84.60000000000001" y="224" width="160.39999999999998" height="30" rx="3" fill="rgba(255,106,43,.09)"/><line class="ln" x1="44.2" y1="54" x2="121.60000000000001" y2="54" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s6)"/><text class="t2 halo" x="49.2" y="49.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">광고 직전 보상 의도 기록</text><line class="ln" x1="124.60000000000001" y1="80" x2="202" y2="80" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s6)"/><text class="t2 halo" x="129.60000000000002" y="75.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">지면 · 대상 저장</text><line class="ln" x1="285.40000000000003" y1="106" x2="127.60000000000001" y2="106" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s6)"/><text class="t2 halo" x="280.40000000000003" y="101.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">시청 검증(SSV) · 서명 확인</text><line class="ln" x1="124.60000000000001" y1="132" x2="202" y2="132" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s6)"/><text class="t2 halo" x="129.60000000000002" y="127.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">검증 기록 · 미소비</text><line class="ln" x1="365.8" y1="188" x2="208" y2="188" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s6)"/><text class="t2 halo" x="360.8" y="183.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">5분 지난 미소비 검증 × 의도 조인</text><line class="la" x1="365.8" y1="214" x2="127.60000000000001" y2="214" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s6)"/><text class="ta halo" x="360.8" y="209.5" font-size="9.6" font-weight="700" fill="#E2541B" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">앱이 못 한 지급 호출을 그대로 재생</text><line class="la" x1="124.60000000000001" y1="244" x2="202" y2="244" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s6)"/><text class="ta halo" x="129.60000000000002" y="239.5" font-size="9.6" font-weight="700" fill="#E2541B" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">미소비 행만 한 번에 소비</text><rect class="nd" x="8.200000000000003" y="4" width="72" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="44.2" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">앱</text><rect class="nd" x="88.60000000000001" y="4" width="72" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="124.60000000000001" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">main-api</text><rect class="nd" x="169" y="4" width="72" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="205" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">DB</text><rect class="nx" x="249.40000000000003" y="4" width="72" height="24" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="285.40000000000003" y="19.136" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">광고 서버</text><rect class="nd" x="329.8" y="4" width="72" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="365.8" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">복구 작업</text></svg></div>
+      <figcaption class="fig-foot"><p class="cap">[보상 의도 기록과 복구 작업 순서]</p><ul class="legend mono" aria-label="범례"><li class="lg-own">직접 만든 것</li><li class="lg-ext">외부 · 연동 대상</li></ul></figcaption>
+    </figure>
+    <figure>
+      <div class="dg dg--plain">
+        <table class="vt">
+          <thead><tr><th scope="col">들어온 요청</th><th scope="col">판정</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">허용 IP가 평문으로 들어옴</th><td class="ok">통과</td></tr>
+            <tr><th scope="row"><code>X-Forwarded-For</code>에 허용 IP를 위조, 실제 req.ip는 미허용</th><td class="no">거부</td></tr>
+            <tr><th scope="row">허용되지 않은 req.ip</th><td class="no">거부</td></tr>
+            <tr><th scope="row">로컬 환경</th><td class="ok">검사 생략</td></tr>
+            <tr class="is-new"><th scope="row">허용 IP가 <code>::ffff:</code> 형태로 들어옴</th><td class="ok">통과</td></tr>
+            <tr class="is-new"><th scope="row">허용 목록이 <code>::ffff:</code> 형태, 요청은 평문</th><td class="ok">통과</td></tr>
+            <tr class="is-new"><th scope="row">허용되지 않은 IP가 <code>::ffff:</code> 형태로 들어옴</th><td class="no">거부</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <figcaption class="fig-foot"><p class="cap">[IP 가드 회귀 테스트 7건]</p><ul class="legend mono" aria-label="범례"><li class="lg-new">::ffff: 정규화로 더한 3건</li></ul></figcaption>
+    </figure>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n">6<i>곳</i></p><p class="rb-l">서버가 대신 지급하는 대상 지면, 친구 주사위 · 보드 무료 주사위 · 고양이 밥 · 출석 · 걸음 구간 · 레벨업</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">5<i>분</i></span><span>복구 작업 주기, 앱이 돌아오지 못한 시청을 같은 호출로 대신 지급, 24시간 안의 건을 한 번에 200건까지</span></li>
+        <li><span class="rb-sn">7<i>건</i></span><span>IP 가드 회귀 테스트, 위조 차단 4건에 ::ffff: 정규화 3건을 더함</span></li>
+      </ul>
+      <p class="rb-lim">운영 7일 데이터에서 구버전 앱이 걸음 구간을 싣지 않은 빈 의도를 찾아, 서버가 대상을 추론하고 검증 즉시 지급하도록 한 번 더 고쳤습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 05 배포 파이프라인과 관측 ═════════ -->
+<section class="case" id="deploy" aria-labelledby="c5-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>마블워크</b>2026.04 –</span><span class="ctx-w">인프라를 아는 사람이 저 한 명이던 상태에서 상용 배포 파이프라인과 관측 스택을 설계해 세웠고, 해외판에서 그대로 다시 썼습니다.</span><span class="ctx-r mono">CloudFormation, 배포 파이프라인, 관측 스택 설계와 구축 · CloudFormation 커밋 12/12 · 관측 설정 커밋 60/60</span></p>
+    <p class="case-index mono"><span class="case-no">05</span><span>배포 · 관측 · 해외판</span></p>
+    <h2 class="case-title" id="c5-title">배포 파이프라인과 관측</h2>
+    <div class="case-aside">
+      <p class="case-sum">인스턴스마다 돌던 마이그레이션을 <b>파이프라인의 한 단계</b>로 옮기고, 관측에는 값이 오지 않는 상태를 잡는 알림을 두었습니다. 해외판은 같은 인프라 코드와 파이프라인, 관측 스택으로 세웠습니다.</p>
+    </div>
+  </header>
+
+  <div class="prob grid12">
+    <p class="step-k mono"><span>1</span>문제</p>
+    <div class="prob-body">
+      <p class="prob-lead">마이그레이션 파일은 저장소에 있었는데 배포 환경에서만 실행되지 않았습니다.</p>
+      <p class="prob-sub">5월 중순부터 6월 중순 사이, 배포된 서버가 테이블이나 컬럼이 없다며 500을 내는 일이 네 번 있었습니다.</p>
+    </div>
+  </div>
+
+  <div class="pairs-h mono" aria-hidden="true"><span><i>2</i>위험</span><span><i>3</i>설계</span></div>
+  <ul class="pairs" aria-label="위험과 설계">
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">번들 런타임은 등록 배열에 적힌 마이그레이션만 실행합니다.</span><span class="pair-d">webpack 번들에서는 glob이 파일을 잡지 못해, 등록을 빠뜨린 마이그레이션 17개가 배포 환경에서만 빠졌습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">파일과 등록 배열을 1:1 대조하는 CI 가드</span><span class="pair-d">마이그레이션 파일마다 import와 배열 등록을 대조하는 테스트를 cron 커버리지 테스트와 함께 PR마다 돌립니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">인스턴스마다 배포 훅이 마이그레이션을 돌렸습니다.</span><span class="pair-d">여러 대가 동시에 실행할 수 있고, 실패해도 배포가 이어질 수 있었습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">Build → Migrate 1회 → Deploy</span><span class="pair-d">같은 커밋 이미지로 한 번만 돌리고 advisory lock으로 직렬화합니다. 실패하면 배포로 넘어가지 않습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">값이 나쁠 때만 우는 알림은 값이 안 오면 침묵합니다.</span><span class="pair-d">광고 검증이 한 달간 전량 거절됐을 때, 거절도 콜백으로 세어져 무수신 알림이 울리지 않았습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">무수신 · 실패율 분리 알림</span><span class="pair-d">텔레메트리 단절, 검증 무수신, 포스트백 무수신처럼 값이 오지 않는 상태와, 콜백은 오는데 실패가 늘어나는 비율을 따로 둡니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">CodeBuild 동시 실행 쿼터가 0이 되어 파이프라인이 멈췄습니다.</span><span class="pair-d">9월 30일 상용 배포가 막혔습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">GitHub Actions와 OIDC로 이전</span><span class="pair-d">장기 키 없이 OIDC를 쓰고, test 역할은 상용 갱신을 명시적으로 거부하며, 상용 배포자 명단 게이트를 두었습니다.</span></p>
+    </li>
+  </ul>
+
+  <div class="figs grid12">
+    <figure><div class="dg"><svg viewBox="0 0 400 246" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="상용 배포가 지나는 길"><defs><marker id="ah-s7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nn" x="6" y="6" width="116" height="26" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="64" y="22.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">PR</text><line class="ln" x1="64" y1="32" x2="64" y2="39" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="t2" x="134" y="17" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">가드: 마이그레이션 파일과 등록 배열 1:1 대조</text><text class="t2" x="134" y="28.5" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">cron 스케줄 커버리지 · PR마다 GitHub Actions</text><line class="lg" x1="126" y1="19" x2="131" y2="19" stroke="#C9CED6" stroke-width="1"/><rect class="nn" x="6" y="40" width="116" height="26" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="64" y="56.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">develop → test</text><line class="ln" x1="64" y1="66" x2="64" y2="73" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="t2" x="134" y="57" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">test 환경 자동 배포</text><line class="lg" x1="126" y1="53" x2="131" y2="53" stroke="#C9CED6" stroke-width="1"/><rect class="nd" x="6" y="74" width="116" height="26" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="64" y="90.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">main · 소스 승인</text><line class="ln" x1="64" y1="100" x2="64" y2="107" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="t2" x="134" y="91" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">main 승격 뒤 수동 승인</text><line class="lg" x1="126" y1="87" x2="131" y2="87" stroke="#C9CED6" stroke-width="1"/><rect class="nd" x="6" y="108" width="116" height="26" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="64" y="124.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">이미지 빌드</text><line class="ln" x1="64" y1="134" x2="64" y2="141" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="t2" x="134" y="125" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">이미지 3종 병렬 · 커밋 SHA 태그 · ECR</text><line class="lg" x1="126" y1="121" x2="131" y2="121" stroke="#C9CED6" stroke-width="1"/><rect class="nd" x="6" y="142" width="116" height="26" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="64" y="158.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">빌드 결과 승인</text><line class="ln" x1="64" y1="168" x2="64" y2="175" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="t2" x="134" y="159" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">이미지를 확인한 뒤 수동 승인</text><line class="lg" x1="126" y1="155" x2="131" y2="155" stroke="#C9CED6" stroke-width="1"/><rect class="nf" x="6" y="176" width="116" height="26" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="64" y="192.136" font-size="9.8" font-weight="700" fill="#fff" text-anchor="middle">Migrate 1회</text><line class="ln" x1="64" y1="202" x2="64" y2="209" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s7)"/><text class="ta" x="134" y="187" font-size="9.3" font-weight="700" fill="#E2541B" text-anchor="start">같은 이미지로 한 번만 · advisory lock 직렬화</text><text class="tw" x="134" y="198.5" font-size="9.3" font-weight="700" fill="#C2410C" text-anchor="start">실패하면 여기서 멈추고 배포로 넘어가지 않음</text><line class="lg" x1="126" y1="189" x2="131" y2="189" stroke="#C9CED6" stroke-width="1"/><rect class="nd" x="6" y="210" width="116" height="26" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="64" y="226.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">EB 배포</text><text class="t2" x="134" y="221" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">인스턴스는 마이그레이션을 돌리지 않음</text><text class="t2" x="134" y="232.5" font-size="9.3" font-weight="500" fill="#5B6170" text-anchor="start">main-api는 Immutable 배포</text><line class="lg" x1="126" y1="223" x2="131" y2="223" stroke="#C9CED6" stroke-width="1"/></svg></div><figcaption class="cap">[상용 배포 단계]</figcaption></figure>
+    <figure><div class="dg"><svg viewBox="0 0 400 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="값이 오지 않는 것도 잡는 관측"><defs><marker id="ah-s8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nd" x="4" y="8" width="110" height="40" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="59" y="25.472" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">API · CMS · 워커</text><text class="t2" x="59" y="36.672000000000004" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">OTel SDK · pino 로그</text><rect class="nd" x="134" y="8" width="74" height="40" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="171" y="25.472" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">Alloy</text><text class="t2" x="171" y="36.672000000000004" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">OTLP 수집</text><rect class="nd" x="228" y="4" width="168" height="16" rx="3" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="312" y="14.751999999999999" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">Loki · 로그 (요청 로그 1년)</text><rect class="nd" x="228" y="22" width="168" height="16" rx="3" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="312" y="32.751999999999995" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">Tempo · 트레이스</text><rect class="nd" x="228" y="40" width="168" height="16" rx="3" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="312" y="50.752" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">Mimir · 지표</text><line class="ln" x1="114" y1="28" x2="133" y2="28" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s8)"/><line class="ln" x1="208" y1="28" x2="227" y2="28" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s8)"/><line class="ln" x1="312" y1="57" x2="312" y2="71" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s8)"/><rect class="nd" x="4" y="72" width="392" height="96" rx="5" fill="#fff" stroke="#FF6A2B" stroke-width="1.3"/><text class="t1" x="14" y="88" font-size="9.8" font-weight="800" fill="#1D2330" text-anchor="start">Grafana 알림 17개</text><rect class="ns" x="8" y="94" width="122" height="68" rx="4" fill="#FFF1EA"/><text class="ta" x="14" y="108" font-size="9" font-weight="700" fill="#E2541B" text-anchor="start">값이 오지 않을 때</text><text class="t2" x="14" y="124" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 텔레메트리 수집 단절</text><text class="t2" x="14" y="137" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 광고 검증(SSV) 무수신</text><text class="t2" x="14" y="150" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 포스트백 무수신</text><text class="t1" x="142" y="108" font-size="9" font-weight="700" fill="#1D2330" text-anchor="start">비율이 나빠질 때</text><text class="t2" x="142" y="124" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 5xx · p99 지연</text><text class="t2" x="142" y="137" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· SSV 검증 실패율</text><text class="t2" x="142" y="150" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 기프티콘 교환 실패율</text><text class="t1" x="270" y="108" font-size="9" font-weight="700" fill="#1D2330" text-anchor="start">사업 지표가 꺾일 때</text><text class="t2" x="270" y="124" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· DAU 급감</text><text class="t2" x="270" y="137" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· 이상거래 · 크래시</text><text class="t2" x="270" y="150" font-size="8.6" font-weight="500" fill="#5B6170" text-anchor="start">· SQS 지연</text><rect class="nx" x="4" y="178" width="392" height="30" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="200" y="190.408" font-size="9.4" font-weight="700" fill="#4B5160" text-anchor="middle">CloudWatch 알람 15개 → SNS</text><text class="t3" x="200" y="201.608" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">관측 서버 한 대가 멈춰도 AWS 쪽 알람은 따로 울림</text></svg></div><figcaption class="cap">[관측 스택과 알림 분류]</figcaption></figure>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n">92<i>회</i></p><p class="rb-l">상용 승격 서버, 6/5~10/23, 앱 137회 · 어드민 42회</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">36<i>건</i></span><span>OTA 패치 롤백 0, Codemagic 워크플로 8개, 상용 빌드만 Shorebird 릴리스</span></li>
+        <li><span class="rb-sn">99<i>%</i></span><span>해외판 서버 · 앱 커밋, 7~8월 해외판 프로젝트, 국내판 인프라 코드와 관측 스택을 그대로 재사용</span></li>
+      </ul>
+      <p class="rb-lim">7월 8일 서버 46커밋과 마이그레이션 9개의 상용 승격을 이 절차대로 사고 없이 마쳤습니다. 해외판은 8월부터 일시 중단 상태입니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 06 미네르바 ═════════ -->
+<section class="case case--light" id="minerva" data-surface="inverse" aria-labelledby="c6-title">
+  <header class="case-head">
+    <p class="ctx"><span class="ctx-p mono"><b>미네르바</b>2026.06 – · PM</span><span class="ctx-w">웹게임과 혜택 콘텐츠를 다른 회사 앱에 넣는 B2B 플랫폼입니다. 제가 맡은 것은 SDK, 웹 플랫폼, 매체사 레퍼런스 앱과 서버, 마블워크 연동입니다.</span><span class="ctx-r mono">SDK 커밋 91% · 매체사 레퍼런스 서버 35/37커밋 · 미네르바 서버에는 9/13 장애 대응만</span></p>
+    <p class="case-index mono"><span class="case-no">06</span><span>매체사 수신부 · 장애 대응</span></p>
+    <h2 class="case-title" id="c6-title">미네르바 매체사 수신부와 장애 대응</h2>
+    <div class="case-aside">
+      <p class="case-sum">적립은 미네르바 서버가 매체사 서버로 보내는 <b>포스트백 한 경로</b>로만 일어납니다. 매체사가 따라 만들 수 있는 수신부를 만들고, 미네르바 서버의 rate limit 장애를 원인부터 고쳤습니다.</p>
+    </div>
+  </header>
+
+  <div class="prob grid12">
+    <p class="step-k mono"><span>1</span>문제</p>
+    <div class="prob-body">
+      <p class="prob-lead">매체사 입장에서 미네르바 서버는 고칠 수 없는 외부 시스템이라, 중복 라운드와 서명 오류는 받는 쪽에서 막아야 했습니다.</p>
+      <p class="prob-sub">SDK나 앱이 포인트를 직접 더하면 서버 포스트백과 겹쳐 이중 적립이 됩니다(6/25 연동 감사 CRITICAL).</p>
+    </div>
+  </div>
+
+  <div class="pairs-h mono" aria-hidden="true"><span><i>2</i>위험</span><span><i>3</i>설계</span></div>
+  <ul class="pairs" aria-label="위험과 설계">
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">다시 직렬화한 본문으로 서명을 재면 필드 순서에 따라 어긋납니다.</span><span class="pair-d">받은 JSON을 객체로 바꿨다가 다시 문자열로 만들면 보낸 쪽 바이트와 달라질 수 있습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">원문 바이트 HMAC과 timing-safe 비교</span><span class="pair-d"><code>rawBody</code>로 받은 원문에 HMAC-SHA256을 계산하고 <code>timingSafeEqual</code>로 길이부터 비교합니다. dev · prod 다중 키는 조기 반환 없이 모두 돌아 어느 키가 맞았는지 시간으로 새지 않게 했습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">실패 응답은 재전송을 부릅니다.</span><span class="pair-d">포스트백은 at-least-once라 2xx가 아니면 같은 건이 다시 옵니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">서명 실패만 401, 나머지는 200으로 닫고 같은 txId는 한 번만</span><span class="pair-d">같은 txId는 기록을 바꾸지 않고 중복으로 응답하고, 해당 환경 키가 없으면 500으로 닫습니다. 마블워크 수신부는 <code>tx_id UNIQUE</code>와 행 잠금에 사용자 × 일 전역 상한을 더했습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">매체사가 SSV 배선을 빠뜨리면 광고는 봤는데 적립이 안 됩니다.</span><span class="pair-d">이 사고는 증상 없이 납니다. 광고 SDK를 코어에 넣으면 미디에이션을 쓰는 매체사는 버전 충돌로 빌드부터 실패합니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">광고 의존은 별도 패키지로, 빈 customData는 광고 전에 실패</span><span class="pair-d">코어는 광고 어댑터 인터페이스만 갖고, <code>customData</code>가 비면 광고를 띄우기 전에 실패시켜 조용한 미지급을 막습니다.</span></p>
+    </li>
+    <li class="pair">
+      <p class="pair-a" data-k="위험"><span class="sr-only">위험. </span><span class="pair-t">모든 사용자가 분당 120회 버킷 하나를 나눠 썼습니다.</span><span class="pair-d">프록시 뒤에서 실제 IP를 복원하지 않아 모든 요청이 같은 내부 주소로 세어졌습니다. 새 윈도우 11초 만에 남은 한도 50이 온 응답 헤더가 증거였습니다.</span></p>
+      <span class="pair-ar" aria-hidden="true"><svg viewBox="0 0 64 12"><path d="M0 6H61M55 1l6 5-6 5"/></svg></span>
+      <p class="pair-b" data-k="설계"><span class="sr-only">설계. </span><span class="pair-t">신뢰 대역으로 IP 복원, 버킷은 채널 × 사용자</span><span class="pair-d">홉 수 대신 사설망 · 루프백 대역을 신뢰하고, 토큰 서명을 직접 검증해 식별 세션은 채널 × 사용자로 버킷을 나눕니다. 헬스체크는 한도에서 뺐습니다.</span></p>
+    </li>
+  </ul>
+
+  <div class="figs grid12">
+    <figure>
+      <div class="dg"><svg viewBox="0 0 410 234" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="적립이 지나는 길"><defs><marker id="ah-s9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><line class="lg" x1="44.2" y1="28" x2="44.2" y2="230" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="124.60000000000001" y1="28" x2="124.60000000000001" y2="230" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="205" y1="28" x2="205" y2="230" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="285.40000000000003" y1="28" x2="285.40000000000003" y2="230" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><line class="lg" x1="365.8" y1="28" x2="365.8" y2="230" stroke="#D3D7DE" stroke-width="1" stroke-dasharray="3 3"/><rect class="nd" x="175" y="160" width="231" height="21" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.2"/><text class="ta" x="290.5" y="174.1" font-size="9.4" font-weight="700" fill="#E2541B" text-anchor="middle">원문 HMAC · timing-safe → txId 멱등 → 기록</text><rect class="nd" x="8.200000000000003" y="206" width="152.40000000000003" height="21" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.2"/><text class="ta" x="84.4" y="220.1" font-size="9.4" font-weight="700" fill="#E2541B" text-anchor="middle">앱은 잔액을 재조회만</text><line class="ln" x1="44.2" y1="48" x2="202" y2="48" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="49.2" y="43.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">결과 제출</text><line class="ln" x1="205" y1="68" x2="47.2" y2="68" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="200" y="63.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">txId · 서명된 customData</text><line class="ln" x1="44.2" y1="90" x2="121.60000000000001" y2="90" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="49.2" y="85.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">보상형 광고 요청</text><line class="ln" x1="124.60000000000001" y1="110" x2="282.40000000000003" y2="110" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="129.60000000000002" y="105.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">광고 재생 · customData</text><line class="ln" x1="285.40000000000003" y1="130" x2="208" y2="130" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="280.40000000000003" y="125.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">시청 검증(SSV)</text><line class="ln" x1="205" y1="152" x2="362.8" y2="152" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s9)"/><text class="t2 halo" x="210" y="147.5" font-size="9.6" font-weight="500" fill="#5B6170" text-anchor="start" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">포스트백 · HMAC 서명 · txId</text><line class="la" x1="365.8" y1="200" x2="208" y2="200" stroke="#FF6A2B" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#aa-s9)"/><text class="ta halo" x="360.8" y="195.5" font-size="9.6" font-weight="700" fill="#E2541B" text-anchor="end" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">항상 200 · 서명 실패만 401</text><rect class="nd" x="7.200000000000003" y="4" width="74" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="44.2" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">게임 웹 셸</text><rect class="nd" x="87.60000000000001" y="4" width="74" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="124.60000000000001" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">매체사 앱 SDK</text><rect class="nx" x="168" y="4" width="74" height="24" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="205" y="19.136" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">미네르바 서버</text><rect class="nx" x="248.40000000000003" y="4" width="74" height="24" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="285.40000000000003" y="19.136" font-size="9.8" font-weight="700" fill="#4B5160" text-anchor="middle">광고 서버</text><rect class="nd" x="328.8" y="4" width="74" height="24" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="365.8" y="19.136" font-size="9.8" font-weight="700" fill="#1D2330" text-anchor="middle">매체사 서버</text></svg></div>
+      <figcaption class="fig-foot"><p class="cap">[미네르바 적립 경로]</p><ul class="legend mono" aria-label="범례"><li class="lg-own">제가 맡은 것</li><li class="lg-ext">연동 대상</li></ul></figcaption>
+    </figure>
+    <figure><div class="dg"><svg viewBox="0 0 400 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="rate limit 버킷 수정 전과 후"><defs><marker id="ah-s10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><text class="t1" x="6" y="12" font-size="10" font-weight="800" fill="#1D2330" text-anchor="start">수정 전</text><rect class="nn" x="6" y="18" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="29.752" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 A</text><line class="ln" x1="64" y1="27" x2="81" y2="48" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nn" x="6" y="40" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="51.752" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 B</text><line class="ln" x1="64" y1="49" x2="81" y2="48" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nn" x="6" y="62" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="73.75200000000001" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 C</text><line class="ln" x1="64" y1="71" x2="81" y2="48" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nx" x="82" y="30" width="82" height="36" rx="4" fill="#F2F3F5" stroke="#B5BAC4" stroke-width="1.1"/><text class="t2" x="123" y="45.343999999999994" font-size="9.2" font-weight="700" fill="#4B5160" text-anchor="middle">프록시 여러 단</text><text class="t3" x="123" y="56.544" font-size="8" font-weight="500" fill="#8A909C" text-anchor="middle">실제 IP 복원 안 함</text><line class="ln" x1="164" y1="48" x2="177" y2="48" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nw" x="178" y="30" width="98" height="36" rx="4" fill="#FDEDE6" stroke="#C2410C" stroke-width="1.2"/><text class="tw" x="227" y="45.536" font-size="9.8" font-weight="700" fill="#C2410C" text-anchor="middle">버킷 1개</text><text class="t2" x="227" y="56.736" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">전원이 분당 120 공용</text><line class="lw" x1="276" y1="48" x2="289" y2="48" stroke="#C2410C" stroke-width="1.3" marker-end="url(#aw-s10)"/><rect class="nw" x="290" y="30" width="106" height="36" rx="4" fill="#FDEDE6" stroke="#C2410C" stroke-width="1.2"/><text class="tw" x="343" y="45.343999999999994" font-size="9.2" font-weight="700" fill="#C2410C" text-anchor="middle">429 RATE_LIMITED</text><text class="t2" x="343" y="56.544" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">혜택 탭이 열리지 않음</text><text class="tw" x="227" y="79" font-size="8.4" font-weight="700" fill="#C2410C" text-anchor="middle">헬스체크도 분당 8회 차감</text><line class="lg" x1="4" y1="88" x2="396" y2="88" stroke="#E3E6EB"/><text class="t1" x="6" y="103" font-size="10" font-weight="800" fill="#1D2330" text-anchor="start">수정 후</text><rect class="nn" x="6" y="110" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="121.75200000000001" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 A</text><line class="ln" x1="64" y1="119" x2="81" y2="141" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nn" x="6" y="132" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="143.75199999999998" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 B</text><line class="ln" x1="64" y1="141" x2="81" y2="141" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nn" x="6" y="154" width="58" height="18" rx="3" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="35" y="165.75199999999998" font-size="8.6" font-weight="700" fill="#1D2330" text-anchor="middle">사용자 C</text><line class="ln" x1="64" y1="163" x2="81" y2="141" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nd" x="82" y="116" width="96" height="50" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="130" y="134.272" font-size="9.6" font-weight="700" fill="#1D2330" text-anchor="middle">IP 복원</text><text class="t2" x="130" y="144.07199999999997" font-size="7.8" font-weight="500" fill="#5B6170" text-anchor="middle">사설 · 루프백 대역 신뢰</text><text class="t2" x="130" y="153.87199999999999" font-size="7.8" font-weight="500" fill="#5B6170" text-anchor="middle">위조 XFF는 읽히지 않음</text><line class="ln" x1="178" y1="141" x2="189" y2="141" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s10)"/><rect class="nd" x="190" y="122" width="84" height="38" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="232" y="138.34400000000002" font-size="9.2" font-weight="700" fill="#1D2330" text-anchor="middle">토큰 서명 검증</text><text class="t2" x="232" y="149.544" font-size="8" font-weight="500" fill="#5B6170" text-anchor="middle">버킷 키 결정</text><rect class="ns" x="292" y="110" width="104" height="18" rx="3" fill="#FFF1EA" stroke="#FF6A2B" stroke-width="1.3"/><text class="ta" x="344" y="121.75200000000001" font-size="8.6" font-weight="700" fill="#E2541B" text-anchor="middle">채널 × 사용자 A</text><line class="la" x1="274" y1="141" x2="291" y2="119" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s10)"/><rect class="ns" x="292" y="132" width="104" height="18" rx="3" fill="#FFF1EA" stroke="#FF6A2B" stroke-width="1.3"/><text class="ta" x="344" y="143.75199999999998" font-size="8.6" font-weight="700" fill="#E2541B" text-anchor="middle">채널 × 사용자 B</text><line class="la" x1="274" y1="141" x2="291" y2="141" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s10)"/><rect class="ns" x="292" y="154" width="104" height="18" rx="3" fill="#FFF1EA" stroke="#FF6A2B" stroke-width="1.3"/><text class="ta" x="344" y="165.75199999999998" font-size="8.6" font-weight="700" fill="#E2541B" text-anchor="middle">채널 × 사용자 C</text><line class="la" x1="274" y1="141" x2="291" y2="163" stroke="#FF6A2B" stroke-width="1.3" marker-end="url(#aa-s10)"/><text class="t2" x="200" y="190" font-size="8.6" font-weight="600" fill="#5B6170" text-anchor="middle">익명 세션은 채널 × IP · 헬스체크는 한도에서 제외</text></svg></div><figcaption class="cap">[rate limit 버킷, 수정 전과 후]</figcaption></figure>
+  </div>
+
+  <div class="rbox">
+    <p class="step-k mono"><span>4</span>결과</p>
+    <div class="rbox-in">
+      <div class="rb-main"><p class="rb-n">1<i>경로</i></p><p class="rb-l">포스트백 한 경로로 적립, SDK와 앱은 포인트를 들지 않고 잔액을 재조회만, 감사에서 찾은 이중 적립 제거</p></div>
+      <ul class="rb-sub">
+        <li><span class="rb-sn">4.5<i>배</i></span><span>공용 버킷을 헤더로 증명, 2주 새 하루 요청 4.5배, 한도 초과 시간 하루 5분 → 73분</span></li>
+        <li><span class="rb-sn">36<i>건</i></span><span>신규 테스트, 전체 440건 통과, 같은 IP의 다른 사용자 · IP를 바꾼 같은 사용자 · 위조 헤더를 고정</span></li>
+      </ul>
+      <p class="rb-lim">배포 뒤 상용 효과를 잰 기록은 없고, 429의 엔드포인트별 분포는 액세스 로그가 꺼져 있어 조회 SQL과 함께 장애 보고서에 남겼습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 07 사내 AI 도입과 일하는 방식 ═════════ -->
+<section class="case" id="ai" aria-labelledby="c7-title">
+  <header class="case-head">
+    <p class="case-index mono"><span class="case-no">07</span><span>일하는 방식</span></p>
+    <h2 class="case-title" id="c7-title">사내 AI 도입과 일하는 방식</h2>
+    <div class="case-aside">
+      <p class="case-sum">코딩 에이전트 운용 환경을 만들어 회사 저장소에 들였고, 마블워크도 이 환경에서 개발했습니다. 지금은 <b>사내 지식 저장소</b>와 그 위에서 일하는 에이전트 · 하네스를 설계하고 있습니다.</p>
+    </div>
+    <p class="case-meta mono"><span><b>더줌코리아</b> 2026.03 –</span><span class="case-role">AI 부팀장 · 하네스와 사내 AX 설계 · 개발 파트장으로 프로젝트 리딩</span></p>
+  </header>
+
+  <figure class="arch">
+    <div class="dg dg--wide"><svg viewBox="0 0 716 118" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="요청에서 배포까지 사람이 서는 자리"><defs><marker id="ah-s11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mk" d="M0 0L10 5L0 10z" fill="#5B6170"/></marker><marker id="aa-s11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mka" d="M0 0L10 5L0 10z" fill="#FF6A2B"/></marker><marker id="aw-s11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path class="mkw" d="M0 0L10 5L0 10z" fill="#C2410C"/></marker></defs><rect class="nn" x="6" y="30" width="104" height="56" rx="4" fill="#fff" stroke="#9AA0AB" stroke-width="1.1"/><text class="t1" x="58" y="56.040000000000006" font-size="12" font-weight="700" fill="#1D2330" text-anchor="middle">요청</text><text class="t2" x="58" y="67.64" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">사람이 맡김</text><line class="ln" x1="110" y1="58" x2="125" y2="58" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s11)"/><rect class="nd" x="126" y="30" width="104" height="56" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="178" y="56.040000000000006" font-size="12" font-weight="700" fill="#1D2330" text-anchor="middle">계약 문서</text><text class="t2" x="178" y="67.64" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">사람 · 에이전트 공통</text><line class="ln" x1="230" y1="58" x2="245" y2="58" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s11)"/><rect class="nd" x="246" y="30" width="104" height="56" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="298" y="56.040000000000006" font-size="12" font-weight="700" fill="#1D2330" text-anchor="middle">에이전트</text><text class="t2" x="298" y="67.64" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">구현 · 테스트</text><line class="ln" x1="350" y1="58" x2="365" y2="58" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s11)"/><rect class="nd" x="366" y="30" width="104" height="56" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="418" y="50.239999999999995" font-size="12" font-weight="700" fill="#1D2330" text-anchor="middle">교차 리뷰</text><text class="t2" x="418" y="61.839999999999996" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">Claude · Codex</text><text class="t2" x="418" y="73.44" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">둘 다 지적한 것만</text><line class="ln" x1="470" y1="58" x2="485" y2="58" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s11)"/><rect class="nf" x="486" y="30" width="104" height="56" rx="4" fill="#FF6A2B" stroke="#FF6A2B" stroke-width="1.4"/><text class="to" x="538" y="56.040000000000006" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">사람 결정</text><text class="to2" x="538" y="67.64" font-size="9.4" font-weight="500" fill="#FFE6DA" text-anchor="middle">정한 6지점에서만</text><line class="ln" x1="590" y1="58" x2="605" y2="58" stroke="#5B6170" stroke-width="1.3" marker-end="url(#ah-s11)"/><rect class="nd" x="606" y="30" width="104" height="56" rx="4" fill="#fff" stroke="#FF6A2B" stroke-width="1.4"/><text class="t1" x="658" y="56.040000000000006" font-size="12" font-weight="700" fill="#1D2330" text-anchor="middle">배포 · 기록</text><text class="t2" x="658" y="67.64" font-size="9.4" font-weight="500" fill="#5B6170" text-anchor="middle">비용 · 교훈 · 패턴</text><path class="la" d="M658 30 L658 15 L178 15 L178 29" fill="none" stroke="#FF6A2B" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#aa-s11)"/><text class="ta halo" x="418" y="11" font-size="10" font-weight="700" fill="#E2541B" text-anchor="middle" stroke="#fff" stroke-width="3" stroke-linejoin="round" paint-order="stroke">반복된 교훈은 규칙으로 올려 다음 계약에 반영</text><line class="ln" x1="298" y1="86" x2="298" y2="98" stroke="#5B6170" stroke-width="1.3" stroke-dasharray="3.5 3" marker-end="url(#ah-s11)"/><text class="t2" x="244" y="111" font-size="9.6" font-weight="600" fill="#5B6170" text-anchor="start">위험한 명령과 시크릿 노출은 훅이 실행 전에 차단</text></svg></div>
+    <figcaption class="cap">[요청에서 배포까지 사람 결정 지점]</figcaption>
+  </figure>
+
+  <div class="blocks">
+    <div class="blk"><h3>공통 계약 문서</h3><p>크로스스택 작업은 데이터 형식 계약을 먼저 쓰고 사람과 에이전트가 함께 따릅니다. 설계 게이트, 머지 충돌, 모호한 요청, 5회 실패, 위험 작업, 커밋과 배포 여섯 지점에서만 사람에게 묻습니다.</p></div>
+    <div class="blk"><h3>교차 지적 기준 <em>출시 차단</em></h3><p>출시 전 Claude Code와 Codex가 서로의 결과를 모른 채 같은 코드를 검수했고, 같은 줄을 짚은 4건을 출시 차단으로 정해 고쳤습니다. 쿠폰 교환의 UNKNOWN 보류도 이 검수에서 P0로 확정된 항목입니다.</p></div>
+    <div class="blk"><h3>출시 전 감사 결함 <em>85건</em></h3><p>여러 에이전트로 감사하고 교차 검증을 통과한 결함만 확정했습니다.</p>
+      <div class="sev" role="img" aria-label="결함 85건의 심각도. BLOCKER 5, HIGH 21, MEDIUM 31, LOW 28"><i class="s1" style="--w:5">5</i><i class="s2" style="--w:21">21</i><i class="s3" style="--w:31">31</i><i class="s4" style="--w:28">28</i></div>
+      <div class="sevl mono" aria-hidden="true"><span>BLOCKER</span><span>HIGH</span><span>MEDIUM</span><span>LOW</span></div>
+    </div>
+    <div class="blk"><h3>교훈의 규칙화</h3><p>세션마다 비용 · 교훈 · 패턴을 로그로 남기고, 반복된 교훈은 규칙으로 올려 다음 계약에 반영합니다. 위험한 명령과 시크릿 노출은 훅이 실행 전에 막습니다.</p></div>
+    <div class="blk"><h3>파트 운영</h3><p>사내 Jira 운영 체계와 그라운드 룰, 업무 흐름, 릴리스 절차를 정했습니다. 10/1 통합 때 가짜 충돌 수십 건과 브랜치 142개를 정리한 뒤, feature는 squash로 합치고 승격은 머지 커밋으로 하는 규칙을 세웠습니다.</p></div>
+    <div class="blk"><h3>사내 맥락 <em>MCP</em> 전달</h3><p>레거시 커머스 코드를 정적 분석해 지식 그래프로 만들고, MCP 서버로 에이전트에게 제공합니다. Figma 문서에서 디자인 값을 읽어 화면 코드를 만드는 추출기도 두었습니다. 다음 단계로 당근의 카비(Karby)를 참고한 사내 지식 저장소를 짓고 있습니다.</p></div>
+  </div>
+
+  <p class="fe"><b>화면 작업</b> · 알림함 UI를 만들고, 웹 셸의 게임 한 판 요청을 38건에서 17건으로 줄였으며, 광고가 화면을 덮는 동안 TickerMode로 앱 그리기를 멈췄습니다.</p>
+
+  <div class="edu-wrap grid12">
+    <div class="edu-main">
+      <h3>학부 프로젝트 · 2023.08 ~ 2025</h3>
+      <table class="edu">
+        <thead><tr><th scope="col">프로젝트</th><th scope="col">한 일</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><b>DOSS<i>2025.03 · 9일</i></b><small>주식 조회</small></th><td>Spring Boot로 로그인 5회 실패 잠금과 찜하기 API 구현</td></tr>
+          <tr><th scope="row"><b>Teamo<i>2024.06 – 12</i></b><small>팀원 모집</small></th><td>Socket.IO 채팅과 WebSocket 프록시, Buildx 멀티 아키텍처 이미지로 라즈베리파이 배포 자동화</td></tr>
+          <tr><th scope="row"><b>PHC<i>2024.01 – 06</i></b><small>보건소 통합 관리 · 팀 리더</small></th><td>React는 레이아웃 · 라우팅, Flutter Web은 기능 모듈을 맡는 구조 설계</td></tr>
+          <tr><th scope="row"><b>Moyang<i>2024.12 –</i></b><small>자취방 양도 · 앱 프론트엔드</small></th><td>STOMP 채팅 재연결과 끊긴 동안의 메시지 재전송</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <aside class="edu-side" aria-label="학력과 기술">
+      <div><h3>학력 · 활동</h3><p class="edu-l"><b>상명대학교</b> 스마트정보통신공학과 · 웹&amp;앱 연계전공(복수학위) 졸업, 2021.03 – 2025.08<br>멋쟁이사자처럼 대학 11 · 12기 운영진 · ADsP</p></div>
+      <div><h3>Skills</h3>
+        <dl class="chips">
+          <dt>Backend · Infra</dt><dd class="be"><span>NestJS</span><span>TypeORM</span><span>PostgreSQL</span><span>Redis(Valkey)</span><span>SQS</span><span>AWS</span><span>CloudFormation</span><span>CodePipeline</span><span>GitHub Actions</span><span>Grafana</span><span>Loki</span><span>OpenTelemetry</span></dd>
+          <dt>Frontend</dt><dd><span>React 19</span><span>Next.js 16</span><span>TypeScript</span><span>Flutter</span></dd>
+          <dt>Data · AI</dt><dd><span>GA4</span><span>SQL</span><span>Claude Code</span><span>Codex</span><span>Claude Agent SDK</span><span>MCP</span></dd>
+        </dl>
+      </div>
+    </aside>
+  </div>
+
+  <div class="contact" id="contact">
+    <p class="contact-k mono">연락</p>
+    <a class="contact-mail" href="mailto:devcms21@gmail.com">devcms21@gmail.com</a>
+    <ul class="contact-links mono">
+      <li><a href="https://github.com/mstagon" target="_blank" rel="noopener">GitHub ↗</a></li>
+      <li><a href="https://velog.io/@devcms21" target="_blank" rel="noopener">Velog ↗</a></li>
+      <li><a href="../">전체 포트폴리오 ↗</a></li>
+    </ul>
+  </div>
+  <footer class="foot mono"><span>© 2026 최민석</span><a href="#top">맨 위로 ↑</a></footer>
+</section>
+</main>
+
+<script>
+/* 내비: 스크롤 진행 막대, 바탕 전환(어두운 바탕 ↔ 본 크림 띠), 현재 섹션 표시. 외부 라이브러리 없이 동작합니다 */
+(function () {
+  var nav = document.getElementById('nav');
+  var bar = nav.querySelector('.nav-progress span');
+  var links = Array.prototype.slice.call(nav.querySelectorAll('.nav-links a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  var lights = Array.prototype.slice.call(document.querySelectorAll('[data-surface="inverse"]'));
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var y = window.scrollY || 0;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    nav.classList.toggle('is-solid', y > 8);
+    bar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, y / h) : 0) + ')';
+    var navH = nav.offsetHeight, probe = navH / 2;
+    var onLight = lights.some(function (s) { var r = s.getBoundingClientRect(); return r.top <= probe && r.bottom > probe; });
+    nav.classList.toggle('on-light', onLight);
+    var cur = null;
+    secs.forEach(function (s) { if (s.getBoundingClientRect().top <= navH + 40) cur = s; });
+    links.forEach(function (a) { a.classList.toggle('is-current', !!cur && a.getAttribute('href') === '#' + cur.id); });
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+</body>
+</html>
