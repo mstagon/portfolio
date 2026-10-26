@@ -1,0 +1,293 @@
+/* 당근 포트폴리오 v6 디자인 토큰. 규칙과 근거는 DESIGN.md 에 있습니다.
+   여기에는 커스텀 프로퍼티와 글꼴 선언만 둡니다. 컴포넌트 규칙은 karrot.css 가 맡습니다.
+   Pretendard 는 HTML 에서 ../fonts/pretendard/pretendardvariable-dynamic-subset.css 를 이 파일보다 먼저 link 합니다.
+   미디어 쿼리 기준 폭(변수로 쓸 수 없음): 1180px, 899px, 560px. */
+
+@font-face{
+  font-family:"JetBrains Mono";
+  src:url(../fonts/jetbrains-mono-latin-wght-normal.woff2) format("woff2");
+  font-weight:100 800;font-style:normal;font-display:swap;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+:root{
+  color-scheme:dark;
+
+  /* ── 1. 원색: 시안 A 그대로 ───────────────────────────── */
+  --ink:#100F0D;          /* 웜 블랙 */
+  --bone:#EFE8DC;         /* 본 크림 */
+  --orange:#FF6A2B;       /* 마블워크 오렌지, 액센트는 이것 하나 */
+  --orange-deep:#A93C0B;  /* 같은 색상(18°)을 밝은 바탕 글자 · 선 · 인쇄용으로 낮춘 값 */
+  --screen:#17150F;       /* 폰 목업 화면 · 올린 면 */
+
+  /* ── 2. 의미 토큰: 어두운 바탕(기본) ──────────────────── */
+  --c-bg:var(--ink);
+  --c-surface:var(--screen);
+  --c-surface-hover:rgba(239,232,220,.06);
+  --c-surface-press:rgba(239,232,220,.12);
+  --c-fg:var(--bone);            /* 15.73:1 */
+  --c-fg-2:#C7C1B7;              /* bone 82%, 10.71:1 */
+  --c-fg-3:#969189;              /* bone 60%, 6.12:1, 작은 글자의 하한 */
+  --c-fg-4:#696660;              /* bone 40%, 3.35:1, 24px 이상 글자와 비텍스트만 */
+  --c-line:rgba(239,232,220,.14);         /* 장식 구분선 1.40:1 */
+  --c-line-strong:rgba(239,232,220,.40);  /* 조작 요소 경계 3.35:1 */
+  --c-accent:var(--orange);      /* 글자 · 선, 6.70:1 */
+  --c-accent-fill:var(--orange); /* 면. 위 글자는 --c-on-accent */
+  --c-on-accent:var(--ink);      /* 6.70:1 */
+  --c-accent-soft:rgba(255,106,43,.20);
+  --c-accent-line:rgba(255,106,43,.45);
+  --c-focus:var(--orange);
+  --c-selection-bg:var(--orange);
+  --c-selection-fg:var(--ink);
+  --c-scrim-nav:rgba(16,15,13,.84);
+
+  /* 상태 배지(02 운영 도구): 색 하나에 모양과 글자를 더합니다 */
+  --st-ok-fg:var(--c-fg-2);   --st-ok-bg:transparent;          --st-ok-bd:var(--c-line-strong); --st-ok-bs:solid;
+  --st-warn-fg:var(--c-accent);--st-warn-bg:transparent;       --st-warn-bd:var(--c-accent);    --st-warn-bs:solid;
+  --st-risk-fg:var(--c-on-accent);--st-risk-bg:var(--c-accent-fill);--st-risk-bd:var(--c-accent-fill);--st-risk-bs:solid;
+  --st-low-fg:var(--c-fg-3);  --st-low-bg:transparent;         --st-low-bd:var(--c-line-strong); --st-low-bs:dashed;
+
+  /* 차트: 주인공 계열 하나 + 비교 계열 하나 */
+  --chart-focus:var(--orange);        /* 6.70:1 */
+  --chart-base:#696660;               /* 3.35:1, 비교 계열 면 */
+  --chart-base-line:#969189;          /* 비교 계열 선(점선) */
+  --chart-grid:rgba(239,232,220,.12);
+  --chart-axis:rgba(239,232,220,.40);
+  --chart-label:var(--c-fg-3);
+  --chart-value:var(--c-fg);
+  --chart-gap:2px;                    /* 주인공과 비교 막대는 맞닿지 않습니다(둘 사이 2.0:1) */
+  --chart-stroke-focus:2px;
+  --chart-stroke-base:1.5px;
+  --chart-dash-base:4 4;
+  --chart-hatch:repeating-linear-gradient(135deg,rgba(239,232,220,.40) 0 1px,transparent 1px 6px);
+
+  /* 캔버스 · 영상 공용 값. hero-art.js, HyperFrames, Manim 은 같은 hex 를 씁니다 */
+  --art-bg:#100F0D;
+  --art-dot:#FF6A2B;
+  --art-dot-dim:rgba(255,106,43,.35);
+  --art-field:rgba(239,232,220,.07);
+  --art-center-dim:.35;   /* 히어로 중앙 밝기 배율. 글자 뒤는 어둡게 */
+
+  /* ── 3. 글꼴 ─────────────────────────────────────────── */
+  --font-sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  --font-mono:"JetBrains Mono","Pretendard Variable",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --num-variant:tabular-nums lining-nums;
+
+  /* 타입 스케일 */
+  --fs-display:clamp(84px,19vw,300px);   /* 히어로 이름 */
+  --fs-h1:clamp(36px,5.8vw,92px);        /* 사례 원칙 문장 제목 */
+  --fs-h2:clamp(28px,3.3vw,48px);        /* 블록 리드 문장 */
+  --fs-h3:clamp(21px,2.2vw,32px);
+  --fs-lead:clamp(19px,1.9vw,28px);      /* 히어로 한 줄 소개 */
+  --fs-body:clamp(16px,1.1vw,17px);
+  --fs-small:14px;
+  --fs-label:13px;                       /* mono 메타 · 캡션 */
+  --fs-micro:12px;                       /* 글자 하한 */
+  /* 숫자(mono) */
+  --fs-num-hero:clamp(60px,11.2vw,184px);/* 결과 칸 큰 숫자 */
+  --fs-num-l:clamp(40px,5.2vw,80px);
+  --fs-num-m:clamp(22px,2.2vw,33px);     /* 히어로 수치 타일 */
+  --fs-num-s:15px;                       /* 차트 값 */
+
+  --fw-regular:400;
+  --fw-medium:500;
+  --fw-semibold:600;
+  --fw-bold:700;
+  --fw-heavy:800;
+  --fw-hero-min:300;   /* 커서가 멀 때. Pretendard Variable 범위 45~920 */
+  --fw-hero-max:900;   /* 커서가 가까울 때 */
+  --fw-num-light:300;
+  --fw-num:500;
+
+  --lh-display:.86;
+  --lh-num:.9;
+  --lh-head:1.12;
+  --lh-snug:1.35;
+  --lh-label:1.45;
+  --lh-body:1.65;
+
+  --ls-display:-.06em;
+  --ls-head:-.045em;
+  --ls-sub:-.03em;
+  --ls-body:0;
+  --ls-num:-.045em;
+  --ls-label:.02em;
+
+  --measure:36em;         /* 본문 한 줄 최대 길이(한글 약 36자) */
+  --measure-narrow:24em;
+
+  /* ── 4. 간격: 4px 단위 ──────────────────────────────── */
+  --sp-1:4px;
+  --sp-2:8px;
+  --sp-3:12px;
+  --sp-4:16px;
+  --sp-5:24px;
+  --sp-6:32px;
+  --sp-7:48px;
+  --sp-8:64px;
+  --sp-9:96px;
+  --sp-10:128px;
+  --gutter:clamp(16px,4.4vw,64px);
+  --gap-col:24px;                         /* 12열 격자 열 간격 */
+  --space-block:clamp(72px,9vw,140px);    /* 사례 안 블록 사이 */
+  --space-section:clamp(112px,13vw,210px);/* 섹션 사이 */
+  --page-max:1680px;
+  --nav-h:64px;
+
+  /* ── 5. 모서리 · 선 · 그림자 ─────────────────────────── */
+  --r-0:0;
+  --r-1:2px;          /* 패널 · 노드 · 막대 머리 · 영상 타일 */
+  --r-2:6px;          /* 목업 안 앱 아이콘 */
+  --r-pill:999px;     /* 배지 · 토글 · 커서처럼 원래 둥근 것만 */
+  --r-device:11% / 6.4%;
+  --bw:1px;
+  --bw-strong:1.5px;
+  --sh-none:none;
+  --sh-device:0 40px 80px -48px rgba(0,0,0,.75);  /* 폰 목업 하나에만 */
+  --grain-opacity:.05;
+
+  /* ── 6. 포커스 · 대상 크기 ───────────────────────────── */
+  --focus-w:2px;
+  --focus-offset:3px;
+  --target-min:24px;   /* WCAG 2.2 AA 웹 하한 */
+  --target-touch:44px; /* 터치 화면의 주 조작 */
+
+  /* ── 7. 모션 ─────────────────────────────────────────── */
+  --dur-press:100ms;
+  --dur-hover:200ms;
+  --dur-state:350ms;
+  --dur-enter:500ms;
+  --dur-exit:325ms;          /* 등장의 0.65배 */
+  --dur-wipe:600ms;
+  --dur-flip:700ms;
+  --dur-reveal:900ms;
+  --dur-count:1100ms;
+  --dur-intro-max:2400ms;
+  --dur-carousel:5000ms;
+  --dur-shimmer:1400ms;
+  --stagger-row:30ms;
+  --stagger:80ms;
+
+  --ease-out:cubic-bezier(.2,.7,.1,1);          /* GSAP power3.out, 시안 A --ease */
+  --ease-out-soft:cubic-bezier(.25,.46,.45,.94);/* GSAP power1.out */
+  --ease-in:cubic-bezier(.55,.055,.675,.19);    /* GSAP power2.in, 퇴장 */
+  --ease-in-out:cubic-bezier(.645,.045,.355,1); /* GSAP power2.inOut, 전환 · 뒤집기 */
+  --ease-spring:cubic-bezier(.3,1.5,.5,1);      /* GSAP back.out(2.2), 시안 A --spring */
+  --ease-linear:linear;                         /* scrub · 진행 */
+
+  --rise-sm:8px;
+  --rise:24px;
+  --rise-lg:40px;
+  --magnet:.3;          /* 자석 커서 당김 상한 */
+  --scrub:.4;
+
+  /* ── 8. 겹침 순서 ────────────────────────────────────── */
+  --z-base:0;
+  --z-raised:1;
+  --z-nav:60;
+  --z-grain:90;
+  --z-cursor:100;
+  --z-intro:110;
+
+  /* 커서 · 미디어 */
+  --cursor-dot:12px;
+  --cursor-link:46px;
+  --cursor-label:74px;
+  --media-ratio:16 / 9;
+
+  /* ── 시안 A 호환 별칭: index.html 을 옮겨 오는 동안만 씁니다 ── */
+  --b80:rgba(239,232,220,.82);
+  --b60:rgba(239,232,220,.6);
+  --b40:rgba(239,232,220,.4);   /* 작은 글자에 쓰면 4.5:1 미달. DESIGN.md §6 참고 */
+  --b12:rgba(239,232,220,.12);
+  --b06:rgba(239,232,220,.06);
+  --line:var(--c-line);
+  --o20:var(--c-accent-soft);
+  --sans:var(--font-sans);
+  --mono:var(--font-mono);
+  --g:var(--gutter);
+  --ease:var(--ease-out);
+  --spring:var(--ease-spring);
+}
+
+/* 본 크림 띠(밝은 섹션). 오렌지 글자는 --orange-deep 으로 바뀝니다 */
+[data-surface="inverse"]{
+  color-scheme:light;
+  --c-bg:var(--bone);
+  --c-surface:#E6DECF;
+  --c-surface-hover:rgba(16,15,13,.05);
+  --c-surface-press:rgba(16,15,13,.10);
+  --c-fg:var(--ink);             /* 15.73:1 */
+  --c-fg-2:#4E4C47;              /* ink 72%, 7.04:1 */
+  --c-fg-3:#65615C;              /* ink 62%, 5.05:1 */
+  --c-fg-4:#807C74;              /* ink 50%, 3.41:1, 비텍스트만 */
+  --c-line:rgba(16,15,13,.14);
+  --c-line-strong:rgba(16,15,13,.50);
+  --c-accent:var(--orange-deep); /* 5.17:1 */
+  --c-accent-fill:var(--orange);
+  --c-on-accent:var(--ink);
+  --c-accent-soft:rgba(169,60,11,.12);
+  --c-accent-line:rgba(169,60,11,.45);
+  --c-focus:var(--ink);
+  --chart-focus:var(--orange-deep);
+  --chart-base:#807C74;
+  --chart-base-line:#65615C;
+  --chart-grid:rgba(16,15,13,.10);
+  --chart-axis:rgba(16,15,13,.50);
+}
+
+@media (max-width:560px){
+  :root{
+    --gap-col:16px;
+    --fs-num-s:14px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  :root{
+    --dur-press:0ms;
+    --dur-state:0ms;
+    --dur-enter:0ms;
+    --dur-exit:0ms;
+    --dur-wipe:0ms;
+    --dur-flip:0ms;
+    --dur-reveal:0ms;
+    --dur-count:0ms;
+    --dur-intro-max:0ms;
+    --rise-sm:0px;
+    --rise:0px;
+    --rise-lg:0px;
+    --magnet:0;
+    /* --dur-hover 는 색 · 투명도만 바꾸므로 남깁니다 */
+  }
+}
+
+@media print{
+  :root,[data-surface="inverse"]{
+    color-scheme:light;
+    --c-bg:#FFFFFF;
+    --c-surface:#FFFFFF;
+    --c-fg:var(--ink);            /* 19.16:1 */
+    --c-fg-2:#3D3B38;
+    --c-fg-3:#6B6A69;             /* 5.40:1 */
+    --c-fg-4:#8A8986;
+    --c-line:rgba(16,15,13,.18);
+    --c-line-strong:rgba(16,15,13,.50);
+    --c-accent:var(--orange-deep);/* 6.29:1 */
+    --c-accent-fill:var(--orange);
+    --c-on-accent:var(--ink);
+    --c-focus:var(--ink);
+    --chart-focus:var(--orange-deep);
+    --chart-base:#8A8986;
+    --chart-grid:rgba(16,15,13,.12);
+    --chart-axis:rgba(16,15,13,.5);
+    --grain-opacity:0;
+    --fs-display:64pt;
+    --fs-h1:24pt;
+    --fs-h2:16pt;
+    --fs-body:10.5pt;
+    --fs-num-hero:36pt;
+    --space-section:18mm;
+    --space-block:10mm;
+  }
+}
