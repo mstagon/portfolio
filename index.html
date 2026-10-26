@@ -240,7 +240,7 @@
           <li class="mp__gate"><b>멱등 처리</b><span>거래 ID · UNIQUE</span></li>
           <li class="mp__gate"><b>행 잠금</b><span>pessimistic write</span></li>
           <li class="mp__gate"><b>한도 확인</b><span>일일 · 월간</span></li>
-          <li class="mp__gate mp__gate--ledger"><b>원장 기록</b><span>append-only</span><ul class="mp__ledger" aria-hidden="true"></ul></li>
+          <li class="mp__gate mp__gate--ledger"><b>적립 기록</b><span>append-only</span><ul class="mp__ledger" aria-hidden="true"></ul></li>
         </ol>
         <div class="mp__tokens" aria-hidden="true"></div>
       </div>
@@ -257,7 +257,7 @@
       </div>
       <div class="sq" style="--n:4">
         <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <div class="sq__heads"><p><b>앱</b></p><p><b>API 서버</b></p><p><b>DB</b><span>원장</span></p><p><b>발행사</b><span>외부</span></p></div>
+        <div class="sq__heads"><p><b>앱</b></p><p><b>API 서버</b></p><p><b>DB</b><span>기록</span></p><p><b>발행사</b><span>외부</span></p></div>
         <div class="sq__rows">
           <div class="sq__m" style="--s:1;--k:2"><span>교환 요청</span><i></i></div>
           <div class="sq__grp" style="--gs:2;--gk:2"><p class="sq__k">트랜잭션 · 외부 호출 전에 커밋</p>
@@ -326,7 +326,7 @@
         <ol class="pl__steps">
           <li class="pl__step is-done"><b>앱</b><span>GA4 이벤트 100종 넘게</span></li>
           <li class="pl__step is-done"><b>서버</b><span>사용자 ID가 붙은 요청 로그 · 1년 보관</span></li>
-          <li class="pl__step is-done"><b>도메인 로그</b><span>원장 · 광고 퍼널 · 팝업 · 보드 세션</span></li>
+          <li class="pl__step is-done"><b>도메인 로그</b><span>기록 · 광고 퍼널 · 팝업 · 보드 세션</span></li>
           <li class="pl__step is-on"><b>어드민 회원 상세</b><span>한 사람의 이력을 탭으로 추적</span></li>
         </ol>
       </div>
@@ -344,7 +344,7 @@
         <div class="sq__heads"><p><b>광고 매체</b><span>오퍼월 · 캠페인 링크</span></p><p><b>API 서버</b><span>랜딩 · 전환 엔진</span></p><p><b>스토어 · 앱</b></p><p><b>매체 서버</b><span>외부</span></p></div>
         <div class="sq__rows">
           <div class="sq__m" style="--s:1;--k:2"><span>트래킹 링크 클릭</span><i></i><em>크롤러는 미리보기 카드만 · 집계 제외</em></div>
-          <div class="sq__do is-wide" style="--s:2">클릭 원장 적재 · 광고 ID 귀속 저장</div>
+          <div class="sq__do is-wide" style="--s:2">클릭 기록 적재 · 광고 ID 귀속 저장</div>
           <div class="sq__m" style="--s:2;--k:2"><span>스토어로 이동</span><i></i><em>Android는 Install Referrer · iOS는 Apple 캠페인 링크</em></div>
           <div class="sq__m is-l" style="--s:2;--k:2"><span>설치 뒤 첫 실행 보고</span><i></i><em>광고 ID · Install Referrer</em></div>
           <div class="sq__do is-acc is-wide" style="--s:2">설치 귀속 · 광고 ID 매칭 또는 클릭에서 링크로</div>
@@ -697,7 +697,7 @@
       </div>
       <div class="sq" style="--n:4">
         <div class="sq__lanes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <div class="sq__heads"><p><b>매체사 앱</b><span>SDK</span></p><p><b>외부사 서버</b><span>콘텐츠 · 판정</span></p><p><b>매체사 서버</b></p><p><b>원장</b><span>DB</span></p></div>
+        <div class="sq__heads"><p><b>매체사 앱</b><span>SDK</span></p><p><b>외부사 서버</b><span>콘텐츠 · 판정</span></p><p><b>매체사 서버</b></p><p><b>기록</b><span>DB</span></p></div>
         <div class="sq__rows">
           <div class="sq__m" style="--s:1;--k:2"><span>콘텐츠 이용 결과</span><i></i></div>
           <div class="sq__do is-wide" style="--s:2">보상 판정</div>
@@ -713,7 +713,7 @@
       </div>
       <dl class="sqp__why">
         <div><dt>판단</dt><dd>콘텐츠와 보상 판정은 외부사 서버가 주고, 그 코드는 고칠 수 없습니다. 그대로 믿으면 같은 라운드가 두 번 들어오거나 서명이 틀린 요청도 통과할 수 있어서, 방어를 받는 쪽에 뒀습니다.</dd></div>
-        <div><dt>구조</dt><dd>SDK는 포인트를 들고 있지 않습니다. 적립은 서버 간 포스트백으로만 일어나고, 앱은 잔액을 다시 조회만 합니다. 이 보상도 마블워크의 다른 보상과 같은 원장에 쌓입니다.</dd></div>
+        <div><dt>구조</dt><dd>SDK는 포인트를 들고 있지 않습니다. 적립은 서버 간 포스트백으로만 일어나고, 앱은 잔액을 다시 조회만 합니다. 이 보상도 마블워크의 다른 보상과 같은 기록에 쌓입니다.</dd></div>
       </dl>
     </article>
 
