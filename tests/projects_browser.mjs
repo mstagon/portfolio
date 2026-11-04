@@ -5,6 +5,8 @@ import { pathToFileURL } from 'node:url';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ? pathToFileURL(process.env.PLAYWRIGHT_MODULE).href : 'playwright');
 const root = new URL('../', import.meta.url);
 const projects = JSON.parse(await fs.readFile(new URL('projects/data/projects.json', root), 'utf8'));
+const total = projects.length;
+const companyCount = projects.filter(p => p.category === 'company').length;
 const base = process.env.PORTFOLIO_URL || 'http://127.0.0.1:4318';
 const output = process.env.QA_OUTPUT || '/tmp/project-archive-qa';
 await fs.mkdir(output, { recursive: true });
@@ -20,10 +22,10 @@ const noOverflow = async () => assert(await page.evaluate(() => document.documen
 try {
   await page.goto(`${base}/projects/`);
   await decodeVisible();
-  assert.equal(await visible(), 34);
+  assert.equal(await visible(), total);
   await page.screenshot({ path: `${output}/archive-desktop.png` });
-  await page.getByRole('button', { name: '회사 7', exact: true }).click();
-  assert.equal(await visible(), 7);
+  await page.getByRole('button', { name: `회사 ${companyCount}`, exact: true }).click();
+  assert.equal(await visible(), companyCount);
   assert(new URL(page.url()).searchParams.get('category') === 'company');
   await page.getByRole('searchbox').fill('하네스');
   assert.equal(await visible(), 2); // Forge Studio and the legacy knowledge tool.
@@ -42,16 +44,16 @@ try {
   assert.equal(await visible(), 1);
   assert.equal(await page.getByRole('searchbox').inputValue(), 'Forge');
   await page.getByRole('button', { name: '검색어 지우기' }).click();
-  assert.equal(await visible(), 7);
+  assert.equal(await visible(), companyCount);
   await page.getByRole('button', { name: '팀 프로젝트 10', exact: true }).click();
   assert.equal(await visible(), 10);
   await page.goBack();
-  assert.equal(await visible(), 7);
+  assert.equal(await visible(), companyCount);
   await page.getByRole('searchbox').fill('존재하지 않는 프로젝트 <script>');
   assert.equal(await visible(), 0);
   assert(await page.locator('.empty-state').isVisible());
   await page.getByRole('button', { name: '전체 프로젝트 보기' }).click();
-  assert.equal(await visible(), 34);
+  assert.equal(await visible(), total);
   await page.goto(`${base}/projects/?category=team&q=Flutter`);
   assert.equal(await visible(), 4);
   await page.goto(`${base}/projects/?category=invalid&q=API`);
@@ -91,7 +93,7 @@ try {
   const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const staticPage = await noJs.newPage();
   await staticPage.goto(`${base}/projects/`);
-  assert.equal(await staticPage.locator('.project-item:visible').count(), 34);
+  assert.equal(await staticPage.locator('.project-item:visible').count(), total);
   assert.equal(await staticPage.locator('.archive-controls').isVisible(), false);
   await staticPage.locator('a[href="/projects/teamo/"]').click();
   assert.equal(await staticPage.locator('h1').textContent(), 'Teamo');

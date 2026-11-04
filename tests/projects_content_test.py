@@ -6,7 +6,7 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-EXPECTED = set('marblewalk minerva oracle-x forge-studio legacy-mcp figmcp marblewalk-global rapi home-control-plane rapi-v1 onchain-credit pixel-trading-floor mini-arcade iseonjwa app-factory ringtap ai-office commute-timer prediction-vote log-monitor b2b-crawler turn-board prediction-homepage teamo phc doss moyang rest-forest planz tripcut employment digital-bridge ecampus skin-classifier'.split())
+EXPECTED = set('marblewalk minerva oracle-x forge-studio legacy-mcp figmcp rapi home-control-plane rapi-v1 onchain-credit b2b-crawler prediction-homepage teamo phc doss moyang rest-forest planz tripcut employment digital-bridge ecampus skin-classifier'.split())
 
 class Document(HTMLParser):
     def __init__(self, text):
@@ -63,6 +63,8 @@ class ArchiveContentTests(unittest.TestCase):
                         self.assertIn(parsed.fragment,Document(target.read_text()).ids,url)
     def test_index_works_without_javascript(self):
         text=(ROOT/'projects/index.html').read_text()
+        self.assertTrue('개발 <br>아카이브' in text)
+        self.assertNotIn('만든 것들의', text)
         for slug in EXPECTED: self.assertIn(f'href="/projects/{slug}/"',text)
         self.assertNotIn('loading="eager"', text)
 

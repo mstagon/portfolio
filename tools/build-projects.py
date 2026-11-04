@@ -74,10 +74,10 @@ def card(project, index):
 
 def index_page(items):
     counts={k:sum(p['category']==k for p in items) for k in CATEGORIES}
-    controls='<button type="button" data-filter="all" aria-pressed="true">전체 <span>34</span></button>' + ''.join(f'<button type="button" data-filter="{k}" aria-pressed="false">{v} <span>{counts[k]}</span></button>' for k,v in CATEGORIES.items())
-    result=head('전체 프로젝트','회사 서비스부터 개인 개발 도구, 대학 팀 프로젝트까지. 최민석이 만든 34개 프로젝트의 역할과 구현 기록.','/projects/')
+    controls=f'<button type="button" data-filter="all" aria-pressed="true">전체 <span>{len(items)}</span></button>' + ''.join(f'<button type="button" data-filter="{k}" aria-pressed="false">{v} <span>{counts[k]}</span></button>' for k,v in CATEGORIES.items())
+    result=head('개발 아카이브',f'회사 서비스부터 개인 개발 도구, 대학 팀 프로젝트까지. 최민석이 만든 {len(items)}개 프로젝트의 역할과 구현 기록.','/projects/')
     result+=f'''<main id="main"><section class="archive-hero container" aria-labelledby="archive-title">
-<div class="hero-copy"><p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span> THE PROJECT ARCHIVE <span>2021—2026</span></p><h1 id="archive-title">만든 것들의<br>모든 기록<span class="terminal-cursor" aria-hidden="true">_</span></h1><p class="hero-description">출시한 서비스, 직접 만든 개발 도구, 함께한 팀 프로젝트.<br class="desktop-break"> 무엇을 맡았고 어떻게 풀었는지, 한곳에 모았습니다.</p><a class="hero-jump" href="#collection">프로젝트 둘러보기 <span aria-hidden="true">↓</span></a></div>
+<div class="hero-copy"><p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span> THE PROJECT ARCHIVE <span>2021—2026</span></p><h1 id="archive-title">개발 <br>아카이브<span class="terminal-cursor" aria-hidden="true">_</span></h1><p class="hero-description">출시한 서비스, 직접 만든 개발 도구, 함께한 팀 프로젝트.<br class="desktop-break"> 무엇을 맡았고 어떻게 풀었는지, 한곳에 모았습니다.</p><a class="hero-jump" href="#collection">프로젝트 둘러보기 <span aria-hidden="true">↓</span></a></div>
 <div class="hero-exhibit" aria-label="실제 프로젝트 화면 모음"><div class="exhibit-grid" aria-hidden="true"></div><span class="exhibit-label mono">SELECTED INTERFACES / 01—02</span>
 <figure class="exhibit-window window-back"><figcaption><span aria-hidden="true">● ● ●</span> TEAMO / TEAM PROJECT</figcaption><img src="/img/prev-teamo.webp" alt="Teamo 프로젝트 화면" width="1200" height="608" decoding="async"></figure>
 <figure class="exhibit-window window-front"><figcaption><span aria-hidden="true">● ● ●</span> FORGE STUDIO / COMPANY</figcaption><img src="/img/forge-dash.webp" alt="Forge Studio 대시보드" width="1443" height="832" decoding="async"></figure>

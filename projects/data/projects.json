@@ -339,39 +339,6 @@
     "keywords": "디자인 Figma 코드생성 AI"
   },
   {
-    "slug": "marblewalk-global",
-    "title": "마블워크 해외판",
-    "category": "company",
-    "period": "2026.07 — 08",
-    "role": "해외판 앱 · 서버 · CMS · 배포 환경 구성",
-    "summary": "기존 서비스의 운영 구조를 바탕으로 해외판을 별도 코드와 환경으로 구성한 프로젝트입니다.",
-    "overview": "국내 마블워크에서 만든 앱·서버·CMS와 운영 기반을 해외판으로 확장했습니다. 별도 저장소와 관측 환경을 구성하고 기존 인프라·배포 구성을 재사용했습니다.",
-    "stack": [
-      "Flutter",
-      "NestJS",
-      "Next.js",
-      "AWS",
-      "IaC"
-    ],
-    "flow": [
-      "기존 서비스 기반",
-      "해외판 코드 · 환경",
-      "배포 · 관측"
-    ],
-    "decisions": [
-      {
-        "title": "복제할 코드와 분리할 환경을 구분",
-        "body": "앱, API, 운영 화면을 별도 구성으로 관리하면서 검증된 배포와 관측 기반을 이어받았습니다. 국내 서비스와 해외판을 독립적으로 다룰 수 있도록 실행 환경을 분리했습니다."
-      }
-    ],
-    "outcome": "국내 서비스의 코드와 운영 기반을 별도 환경으로 확장했습니다. 2026년 7~8월 개발 후 일시 중단된 프로젝트입니다.",
-    "images": [],
-    "links": [],
-    "kind": "서비스 확장",
-    "eyebrow": "PRODUCT EXPANSION",
-    "keywords": "해외 글로벌"
-  },
-  {
     "slug": "rapi",
     "title": "라피 · rapibrain",
     "category": "personal",
@@ -1016,19 +983,19 @@
   },
   {
     "slug": "onchain-credit",
-    "title": "온체인 신용평가",
+    "title": "온체인 지갑 분석",
     "category": "personal",
     "period": "2026.03",
     "role": "데이터 수집 · 모델 · 풀스택 프로토타입",
-    "summary": "다섯 블록체인의 지갑 활동을 수집하고 행동 특성으로 점수를 계산한 실험입니다.",
-    "overview": "Ethereum, Tron, BNB, Polygon, Arbitrum의 거래를 수집하는 인덱서와 지갑 그룹화, 행동 점수 모델을 구현했습니다. FastAPI와 Next.js 화면을 연결하고 Spring Boot 백엔드 버전도 구성했습니다.",
+    "summary": "멀티체인 거래를 모아 지갑 관계와 행동 점수를 분석하는 프로토타입. 수집·모델·화면을 연결했습니다.",
+    "overview": "Ethereum, Tron, BNB, Polygon, Arbitrum 거래 인덱서와 지갑 관계 분석, 행동 점수 모델을 구현했습니다. Next.js의 지갑 입력 화면에서 FastAPI 분석으로 이어지는 구조를 만들고, 거래 흐름·네트워크·클러스터를 보는 화면을 구성했습니다.",
     "stack": [
-      "Python",
-      "FastAPI",
       "Next.js",
+      "React",
+      "FastAPI",
       "Supabase",
-      "LightGBM",
-      "Spring Boot"
+      "scikit-learn",
+      "LightGBM"
     ],
     "flow": [
       "5개 체인 거래",
@@ -1037,318 +1004,31 @@
     ],
     "decisions": [
       {
-        "title": "주소에서 행동 특성으로",
-        "body": "다섯 가지 신호로 지갑을 묶고 20개 특성을 만들어 RandomForest·GradientBoosting·LightGBM 앙상블에 전달했습니다."
+        "title": "주소별 거래를 지갑 관계로 묶기",
+        "body": "직접 송금, 거래소 상호작용, 브리지 이동, 활동 시각과 거래 상대 패턴을 비교했습니다. 신호별 점수를 모아 같은 소유자일 가능성이 높은 지갑 후보를 구성했습니다."
       },
       {
-        "title": "학습 데이터의 한계를 구분",
-        "body": "실제 신용 결과 라벨이 없어 5종의 합성 시나리오로 학습 데이터를 구성했습니다. 점수 생성 파이프라인을 실험하는 범위로 다뤘습니다."
+        "title": "수집한 거래를 모델 입력으로 바꾸기",
+        "body": "거래 기간·금액·상대방 분산·그래프 특성 등 20개 피처를 구성했습니다. RandomForest·GradientBoosting·LightGBM 앙상블과 규칙 기반 점수기를 구현하고, 학습 모델이 없을 때는 규칙 기반 처리를 사용하도록 했습니다."
+      },
+      {
+        "title": "실험 데이터와 실제 평가 결과를 구분",
+        "body": "실제 신용 결과 라벨이 없어 신규·일반·고액·의심·DeFi 사용자라는 5종의 합성 시나리오로 학습 데이터를 구성했습니다. 모델 저장·불러오기와 평가 경로까지 연결하되, 실제 신용평가 성능을 입증한 결과와는 구분했습니다."
       }
     ],
-    "outcome": "2주간 만든 프로토타입입니다. 합성 데이터 기반 실험이며 실제 신용평가 성능을 검증한 결과는 아닙니다.",
-    "images": [],
+    "outcome": "거래 수집 → 관계 분석 → 점수 계산 → 웹 조회의 전체 흐름을 구성한 프로토타입입니다. 화면은 로컬에서 실행해 확인했으며, 점수 모델은 합성 데이터 기반 실험입니다.",
+    "images": [
+      {
+        "src": "/img/onchain-home.png",
+        "alt": "온체인 분석 서비스의 지갑 연결 시작 화면 · 로컬 실행",
+        "width": 1440,
+        "height": 1050
+      }
+    ],
     "links": [],
     "kind": "데이터 · AI 실험",
     "eyebrow": "ON-CHAIN BEHAVIOR",
     "keywords": "블록체인 머신러닝 신용 평가"
-  },
-  {
-    "slug": "pixel-trading-floor",
-    "title": "PIXEL TRADING FLOOR",
-    "category": "personal",
-    "period": "2026.08.20 — 21",
-    "role": "다중 에이전트 분석 · 실시간 웹 구현",
-    "summary": "하나의 종목을 여러 관점에서 분석하고 찬반 토론을 실시간으로 보여 주는 픽셀 사무실입니다.",
-    "overview": "종목 티커를 입력하면 기술·기본·뉴스·심리 분석을 진행하고 BULL과 BEAR가 네 턴에 걸쳐 반박합니다. 리스크 검토와 최종 판단까지의 과정을 픽셀아트 화면에 중계합니다.",
-    "stack": [
-      "Node.js",
-      "HTTP",
-      "SSE",
-      "Canvas",
-      "LLM"
-    ],
-    "flow": [
-      "분야별 분석",
-      "찬반 토론 · 리스크",
-      "실시간 판정 화면"
-    ],
-    "decisions": [
-      {
-        "title": "분석 과정을 기다림 대신 진행 화면으로",
-        "body": "Node 내장 HTTP와 SSE로 분석 단계를 전송하고 Canvas 스프라이트로 사무실을 그렸습니다. SMA·RSI·MACD 지표 계산도 구현했습니다."
-      },
-      {
-        "title": "겹치는 실행의 범위를 명확하게",
-        "body": "한 번에 분석 하나를 실행하고 동시에 요청하면 409로 응답하도록 했습니다. 각 실행의 상태가 섞이지 않게 처리했습니다."
-      }
-    ],
-    "outcome": "의견 생성과 토론 흐름을 확인하는 실험입니다. 실제 주문은 내지 않으며 투자 수익률을 검증한 시스템도 아닙니다.",
-    "images": [],
-    "links": [],
-    "kind": "AI · 웹 실험",
-    "eyebrow": "AGENTS ON THE FLOOR",
-    "keywords": "금융 주식 에이전트 토론 픽셀"
-  },
-  {
-    "slug": "mini-arcade",
-    "title": "mini-arcade",
-    "category": "personal",
-    "period": "2026.07",
-    "role": "미니게임 플랫폼 · 서버 · 배포",
-    "summary": "게임 세 개를 공통 서버와 실행 흐름에 연결한, 새 게임을 추가하기 위한 작은 템플릿입니다.",
-    "overview": "Next.js와 NestJS 모노레포에 미니게임 세 개를 구성했습니다. 게임 진행의 중요한 값은 서버가 관리하고 멀티플레이 방과 재접속을 연결했습니다.",
-    "stack": [
-      "Next.js",
-      "NestJS",
-      "TypeScript",
-      "SSE"
-    ],
-    "flow": [
-      "게임 · 멀티플레이 방",
-      "서버 seed · 정답 · 점수",
-      "실시간 상태 · 재접속"
-    ],
-    "decisions": [
-      {
-        "title": "화면이 최종 점수를 결정하지 않도록",
-        "body": "서버가 seed를 발급하고 정답을 숨기며 점수를 보관하는 구조를 적용했습니다. 클라이언트 연출과 결과의 권위를 구분했습니다."
-      },
-      {
-        "title": "빈번한 폴링을 서버 이벤트로",
-        "body": "250ms 간격 폴링을 SSE로 바꾸고 방 상태와 재접속을 다뤘습니다. 색맹 모드도 제공했습니다."
-      }
-    ],
-    "outcome": "홈서버 배포에 사용한 실제 개인 서비스이자 후속 게임을 위한 템플릿입니다.",
-    "images": [],
-    "links": [],
-    "kind": "게임 · 템플릿",
-    "eyebrow": "SMALL GAMES · SHARED CORE",
-    "keywords": "게임 멀티플레이 실시간"
-  },
-  {
-    "slug": "iseonjwa",
-    "title": "이선좌",
-    "category": "personal",
-    "period": "2026.07",
-    "role": "Next.js 웹 MVP 개발 · 배포",
-    "summary": "티켓팅의 사용 흐름을 웹에서 실험한 시뮬레이터 MVP입니다.",
-    "overview": "Next.js 기반 티켓팅 시뮬레이터를 만들고 홈서버 배포 환경에 연결했습니다. 작은 웹 서비스를 실제 실행 환경까지 옮기는 실험이었습니다.",
-    "stack": [
-      "Next.js",
-      "TypeScript",
-      "홈서버"
-    ],
-    "flow": [
-      "티켓팅 시뮬레이션",
-      "Next.js MVP",
-      "홈서버 배포"
-    ],
-    "decisions": [
-      {
-        "title": "MVP를 운영 환경에 올리는 과정",
-        "body": "애플리케이션과 배포를 연결하고 홈서버의 새 버전 전환 흐름을 적용했습니다. mini-arcade와 함께 배포 기반을 실제로 사용한 프로젝트입니다."
-      }
-    ],
-    "outcome": "티켓팅 시뮬레이터 범위의 MVP입니다.",
-    "images": [],
-    "links": [],
-    "kind": "웹 실험",
-    "eyebrow": "TICKETING SIMULATOR",
-    "keywords": "티켓 예매 시뮬레이터"
-  },
-  {
-    "slug": "app-factory",
-    "title": "앱 공장 · App Factory",
-    "category": "personal",
-    "period": "2026.07 — 08",
-    "role": "Flutter 템플릿 · 빌드 스크립트 · API",
-    "summary": "앱을 반복해서 만드는 과정의 공통 설정과 빌드·배포 절차를 템플릿으로 묶었습니다.",
-    "overview": "Flutter 앱 템플릿, 생성·빌드 스크립트와 NestJS·SQLite 기반 factory-api를 구성했습니다. 원버튼 게임 RingTap을 첫 산출물로 만들며 흐름을 확인했습니다.",
-    "stack": [
-      "Flutter",
-      "Dart",
-      "NestJS",
-      "SQLite",
-      "빌드 자동화"
-    ],
-    "flow": [
-      "앱 템플릿",
-      "생성 · 설정 검증",
-      "빌드 · 테스트 배포"
-    ],
-    "decisions": [
-      {
-        "title": "반복 작업을 템플릿과 실행 절차로",
-        "body": "공통 앱 구조와 빌드 스크립트를 묶고 실제 앱의 배포 준비에 적용했습니다. 실 광고 ID 등 필수 설정이 빠진 빌드는 중단하도록 검사를 넣었습니다."
-      }
-    ],
-    "outcome": "RingTap을 TestFlight와 Google Play 내부 테스트로 전달하는 데 사용했습니다.",
-    "images": [],
-    "links": [],
-    "kind": "개발 도구",
-    "eyebrow": "TEMPLATE TO TEST RELEASE",
-    "keywords": "앱 자동화 공장 템플릿"
-  },
-  {
-    "slug": "ringtap",
-    "title": "RingTap",
-    "category": "personal",
-    "period": "2026.07 — 08",
-    "role": "Flutter 게임 개발 · 테스트 배포",
-    "summary": "버튼 하나로 타이밍을 맞추는 모바일 게임. 앱 공장 템플릿의 첫 실제 산출물입니다.",
-    "overview": "Flutter로 원버튼 타이밍 게임을 만들고 광고와 자체 리더보드를 연결했습니다. TestFlight와 Google Play 내부 테스트까지 배포했습니다.",
-    "stack": [
-      "Flutter",
-      "Dart",
-      "AdMob",
-      "리더보드"
-    ],
-    "flow": [
-      "타이밍 플레이",
-      "점수 · 리더보드",
-      "테스트 배포"
-    ],
-    "decisions": [
-      {
-        "title": "게임 구현부터 기기에서의 배포 확인까지",
-        "body": "작은 조작 규칙을 모바일 게임으로 만들고 앱 빌드·광고 설정·배포 검사를 연결했습니다. Play Games 연동 대신 자체 리더보드로 범위를 조정했습니다."
-      }
-    ],
-    "outcome": "앱 공장 템플릿으로 만든 첫 게임을 TestFlight와 Google Play 내부 테스트에 배포했습니다.",
-    "images": [],
-    "links": [],
-    "kind": "모바일 게임",
-    "eyebrow": "ONE BUTTON · GOOD TIMING",
-    "keywords": "게임 타이밍 모바일"
-  },
-  {
-    "slug": "ai-office",
-    "title": "AI 사무실 시뮬레이터",
-    "category": "personal",
-    "period": "2026.03.24 — 27",
-    "role": "React 화면 · 에이전트 실행 연동",
-    "summary": "역할별 에이전트의 작업을 캐릭터가 움직이는 사무실로 보여 주는 실험입니다.",
-    "overview": "CEO·개발·디자인·QA·PM·DevOps 역할을 정의하고 사용자가 역할을 추가할 수 있는 사무실 시뮬레이터입니다. 실제 작업은 로컬 Claude Code CLI 자식 프로세스로 실행했습니다.",
-    "stack": [
-      "React",
-      "TypeScript",
-      "Zustand",
-      "Claude Code CLI",
-      "경로 탐색"
-    ],
-    "flow": [
-      "사용자 정의 역할",
-      "CLI 작업 실행",
-      "캐릭터 · 사무실 상태"
-    ],
-    "decisions": [
-      {
-        "title": "시각화와 실제 작업 실행을 연결",
-        "body": "캐릭터 경로는 경로 탐색기로 계산하고 에이전트 역할 및 작업 상태를 화면과 연결했습니다. 시뮬레이션 화면 뒤에 실제 CLI 실행을 붙였습니다."
-      }
-    ],
-    "outcome": "AI 작업을 공간적인 인터페이스로 표현해 본 단기 실험입니다.",
-    "images": [],
-    "links": [],
-    "kind": "AI · UI 실험",
-    "eyebrow": "WORK MADE VISIBLE",
-    "keywords": "AI 에이전트 사무실 게임"
-  },
-  {
-    "slug": "commute-timer",
-    "title": "출퇴근 타이머 앱",
-    "category": "personal",
-    "period": "2026.04 — 05",
-    "role": "Flutter · API · CMS 풀스택 개발",
-    "summary": "출퇴근 시간을 다루는 모바일 앱과 운영 화면을 한 저장소에서 개발했습니다.",
-    "overview": "클라이언트·서버·CMS를 모노레포에 두고 만든 출퇴근 타이머 앱입니다. 모바일 화면과 API, 운영 화면을 함께 구성했습니다.",
-    "stack": [
-      "Flutter",
-      "NestJS",
-      "Next.js",
-      "모노레포"
-    ],
-    "flow": [
-      "모바일 타이머",
-      "서버 API",
-      "운영 CMS"
-    ],
-    "decisions": [
-      {
-        "title": "앱과 운영 화면을 함께 구성",
-        "body": "client, cms, server를 같은 저장소 구조로 관리하면서 기능 구현을 연결했습니다. 반복 가능한 풀스택 앱 구성의 적용 사례입니다."
-      }
-    ],
-    "outcome": "개인 사이드 프로젝트로 개발한 앱입니다.",
-    "images": [],
-    "links": [],
-    "kind": "모바일 앱",
-    "eyebrow": "FULL-STACK APP",
-    "keywords": "타이머 출근 퇴근"
-  },
-  {
-    "slug": "prediction-vote",
-    "title": "예측 투표 앱",
-    "category": "personal",
-    "period": "2026.04 — 05",
-    "role": "앱 · 인증 · API · 운영 CMS",
-    "summary": "예측 주제에 참여하는 앱과 토픽·주문·정산을 관리하는 운영 화면을 연결했습니다.",
-    "overview": "Flutter 클라이언트와 서버·CMS로 구성한 예측 투표 앱입니다. 카카오 로그인을 연결하고 운영자가 토픽과 주문, 정산을 관리할 수 있도록 구현했습니다.",
-    "stack": [
-      "Flutter",
-      "NestJS",
-      "Next.js",
-      "Kakao Login"
-    ],
-    "flow": [
-      "로그인 · 투표 참여",
-      "토픽 · 주문 API",
-      "정산 · 운영 화면"
-    ],
-    "decisions": [
-      {
-        "title": "사용자의 참여와 운영자의 업무를 연결",
-        "body": "모바일 로그인과 참여 흐름, 운영 화면의 토픽·주문·정산을 같은 API 구조로 묶었습니다."
-      }
-    ],
-    "outcome": "앱과 운영 도구를 함께 구현한 사이드 프로젝트입니다.",
-    "images": [],
-    "links": [],
-    "kind": "모바일 앱",
-    "eyebrow": "PARTICIPATION & OPERATIONS",
-    "keywords": "투표 예측 토픽 정산"
-  },
-  {
-    "slug": "log-monitor",
-    "title": "로그 모니터",
-    "category": "personal",
-    "period": "개발 도구 실험",
-    "role": "Electron 데스크톱 도구 개발",
-    "summary": "Flutter와 NestJS 개발 워크스페이스를 오가며 실행과 로그를 다루는 데스크톱 도구입니다.",
-    "overview": "Flutter 기기 목록과 앱 실행, 핫리로드 및 NestJS 워크스페이스를 관리하기 위해 만든 Electron·React 도구입니다.",
-    "stack": [
-      "Electron",
-      "React",
-      "Flutter CLI",
-      "NestJS"
-    ],
-    "flow": [
-      "워크스페이스 · 기기",
-      "실행 · 핫리로드",
-      "로그 확인"
-    ],
-    "decisions": [
-      {
-        "title": "자주 사용하는 명령을 작업 화면으로",
-        "body": "flutter devices와 run, 핫리로드를 데스크톱에서 제어하도록 연결했습니다. 여러 개발 프로세스를 오가는 작업을 한곳에 모았습니다."
-      }
-    ],
-    "outcome": "개발 중 반복하는 실행·확인 작업을 위한 개인 도구입니다.",
-    "images": [],
-    "links": [],
-    "kind": "개발 도구",
-    "eyebrow": "LOCAL DEVELOPER TOOL",
-    "keywords": "로그 모니터 디버그"
   },
   {
     "slug": "b2b-crawler",
@@ -1381,37 +1061,6 @@
     "kind": "자동화 도구",
     "eyebrow": "SEARCH TO STRUCTURED DATA",
     "keywords": "크롤링 영업 B2B 자동화"
-  },
-  {
-    "slug": "turn-board",
-    "title": "턴제 보드게임 실험",
-    "category": "personal",
-    "period": "게임 실험",
-    "role": "PixiJS 클라이언트 · 소켓 서버 연동",
-    "summary": "브라우저 보드의 표현과 소켓 서버의 턴 상태를 맞물려 본 실험입니다.",
-    "overview": "PixiJS와 TypeScript로 턴제 보드게임을 그리고 소켓 서버와 연결했습니다. 클라이언트 표현과 여러 참여자가 공유하는 턴 진행을 함께 다뤘습니다.",
-    "stack": [
-      "PixiJS",
-      "TypeScript",
-      "Socket"
-    ],
-    "flow": [
-      "보드 렌더링",
-      "소켓 메시지",
-      "턴 상태"
-    ],
-    "decisions": [
-      {
-        "title": "화면과 공유 상태를 연결",
-        "body": "PixiJS 렌더링을 소켓 메시지 기반의 턴 진행에 연결하는 구조를 실험했습니다."
-      }
-    ],
-    "outcome": "턴제 게임의 클라이언트·서버 연결을 확인한 프로토타입입니다.",
-    "images": [],
-    "links": [],
-    "kind": "게임 실험",
-    "eyebrow": "TURN-BASED PLAY",
-    "keywords": "보드게임 소켓 실시간"
   },
   {
     "slug": "prediction-homepage",
