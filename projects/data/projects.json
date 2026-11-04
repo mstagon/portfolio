@@ -1,0 +1,1496 @@
+[
+  {
+    "slug": "marblewalk",
+    "title": "마블워크",
+    "category": "company",
+    "period": "2026.02 —",
+    "role": "앱 · API · CMS · 인프라 설계와 구현",
+    "summary": "걷기가 주사위와 보상으로 이어지는 앱테크 서비스. 출시 이후의 보상 신뢰성과 운영 도구까지 다뤘습니다.",
+    "overview": "걸음으로 주사위를 얻고, 보드를 이동하며 모은 포인트를 상품 교환과 이벤트 응모에 사용하는 서비스입니다. Flutter 앱, NestJS API, Next.js CMS와 운영 인프라를 개발하고 2026년 8월 Google Play·App Store·원스토어에 출시했습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "Riverpod",
+      "NestJS",
+      "TypeScript",
+      "Prisma",
+      "Next.js",
+      "AWS EB",
+      "SQS"
+    ],
+    "flow": [
+      "걷기 · 보드 · 광고",
+      "보상 검증 · 지급 원장",
+      "교환 · 응모 · 운영"
+    ],
+    "decisions": [
+      {
+        "title": "한 달 동안 광고 보상의 전체 경로를 추적",
+        "body": "광고는 끝났는데 보상이 없는 문제를 앱 이벤트, 광고사의 시청 확인, 서버 지급 기록까지 연결해 조사했습니다. **광고 ID 형식 차이, 늦게 도착한 보상 콜백, 앱 종료로 사라진 지급 요청**을 구분하고 각각 수정했습니다. 광고 객체는 보상 판정이 끝난 뒤 정리하도록 바꿨습니다."
+      },
+      {
+        "title": "앱이 닫혀도 확인된 보상은 지급",
+        "body": "시청 전에 지급 목적과 대상을 기록하고, 광고사가 시청을 확인했지만 아직 지급하지 않은 건을 5분마다 찾아 기존 지급 로직으로 처리했습니다. 날짜·한도 검증과 중복 소비 방지를 함께 적용했습니다. **배포 후 30일간 서버 대리지급 451건**을 집계했습니다."
+      },
+      {
+        "title": "쿠폰 응답이 없다는 이유로 환불하지 않기",
+        "body": "외부 발행사가 응답하지 않아도 쿠폰은 이미 발급됐을 수 있습니다. 확정 실패와 결과 미확인을 나누고, 미확인 주문을 무조건 재발급·환불하지 않도록 처리했습니다. 외부 호출을 DB 트랜잭션 밖으로 분리해 긴 잠금도 피했습니다."
+      },
+      {
+        "title": "운영자가 업무를 끝낼 수 있는 CMS",
+        "body": "대상 미리보기·테스트 발송·즉시/예약/반복 푸시·성공/실패 이력을 연결했습니다. 고객의 보상·쿠폰·활동 이력을 한곳에서 확인하고 사유를 남겨 포인트를 조정하게 했습니다. **앱 적립과 관리자 조정이 겹쳐도 잔액을 덮어쓰지 않도록** 잠금과 지급 원장을 함께 처리했습니다."
+      },
+      {
+        "title": "외부 발송 결과와 운영 상태를 일치",
+        "body": "당첨자 알림톡이 실제로 성공한 경우에만 안내 완료로 기록하고, 실패한 건은 재시도 대상으로 남겼습니다. 재발송과 상품 지급 완료 기록을 구분해 운영자가 현재 처리 단계를 알 수 있게 했습니다."
+      },
+      {
+        "title": "API 트래픽과 정기 작업의 실행 경계",
+        "body": "메인 API, CMS API, 정기 작업을 별도 Elastic Beanstalk 환경으로 나눴습니다. 워커에는 SQS 기반 실행을 적용하고 실패를 재시도 가능한 상태로 남겼습니다. 배포 훅의 실행 순서와 환경 설정 복원도 실제 배포 흐름에 맞춰 다뤘습니다."
+      },
+      {
+        "title": "제품 변경을 측정할 수 있는 구조",
+        "body": "회원가입 전 보드 체험, 광고 진입 위치, 가입 보상과 교환 기준을 실험할 수 있도록 지표와 설정을 연결했습니다. 변경 전후의 단순 비교와 무작위 A/B 실험을 구분해 해석했습니다."
+      }
+    ],
+    "outcome": "출시 이후에도 보상 누락 조사, 쿠폰 상태 정합성, 고객 대응과 캠페인 운영을 이어 갔습니다. 서버 대리지급 451건은 복구 로직 배포 후 30일간 집계한 지급 건수입니다.",
+    "images": [
+      {
+        "src": "/img/mw-home.webp",
+        "alt": "마블워크 홈과 걸음 보상 소개 이미지",
+        "width": 621,
+        "height": 1104
+      },
+      {
+        "src": "/img/mw-board.webp",
+        "alt": "주사위로 이동하는 마블워크 보드 소개 이미지",
+        "width": 621,
+        "height": 1104
+      },
+      {
+        "src": "/img/mw-benefit.webp",
+        "alt": "게임과 광고 혜택 화면 소개 이미지",
+        "width": 621,
+        "height": 1104
+      },
+      {
+        "src": "/img/mw-ticket.webp",
+        "alt": "응모와 티켓 화면 소개 이미지",
+        "width": 621,
+        "height": 1104
+      }
+    ],
+    "links": [],
+    "kind": "서비스",
+    "eyebrow": "WALK · PLAY · REWARD",
+    "keywords": "SSV CRM 광고 쿠폰 포인트 정합성 CMS 고객대응 푸시 EB 워커 인프라"
+  },
+  {
+    "slug": "minerva",
+    "title": "미네르바",
+    "category": "company",
+    "period": "2026.06 —",
+    "role": "웹 플랫폼 · Flutter SDK 구조 설계와 구현",
+    "summary": "게임이 추가돼도 앱 SDK를 다시 배포하지 않는 구조. 게임·웹·호스트 앱·서버의 연동 계약을 설계했습니다.",
+    "overview": "여러 앱에 미니게임과 광고 보상 경험을 제공하는 플랫폼입니다. 게임과 결과 화면을 공통 웹 플랫폼으로 옮기고, Flutter SDK에는 세션과 호스트 광고 연동을 남기는 구조 전환을 맡았습니다. 게임 제작 및 서버 개발은 팀과 협업했습니다.",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Flutter",
+      "Dart",
+      "WebView",
+      "JavaScript Bridge",
+      "AdMob SSV"
+    ],
+    "flow": [
+      "게임 공통 규약",
+      "웹의 진행 · 결과 화면",
+      "SDK 광고 · 서버 정산"
+    ],
+    "decisions": [
+      {
+        "title": "게임 콘텐츠와 SDK 배포를 분리",
+        "body": "게임은 시작·정지·재개·종료 규약을 따르고, 제출·광고 진입·결과·랭킹은 공통 플랫폼이 맡도록 나눴습니다. **게임 추가를 네이티브 SDK 릴리스와 분리**하면서 팀이 만든 콘텐츠를 같은 흐름에 연결했습니다."
+      },
+      {
+        "title": "구 SDK와 새 웹이 같은 판을 두 번 처리하지 않게",
+        "body": "웹이 처리하는 모드, 기존 SDK가 처리하는 모드, 세션이 없어 진행할 수 없는 모드를 구분했습니다. 이미 제출된 판은 광고만 재시도하고 점수 제출을 반복하지 않도록 진행 상태를 나눴습니다."
+      },
+      {
+        "title": "광고 · 백그라운드 · 재진입이 겹치는 순간",
+        "body": "정지 사유를 집합으로 관리해 마지막 사유가 사라져야 게임을 재개했습니다. 문서 시작과 SPA 경로 변경을 구분하고, 재진입 후 도착한 이전 세션의 콜백이 새 게임에 적용되지 않게 했습니다."
+      },
+      {
+        "title": "여러 매체사의 환경을 하나의 계약으로",
+        "body": "채널·테스트/상용 환경·세션을 런타임에 전달하고, 호스트가 실제 지원하는 광고 기능만 웹에 알렸습니다. 광고 어댑터를 SDK 코어 밖에 두고 최종 보상 검증과 적립은 서버의 책임으로 유지했습니다."
+      }
+    ],
+    "outcome": "웹 중심 구조로 전환하며 게임 콘텐츠의 변경과 네이티브 SDK 배포를 분리했습니다. 위 내용은 2026년 8월 전환 당시 맡은 웹·SDK 구조와 연동 계약을 중심으로 정리했습니다.",
+    "images": [
+      {
+        "src": "/img/mn-earn.webp",
+        "alt": "미네르바 혜택 홈",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "src": "/img/mn-english.webp",
+        "alt": "미네르바 영어 게임",
+        "width": 360,
+        "height": 640
+      },
+      {
+        "src": "/img/mn-jumpking.webp",
+        "alt": "미네르바 점프 게임",
+        "width": 360,
+        "height": 640
+      },
+      {
+        "src": "/img/mn-roulette.webp",
+        "alt": "미네르바 룰렛",
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "links": [],
+    "kind": "서비스",
+    "eyebrow": "ONE PLATFORM · MANY GAMES",
+    "keywords": "플랫폼 오퍼월 게임 SDK 보상 수명주기 브리지"
+  },
+  {
+    "slug": "forge-studio",
+    "title": "Forge Studio",
+    "category": "company",
+    "period": "2026.03 — 07",
+    "role": "팀용 AI 개발 도구 기획 · 설계 · 구현",
+    "summary": "서로의 하네스 설정을 공유하고, AI 작업의 실행·승인·중지를 한곳에서 다루는 데스크톱 도구입니다.",
+    "overview": "개인별 파일과 명령에 흩어진 AI 개발 환경을 팀이 함께 다룰 수 있도록 만든 도구입니다. 프로젝트의 에이전트·명령·스킬·훅과 인식 가능한 규칙을 프리셋으로 내보내고, 다른 팀원이 가져와 프로젝트에 적용할 수 있게 했습니다.",
+    "stack": [
+      "Electron",
+      "React",
+      "TypeScript",
+      "Zustand",
+      "xterm.js",
+      "node-pty",
+      "Git Worktree"
+    ],
+    "flow": [
+      "프로젝트 설정 · 규칙",
+      "공유 프리셋 · 워크플로",
+      "실행 · 검토 · 승인"
+    ],
+    "decisions": [
+      {
+        "title": "하네스 설정을 팀이 교환할 수 있는 기능으로",
+        "body": "에이전트, 스킬, 훅과 프로젝트 규칙을 GUI에서 관리하고 JSON 프리셋으로 가져오기·내보내기·적용을 연결했습니다. **잘 작동하는 개발 설정을 팀원이 재사용**하도록 설계했습니다."
+      },
+      {
+        "title": "명령을 실행한 뒤의 과정까지 보이게",
+        "body": "단계별 CLI 실행, 출력 확인, 승인과 중지를 화면에 연결했습니다. 후속 버전에서는 격리된 Git worktree를 사용하는 팀 작업과 모델 간 교차 검수를 다뤘습니다."
+      },
+      {
+        "title": "학습 기록을 자동 규칙으로 무조건 바꾸지 않기",
+        "body": "프로젝트별 시행착오를 저장·검색하고 반복된 내용을 규칙 후보로 모았습니다. 사용자가 확인하고 적용해야 프로젝트 규칙에 반영되도록 했습니다."
+      },
+      {
+        "title": "팀의 하네스 철학을 실행 경계로",
+        "body": "작업 계약과 파일 소유권, 완료 검증, 사람의 승인 지점을 구분했습니다. 에이전트의 실행 속도뿐 아니라 **무엇을 맡기고 어떻게 결과를 검증할지**를 개발 환경에 담았습니다."
+      }
+    ],
+    "outcome": "팀원이 프리셋 파일을 주고받아 개발 설정을 적용하고, 작업 실행과 검토를 화면에서 다룰 수 있게 했습니다. 회사에서 만든 도구이며 후속 v2 코드는 공개 저장소에서 볼 수 있습니다.",
+    "images": [
+      {
+        "src": "/img/forge-dash.webp",
+        "alt": "Forge Studio 프로젝트 대시보드",
+        "width": 1443,
+        "height": 832
+      },
+      {
+        "src": "/img/forge-flow.webp",
+        "alt": "Forge Studio 워크플로 화면",
+        "width": 1785,
+        "height": 1029
+      }
+    ],
+    "links": [
+      {
+        "label": "공개 v2 저장소",
+        "url": "https://github.com/mstagon/forge-studiov2"
+      }
+    ],
+    "kind": "개발 도구",
+    "eyebrow": "TEAM HARNESS WORKSPACE",
+    "keywords": "하네스 AX AI 에이전트 설정 공유 프리셋 팀"
+  },
+  {
+    "slug": "oracle-x",
+    "title": "OracleX Flutter SDK",
+    "category": "company",
+    "period": "2026.05 — 08",
+    "role": "Kotlin · Swift 원본 분석과 Dart SDK 이식",
+    "summary": "기존 네이티브 오퍼월의 동작 계약을 해석하고 Flutter 앱에서 같은 웹 연동을 사용할 수 있게 재구성했습니다.",
+    "overview": "오퍼월 웹 화면과 호스트 앱을 연결하는 Flutter SDK입니다. 동료가 작성한 Kotlin·Swift SDK를 바탕으로 공개 API, 인증, JavaScript 브리지, 화면 닫기와 오류 보고를 Dart 중심 구조로 이식했습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "Kotlin",
+      "Swift",
+      "WebView",
+      "JavaScript Bridge"
+    ],
+    "flow": [
+      "호스트 앱 · 인증",
+      "Dart SDK · 네이티브 기능",
+      "오퍼월 웹 · 브리지"
+    ],
+    "decisions": [
+      {
+        "title": "래퍼를 넘어 동작 계약을 이식",
+        "body": "웹에서 호출하는 7개 브리지 액션, POST 인증 데이터, 광고 식별자 처리와 오류 보고를 분석해 Dart에서 다시 구성했습니다. Android 설치 확인처럼 플랫폼 의존성이 있는 기능은 최소 플러그인으로 남겼습니다."
+      },
+      {
+        "title": "뒤로가기 한 번에 무엇을 닫을지",
+        "body": "모달 → 드로어 → 공통 페이지 → 화면 종료 순서를 맞추고 웹의 닫기 처리와 호스트 내비게이션을 연결했습니다. 단순한 WebView 종료로 웹 내부 상태가 건너뛰어지지 않도록 했습니다."
+      },
+      {
+        "title": "페이지 로드와 세션의 경합을 처리",
+        "body": "플랫폼별 스크립트 주입 시점, 페이지 재주입, 인증 중 사용자 변경, 해제된 iOS 화면으로 오는 콜백을 다뤘습니다. 실제 서버의 form 전송 계약도 SDK에 반영했습니다."
+      }
+    ],
+    "outcome": "기존 오퍼월을 Flutter 호스트에 연결하는 Dart SDK로 재구성하고, 공개 API와 브리지 동작을 계약 테스트로 확인할 수 있게 정리했습니다.",
+    "images": [],
+    "links": [],
+    "kind": "SDK",
+    "eyebrow": "NATIVE CONTRACT → DART",
+    "keywords": "오퍼월 SDK 네이티브 이식 브리지"
+  },
+  {
+    "slug": "legacy-mcp",
+    "title": "레거시 지식 MCP",
+    "category": "company",
+    "period": "2026.05",
+    "role": "코드 분석 · 인덱스 · MCP 인터페이스 구현",
+    "summary": "레거시 코드와 SQL, 문서를 한 번 분석해 에이전트와 사람이 같은 지식 인덱스를 조회하게 했습니다.",
+    "overview": "Java·Spring Boot·MyBatis 기반 커머스 코드를 반복 탐색하는 비용을 줄이기 위한 도구입니다. 정적 분석 결과를 SQLite에 담고 MCP, HTTP, CLI와 웹 화면에서 같은 인덱스를 읽도록 구성했습니다.",
+    "stack": [
+      "tree-sitter-java",
+      "MyBatis XML",
+      "SQLite",
+      "FTS5",
+      "MCP"
+    ],
+    "flow": [
+      "Java · SQL · 문서",
+      "관계 분석 · SQLite",
+      "MCP · HTTP · CLI"
+    ],
+    "decisions": [
+      {
+        "title": "코드와 SQL을 따로 읽지 않도록",
+        "body": "Java 구문 분석, MyBatis XML 분석, 문서 전문 검색을 연결했습니다. 기능과 채널 구현의 관계를 묶어 에이전트가 매번 저장소 전체를 다시 읽지 않고 필요한 맥락을 찾게 했습니다."
+      },
+      {
+        "title": "사람과 에이전트가 같은 자료를 사용",
+        "body": "MCP stdio, HTTP API, 웹 GUI와 CLI를 하나의 인덱스 위에 구성했습니다. 분석 결과를 특정 에이전트의 대화 기록에만 남기지 않았습니다."
+      }
+    ],
+    "outcome": "레거시 탐색 결과를 재사용 가능한 개발 도구로 만든 사내 프로젝트입니다.",
+    "images": [],
+    "links": [],
+    "kind": "개발 도구",
+    "eyebrow": "CODE → KNOWLEDGE",
+    "keywords": "AI 하네스 레거시 Java 코드 그래프"
+  },
+  {
+    "slug": "figmcp",
+    "title": "figmcp",
+    "category": "company",
+    "period": "2026.06",
+    "role": "Figma 추출 · 중간 표현 · 코드 생성과 검증",
+    "summary": "열려 있는 Figma 문서를 공통 구조로 읽고 웹·앱 코드 생성과 화면 비교에 연결하는 도구입니다.",
+    "overview": "Figma의 실제 문서 구조를 개발에 전달하기 위해 Plugin API 기반 로컬 브리지를 만들었습니다. 중간 표현(IR)을 거쳐 Next.js와 Flutter 출력을 생성하고 구조 및 렌더 결과를 나눠 확인했습니다.",
+    "stack": [
+      "Figma Plugin API",
+      "TypeScript",
+      "Next.js",
+      "Flutter",
+      "MCP"
+    ],
+    "flow": [
+      "Figma 라이브 문서",
+      "공통 IR",
+      "코드 생성 · 화면 비교"
+    ],
+    "decisions": [
+      {
+        "title": "추출과 생성을 공통 IR로 분리",
+        "body": "특정 프레임워크 코드로 바로 옮기지 않고 레이아웃과 속성을 중간 표현으로 정리했습니다. Next.js를 우선 출력으로, Flutter를 다음 출력으로 연결했습니다."
+      },
+      {
+        "title": "구조 검사와 실제 화면 검사를 분리",
+        "body": "IR과 생성 결과의 구조를 먼저 비교하고, 렌더한 스크린샷을 Figma 이미지와 대조했습니다. 플러그인은 localhost 브리지와 통신하도록 범위를 제한했습니다."
+      }
+    ],
+    "outcome": "디자인 데이터를 읽는 단계와 코드 생성·검증 단계를 잇는 사내 개발 도구입니다.",
+    "images": [],
+    "links": [],
+    "kind": "개발 도구",
+    "eyebrow": "DESIGN → IR → CODE",
+    "keywords": "디자인 Figma 코드생성 AI"
+  },
+  {
+    "slug": "marblewalk-global",
+    "title": "마블워크 해외판",
+    "category": "company",
+    "period": "2026.07 — 08",
+    "role": "해외판 앱 · 서버 · CMS · 배포 환경 구성",
+    "summary": "기존 서비스의 운영 구조를 바탕으로 해외판을 별도 코드와 환경으로 구성한 프로젝트입니다.",
+    "overview": "국내 마블워크에서 만든 앱·서버·CMS와 운영 기반을 해외판으로 확장했습니다. 별도 저장소와 관측 환경을 구성하고 기존 인프라·배포 구성을 재사용했습니다.",
+    "stack": [
+      "Flutter",
+      "NestJS",
+      "Next.js",
+      "AWS",
+      "IaC"
+    ],
+    "flow": [
+      "기존 서비스 기반",
+      "해외판 코드 · 환경",
+      "배포 · 관측"
+    ],
+    "decisions": [
+      {
+        "title": "복제할 코드와 분리할 환경을 구분",
+        "body": "앱, API, 운영 화면을 별도 구성으로 관리하면서 검증된 배포와 관측 기반을 이어받았습니다. 국내 서비스와 해외판을 독립적으로 다룰 수 있도록 실행 환경을 분리했습니다."
+      }
+    ],
+    "outcome": "국내 서비스의 코드와 운영 기반을 별도 환경으로 확장했습니다. 2026년 7~8월 개발 후 일시 중단된 프로젝트입니다.",
+    "images": [],
+    "links": [],
+    "kind": "서비스 확장",
+    "eyebrow": "PRODUCT EXPANSION",
+    "keywords": "해외 글로벌"
+  },
+  {
+    "slug": "rapi",
+    "title": "라피 · rapibrain",
+    "category": "personal",
+    "period": "2026.08 —",
+    "role": "개인 에이전트 · 서버 · 메모리 도구 설계와 구현",
+    "summary": "코딩·조사·브라우저 작업을 맡기고, 작업 맥락을 이어 가는 개인 AI 에이전트입니다.",
+    "overview": "서버가 에이전트 세션을 유지하고 앱과 웹이 같은 작업 상태를 보는 개인 에이전트입니다. 작업·일정 관리와 도구 실행을 연결하고, rapibrain이 작업 기록을 Markdown 저장소에 모아 다음 작업에서 조회하도록 했습니다.",
+    "stack": [
+      "Agent SDK",
+      "TypeScript",
+      "MCP",
+      "Markdown Vault",
+      "Streaming"
+    ],
+    "flow": [
+      "앱 · 웹 요청",
+      "서버 세션 · 도구 실행",
+      "작업 기록 · rapibrain"
+    ],
+    "decisions": [
+      {
+        "title": "클라이언트가 바뀌어도 이어지는 작업",
+        "body": "초기 OpenAI 호환 CLI 브리지에서 서버 세션 중심 구조로 확장했습니다. 스트리밍 응답뿐 아니라 진행 상태·취소·승인과 여러 클라이언트의 동기화를 다뤘습니다."
+      },
+      {
+        "title": "이전 작업의 맥락을 다시 찾는 메모리",
+        "body": "개발 작업과 Git 기록을 주기적으로 수집해 Markdown 저장소에 남겼습니다. 에이전트는 MCP로 필요한 기록을 조회하며, 대화 한 번의 컨텍스트에만 의존하지 않게 했습니다."
+      },
+      {
+        "title": "실행 권한과 자기 수정의 경계",
+        "body": "에이전트가 스스로 권한 설정을 바꾸지 못하도록 하고 감사 기록과 비상 중지를 뒀습니다. 자기 코드 수정도 변경안을 만든 뒤 사람이 승인하는 흐름으로 나눴습니다."
+      }
+    ],
+    "outcome": "대화형 도구에서 지속되는 작업 시스템으로 확장한 개인 프로젝트입니다. 설계 과정은 개발 글에 정리했습니다.",
+    "images": [],
+    "links": [
+      {
+        "label": "개발 과정 읽기",
+        "url": "https://velog.io/@devcms21/rapi-personal-ai-agent"
+      }
+    ],
+    "kind": "AI 에이전트",
+    "eyebrow": "PERSONAL AGENT SYSTEM",
+    "keywords": "AI 메모리 하네스 라피 rapibrain"
+  },
+  {
+    "slug": "home-control-plane",
+    "title": "홈서버 컨트롤 플레인",
+    "category": "personal",
+    "period": "2026.02 —",
+    "role": "서버 운영 도구 · 배포 · 관측 환경 구현",
+    "summary": "서버 상태 확인부터 배포와 변경 승인까지, 여러 홈서버의 운영 흐름을 한곳에 모았습니다.",
+    "overview": "세 대의 서버에서 운영하는 개인 서비스의 상태와 배포를 관리하는 컨트롤 플레인입니다. 서버 접속을 반복하는 대신 웹 화면에서 상태를 확인하고 운영 변경을 수행하도록 구성했습니다.",
+    "stack": [
+      "TypeScript",
+      "Bun",
+      "Cloudflare Tunnel",
+      "Tailscale",
+      "Incus",
+      "OrbStack",
+      "Beszel"
+    ],
+    "flow": [
+      "서버 · 서비스 상태",
+      "운영 화면 · 변경 승인",
+      "배포 · 상태 확인"
+    ],
+    "decisions": [
+      {
+        "title": "교체하기 전에 새 버전이 준비됐는지 확인",
+        "body": "새 배포의 헬스체크를 확인한 뒤 트래픽을 전환하는 흐름을 만들었습니다. 애플리케이션뿐 아니라 라우팅 설정이 기존 서비스를 망가뜨리지 않는지도 운영 중 다뤘습니다."
+      },
+      {
+        "title": "바뀌는 네트워크 환경까지 운영 대상에 포함",
+        "body": "터널과 사설 네트워크를 연결하고 IP 변경으로 깨지는 경로를 복구하는 흐름을 구성했습니다. 서버 상태, 인스턴스와 배포 내역을 함께 확인하게 했습니다."
+      },
+      {
+        "title": "에이전트의 요청과 실행 권한을 분리",
+        "body": "에이전트가 제안한 운영 변경을 승인한 뒤 적용하도록 하고, 변경 내용을 추적할 수 있게 했습니다. 조회와 실제 인프라 수정의 권한 경계를 구분했습니다."
+      }
+    ],
+    "outcome": "mini-arcade 등 개인 프로젝트를 실제로 배포하며 운영 요구를 반영한 도구입니다.",
+    "images": [
+      {
+        "src": "/img/rc2-dashboard.webp",
+        "alt": "홈서버 컨트롤 플레인 대시보드",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/img/rc2-detail.webp",
+        "alt": "서비스 상세와 운영 정보",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/img/rc2-agent-pending.webp",
+        "alt": "에이전트 변경 요청 확인 화면",
+        "width": 1440,
+        "height": 900
+      },
+      {
+        "src": "/img/rc2-mobile.webp",
+        "alt": "모바일에서 보는 홈서버 운영 화면",
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "links": [],
+    "kind": "인프라 도구",
+    "eyebrow": "OBSERVE · APPROVE · DEPLOY",
+    "keywords": "DevOps 홈서버 운영 인프라 배포"
+  },
+  {
+    "slug": "rapi-v1",
+    "title": "라피 v1",
+    "category": "personal",
+    "period": "2025.12 — 2026.05",
+    "role": "데스크톱 에이전트 · 로컬 모델 실험",
+    "summary": "로컬 모델과 외부 API를 함께 사용한 데스크톱 에이전트. 다음 버전의 실행 구조로 이어진 실험입니다.",
+    "overview": "Electron 데스크톱과 에이전트 실행부를 분리하고, 능동적인 대화와 도구 사용을 실험했습니다. 가벼운 상호작용은 로컬 모델, 긴 대화는 외부 API로 나누는 방향을 시도했습니다.",
+    "stack": [
+      "Electron",
+      "Qwen2.5",
+      "MLX",
+      "LoRA",
+      "DPO",
+      "Ollama"
+    ],
+    "flow": [
+      "데스크톱 인터페이스",
+      "로컬 모델 · 외부 API",
+      "에이전트 실행부"
+    ],
+    "decisions": [
+      {
+        "title": "모델 학습과 제품 동작을 함께 실험",
+        "body": "Qwen2.5-3B를 바탕으로 MLX LoRA와 합성 선호 데이터의 DPO 학습을 실험하고 Ollama로 실행했습니다. 데스크톱과 서버에서 실행부를 공유할 수 있게 분리했습니다."
+      },
+      {
+        "title": "학습 실험에서 지속되는 작업으로 초점 이동",
+        "body": "모델 학습과 런타임 실험에 집중했던 경험을 바탕으로, 후속 라피에서는 세션·진행 상태·승인·기록의 제품 흐름에 더 무게를 뒀습니다. 규칙과 이벤트 구조를 다음 버전에 이어 갔습니다."
+      }
+    ],
+    "outcome": "2026년 5월까지의 초기 버전입니다. 실행부 분리와 규칙·이벤트 설계 경험을 후속 라피의 서버 세션 구조에 이어 갔습니다.",
+    "images": [],
+    "links": [],
+    "kind": "AI 실험",
+    "eyebrow": "THE FIRST ITERATION",
+    "keywords": "AI 라피 로컬 LLM 파인튜닝"
+  },
+  {
+    "slug": "teamo",
+    "title": "Teamo",
+    "category": "team",
+    "period": "2024.06 — 12",
+    "role": "프론트엔드 · 백엔드 · 배포 인프라",
+    "summary": "팀원을 찾고 대화하는 협업 서비스. 라즈베리파이 운영 환경까지 직접 연결했습니다.",
+    "overview": "프로젝트 팀원 모집과 협업을 위한 웹 서비스입니다. Next.js와 NestJS 개발에 참여하고 Docker Compose, Nginx, GitHub Actions로 라즈베리파이 배포 환경을 구성했습니다.",
+    "stack": [
+      "Next.js",
+      "NestJS",
+      "Socket.IO",
+      "PostgreSQL",
+      "MongoDB",
+      "Docker",
+      "Nginx",
+      "GitHub Actions"
+    ],
+    "flow": [
+      "팀 모집 · 채팅",
+      "웹 · API · 데이터베이스",
+      "ARM 서버 배포"
+    ],
+    "decisions": [
+      {
+        "title": "개발 장비와 운영 장비의 아키텍처 차이",
+        "body": "CI의 x86 환경에서 만든 이미지가 ARM 라즈베리파이에서도 실행되도록 Docker Buildx로 **amd64·arm64 멀티 아키텍처 이미지**를 빌드했습니다."
+      },
+      {
+        "title": "여러 저장소의 변경을 하나의 배포 흐름으로",
+        "body": "프론트엔드나 백엔드 변경이 인프라 저장소의 워크플로를 호출하도록 연결했습니다. 이미지 빌드·배포와 서비스 health check를 묶고, DB 준비 이후 애플리케이션이 시작되게 했습니다."
+      },
+      {
+        "title": "일반 요청과 실시간 채팅을 같은 도메인에서",
+        "body": "Nginx에서 API 경로와 Socket.IO의 WebSocket 업그레이드를 함께 처리했습니다. 프론트엔드·API·채팅의 접근 경로를 서비스 도메인 아래 정리했습니다."
+      }
+    ],
+    "outcome": "화면과 API 개발부터 ARM 서버 실행과 배포까지 직접 연결한 팀 프로젝트입니다.",
+    "images": [
+      {
+        "src": "/img/prev-teamo.webp",
+        "alt": "Teamo 팀원 모집 서비스 화면",
+        "width": 1200,
+        "height": 608
+      }
+    ],
+    "links": [
+      {
+        "label": "인프라 저장소",
+        "url": "https://github.com/4H-Teamo/Teamo_Infra"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "TEAM RECRUITMENT",
+    "keywords": "팀원 모집 채팅 라즈베리파이"
+  },
+  {
+    "slug": "phc",
+    "title": "PHC · 보건소 서비스",
+    "category": "team",
+    "period": "2024.01 — 06",
+    "role": "프로젝트 리드 · 풀스택 개발",
+    "summary": "보건소 예약·접수·기록을 연결하고, React와 Flutter로 나뉜 팀의 구현을 하나의 서비스로 합쳤습니다.",
+    "overview": "보건소의 예약과 접수, 사용자 기록을 다루는 서비스입니다. 팀이 익숙한 React와 Flutter를 모두 활용할 수 있도록 역할을 나누고 공통 FastAPI 서버에 연결했습니다.",
+    "stack": [
+      "React",
+      "Flutter Web",
+      "FastAPI",
+      "SQLAlchemy",
+      "PostMessage"
+    ],
+    "flow": [
+      "React 레이아웃 · 라우팅",
+      "Flutter 기능 모듈",
+      "공통 FastAPI"
+    ],
+    "decisions": [
+      {
+        "title": "서로 다른 프론트엔드 선택을 통합 구조로",
+        "body": "React는 전체 레이아웃과 라우팅, Flutter Web은 기능 모듈을 맡도록 경계를 정했습니다. PostMessage로 필요한 이벤트를 전달하고 각 모듈의 라우팅을 분리했습니다."
+      },
+      {
+        "title": "관련 데이터를 읽는 비용을 줄이기",
+        "body": "SQLAlchemy 관계 조회에서 반복 쿼리가 생기는 경로를 확인하고 로딩 방식을 조정했습니다. 예약·기록 화면이 필요한 데이터를 가져오는 경로를 API와 함께 다뤘습니다."
+      }
+    ],
+    "outcome": "팀의 기술 선택 차이를 협업 가능한 인터페이스로 풀어낸 프로젝트입니다.",
+    "images": [
+      {
+        "src": "/img/prev-phc.webp",
+        "alt": "PHC 보건소 서비스 화면",
+        "width": 1200,
+        "height": 996
+      }
+    ],
+    "links": [
+      {
+        "label": "백엔드 저장소",
+        "url": "https://github.com/PublicHealthCenter/phc_backend"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "PUBLIC HEALTH CENTER",
+    "keywords": "보건소 예약 건강 팀장 통합"
+  },
+  {
+    "slug": "doss",
+    "title": "DOSS",
+    "category": "team",
+    "period": "2025.03.13 — 21",
+    "role": "로그인 · 설정 · 관심 종목 · API 개발",
+    "summary": "모바일에서 주식 정보를 확인하는 웹 서비스. 외부 시세 API 호출과 사용자 계정 흐름을 다뤘습니다.",
+    "overview": "종목 정보와 관심 목록을 모바일 화면에서 살펴보는 팀 프로젝트입니다. 로그인, 설정, 관심 종목과 관련 API를 맡고 외부 금융 API의 호출 경로를 개선했습니다.",
+    "stack": [
+      "Next.js",
+      "Spring Boot",
+      "MyBatis",
+      "MySQL",
+      "한국투자증권 API"
+    ],
+    "flow": [
+      "종목 조회 · 관심 목록",
+      "갱신 시점 확인",
+      "외부 API · DB 캐시"
+    ],
+    "decisions": [
+      {
+        "title": "화면 조회마다 외부 시세를 요청하지 않도록",
+        "body": "마지막 갱신 시점을 기준으로 데이터를 갱신하고 일반 조회는 DB에 저장된 값을 읽도록 했습니다. 외부 API 호출과 사용자 조회를 분리했습니다."
+      },
+      {
+        "title": "재시작해도 유지되는 로그인 잠금",
+        "body": "로그인 5회 실패 시 5분 잠금을 적용하고 상태를 저장했습니다. 프로세스를 재시작했다고 잠금이 초기화되지 않도록 처리했습니다."
+      }
+    ],
+    "outcome": "9일간의 팀 프로젝트에서 계정과 관심 종목, API 경로를 구현했습니다.",
+    "images": [
+      {
+        "src": "/img/prev-doss.webp",
+        "alt": "DOSS 모바일 주식 정보 화면",
+        "width": 1200,
+        "height": 776
+      }
+    ],
+    "links": [
+      {
+        "label": "저장소",
+        "url": "https://github.com/mstagon/DOSS"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "MOBILE STOCK EXPERIENCE",
+    "keywords": "주식 금융 로그인 캐시"
+  },
+  {
+    "slug": "moyang",
+    "title": "Moyang · 모양",
+    "category": "team",
+    "period": "2024.12 —",
+    "role": "Flutter 모바일 프론트엔드",
+    "summary": "지도에서 방을 찾고 대화로 이어지는 자취방 양도 커뮤니티. 지도 상태와 실시간 채팅을 연결했습니다.",
+    "overview": "자취방 양도 매물을 지도와 조건으로 탐색하고 채팅으로 연결하는 모바일 서비스입니다. Flutter 앱의 지도·필터·채팅과 공통 API 통신 구조를 개발했습니다.",
+    "stack": [
+      "Flutter",
+      "Riverpod",
+      "Retrofit",
+      "STOMP",
+      "Google Maps"
+    ],
+    "flow": [
+      "지도 · 조건 필터",
+      "매물 탐색",
+      "실시간 채팅"
+    ],
+    "decisions": [
+      {
+        "title": "현재 보고 있는 지도 범위에 집중",
+        "body": "보이는 지도 영역을 기준으로 매물을 요청하고 마커를 클러스터링했습니다. 필터 상태를 중앙에서 관리해 지도와 목록의 선택 조건이 어긋나지 않게 했습니다."
+      },
+      {
+        "title": "연결이 끊겼다가 돌아오는 채팅",
+        "body": "STOMP 연결 재시도와 오프라인 메시지 큐를 다루고 화면 상태에 반영했습니다. DTO와 API 클라이언트 생성을 통해 응답 모델의 반복 구현을 줄였습니다."
+      }
+    ],
+    "outcome": "지도 기반 탐색과 실시간 연결의 상태를 앱에서 함께 다룬 경험입니다.",
+    "images": [
+      {
+        "src": "/img/prev-moyang.webp",
+        "alt": "모양 자취방 지도와 앱 화면",
+        "width": 1200,
+        "height": 776
+      }
+    ],
+    "links": [
+      {
+        "label": "앱 저장소",
+        "url": "https://github.com/Living-alone/MoYang_FrontEnd"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "MAP · ROOM · CHAT",
+    "keywords": "지도 부동산 채팅 자취방"
+  },
+  {
+    "slug": "rest-forest",
+    "title": "휴림 · Rest Forest",
+    "category": "team",
+    "period": "2024.09 — 12",
+    "role": "Flutter 앱 개발 리드",
+    "summary": "휴대폰을 내려놓으면 숲을 키우는 디지털 휴식 앱. NFC와 타이머, 포인트·상점을 연결했습니다.",
+    "overview": "휴대폰 거치와 휴식 시간을 식물 성장으로 연결하는 서비스입니다. NFC로 사용 시작을 인식하고, 타이머와 보상 상태를 Flutter 앱에서 관리했습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "NFC",
+      "Provider"
+    ],
+    "flow": [
+      "NFC 거치 인식",
+      "휴식 시간 · 식물 성장",
+      "포인트 · 상점"
+    ],
+    "decisions": [
+      {
+        "title": "불안정한 충전 감지 대신 NFC 사용",
+        "body": "무선 충전 여부만으로 거치 상태를 판단하기 어려워 NFC를 시작 신호로 사용했습니다. 센서 선택을 사용자 흐름과 실제 기기 제약에 맞춰 바꿨습니다."
+      },
+      {
+        "title": "화면을 떠나도 일관된 시간과 보상",
+        "body": "백그라운드에 머문 시간을 누적하고 복귀 시 타이머 상태를 복원했습니다. 타이머·재화·구매 상태를 분리해 화면 업데이트와 보상 처리가 얽히지 않게 했습니다."
+      }
+    ],
+    "outcome": "NFC 입력부터 휴식 시간 복원, 식물 성장과 포인트까지 사용자의 실제 행동을 모바일 상태에 연결했습니다.",
+    "images": [
+      {
+        "src": "/img/prev-rest-forest.webp",
+        "alt": "휴림 디지털 휴식과 식물 성장 화면",
+        "width": 1200,
+        "height": 675
+      }
+    ],
+    "links": [
+      {
+        "label": "앱 저장소",
+        "url": "https://github.com/mstagon/Rest_Forest_Client"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "DIGITAL WELLBEING",
+    "keywords": "NFC 타이머 휴식 식물"
+  },
+  {
+    "slug": "planz",
+    "title": "Planz",
+    "category": "team",
+    "period": "2024.07 — 12",
+    "role": "Flutter 프론트엔드",
+    "summary": "고정 일정에 맞춰 수면과 루틴을 계획하는 앱. 날짜·루틴·기록의 상태를 나눠 관리했습니다.",
+    "overview": "사용자의 고정 일정에 맞춰 취침·기상·낮잠 계획을 세우고 수면 기록을 확인하는 서비스입니다. 루틴 설정, 캘린더, 수면 기록과 앱의 인증·알림 연동을 맡았습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "Calendar",
+      "Secure Storage",
+      "FCM"
+    ],
+    "flow": [
+      "고정 일정",
+      "수면 계획 · 루틴",
+      "캘린더 · 기록"
+    ],
+    "decisions": [
+      {
+        "title": "선택한 날짜와 루틴을 서로 독립적으로",
+        "body": "캘린더 날짜 변경이 루틴 선택을 덮어쓰지 않도록 상태를 분리했습니다. 월별 조회를 캐시하고 기록 편집 모달과 캘린더 표시를 연결했습니다."
+      },
+      {
+        "title": "기록 화면 밖의 앱 흐름까지",
+        "body": "안전한 토큰 저장과 인증 요청을 연결하고 FCM 알림을 적용했습니다. 화면 단위 구현과 앱의 공통 상태를 함께 다뤘습니다."
+      }
+    ],
+    "outcome": "멋쟁이사자처럼 팀 프로젝트로 일정과 수면 루틴의 모바일 UX를 구현했습니다.",
+    "images": [
+      {
+        "src": "/img/prev-planz.webp",
+        "alt": "Planz 수면 루틴과 캘린더 화면",
+        "width": 1200,
+        "height": 675
+      }
+    ],
+    "links": [
+      {
+        "label": "앱 저장소",
+        "url": "https://github.com/Like-lion-Planz/Planz-Front-End"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "SLEEP & ROUTINE",
+    "keywords": "수면 루틴 캘린더 일정"
+  },
+  {
+    "slug": "tripcut",
+    "title": "TripCut",
+    "category": "team",
+    "period": "2025.01 — 03",
+    "role": "Next.js 프론트엔드",
+    "summary": "드라마 촬영지에서 여행 코스를 찾는 PWA. 검색·필터·상세·후기를 모바일 흐름으로 만들었습니다.",
+    "overview": "드라마 촬영지를 지역과 태그로 찾고 여행 코스를 구성하는 서비스입니다. 장소 검색, 상세와 후기, 즐겨찾기, 코스와 마이페이지를 구현했습니다.",
+    "stack": [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "PWA",
+      "Axios"
+    ],
+    "flow": [
+      "지역 · 태그 탐색",
+      "장소 · 후기 · 즐겨찾기",
+      "여행 코스"
+    ],
+    "decisions": [
+      {
+        "title": "웹 탐색을 모바일 앱에 가까운 흐름으로",
+        "body": "단계적으로 펼쳐지는 바텀시트와 모바일 상세 화면을 구성했습니다. PWA 홈 화면 설치와 Service Worker의 기본 캐싱을 적용했습니다."
+      },
+      {
+        "title": "서로 다른 서버의 요청을 일관되게",
+        "body": "FastAPI 프록시와 Spring Boot 도메인 API를 Axios 모듈로 나누고 인터셉터에서 공통 요청 처리를 정리했습니다."
+      }
+    ],
+    "outcome": "여행 탐색부터 코스 저장까지 모바일 웹의 연속된 흐름을 맡았습니다.",
+    "images": [
+      {
+        "src": "/img/prev-tripcut.webp",
+        "alt": "TripCut 촬영지 여행 서비스 화면",
+        "width": 1200,
+        "height": 776
+      }
+    ],
+    "links": [
+      {
+        "label": "프론트엔드 저장소",
+        "url": "https://github.com/TripCut/TourAPI_FrontEnd"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "SCENES INTO JOURNEYS",
+    "keywords": "여행 촬영지 PWA 바텀시트"
+  },
+  {
+    "slug": "employment",
+    "title": "취업의 신",
+    "category": "team",
+    "period": "2023.09 — 10",
+    "role": "React · Flask 풀스택 개발",
+    "summary": "공고 탐색, 자기소개서 피드백과 지원 일정을 하나의 취업 준비 흐름으로 연결했습니다.",
+    "overview": "취업 공고를 찾고 AI 자기소개서 피드백을 받아 지원 일정을 관리하는 웹 서비스입니다. React 화면과 Flask API, OpenAI 연동 및 일정 화면을 구현했습니다.",
+    "stack": [
+      "React",
+      "Flask",
+      "OpenAI API",
+      "FullCalendar"
+    ],
+    "flow": [
+      "채용 공고 탐색",
+      "자기소개서 피드백",
+      "지원 일정 관리"
+    ],
+    "decisions": [
+      {
+        "title": "AI 응답을 사용자가 읽는 피드백으로",
+        "body": "프롬프트와 출력 구조를 정리하고 응답 대기 상태와 피드백 이력을 화면에 연결했습니다. 단순 API 호출 뒤의 사용 흐름까지 구현했습니다."
+      },
+      {
+        "title": "공고 정보를 일정으로 옮기기",
+        "body": "기업 이름의 별칭과 키워드를 매칭해 공고를 찾고, 지원 마감 정보를 캘린더 이벤트로 변환했습니다."
+      }
+    ],
+    "outcome": "AI 기능과 일반적인 웹 서비스의 탐색·기록·일정 흐름을 함께 구현한 팀 프로젝트입니다.",
+    "images": [
+      {
+        "src": "/img/prev-employment.webp",
+        "alt": "취업의 신 공고와 지원 관리 화면",
+        "width": 1000,
+        "height": 951
+      }
+    ],
+    "links": [
+      {
+        "label": "저장소",
+        "url": "https://github.com/mstagon/God_of_Employment"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "JOB SEARCH WORKFLOW",
+    "keywords": "취업 자기소개서 AI 채용"
+  },
+  {
+    "slug": "digital-bridge",
+    "title": "Digital Bridge",
+    "category": "team",
+    "period": "2023.08.04 — 10",
+    "role": "Django 풀스택 개발 · 해커톤",
+    "summary": "디지털 기기 사용이 익숙하지 않은 사용자가 설명을 보며 직접 연습하는 교육 서비스입니다.",
+    "overview": "고령층의 디지털 접근성을 돕기 위한 해커톤 프로젝트입니다. 교육 영상과 실습 화면을 함께 제공하고 큰 글자와 명확한 동작 중심으로 웹 화면을 구성했습니다.",
+    "stack": [
+      "Django",
+      "Python",
+      "Bootstrap",
+      "django-allauth"
+    ],
+    "flow": [
+      "교육 영상",
+      "함께 보는 실습 화면",
+      "게시판 · 질문"
+    ],
+    "decisions": [
+      {
+        "title": "설명과 연습을 같은 화면에서",
+        "body": "교육 영상과 iframe 실습을 한 화면에 배치했습니다. 외부 사이트가 임베딩을 막는 경우에는 새 창으로 열어 사용을 이어가도록 했습니다."
+      },
+      {
+        "title": "사용 대상에 맞춘 접근과 인증",
+        "body": "크고 명확한 UI를 구성하고 Google 로그인과 게시판을 연결했습니다. 기능 수보다 실제로 따라 할 수 있는 동작 순서를 우선했습니다."
+      }
+    ],
+    "outcome": "멋쟁이사자처럼 해커톤에서 짧은 기간 안에 사용자와 사용 장면이 분명한 서비스를 만들었습니다.",
+    "images": [
+      {
+        "src": "/img/prev-dbridge.webp",
+        "alt": "Digital Bridge 디지털 교육 화면",
+        "width": 1400,
+        "height": 549
+      }
+    ],
+    "links": [
+      {
+        "label": "저장소",
+        "url": "https://github.com/mstagon/Digital_Bridge"
+      }
+    ],
+    "kind": "서비스",
+    "eyebrow": "LEARN BY DOING",
+    "keywords": "교육 접근성 고령층 해커톤"
+  },
+  {
+    "slug": "skin-classifier",
+    "title": "피부 병변 분류 앱",
+    "category": "team",
+    "period": "2023",
+    "role": "앱 · 이미지 분류 모델 실험",
+    "summary": "공개 이미지 데이터로 분류 모델을 비교하고 앱에 연결한 학습 프로젝트입니다.",
+    "overview": "ISIC 2019의 공개 피부 병변 이미지를 활용해 7개 범주를 분류하는 모델과 앱 연동을 실험했습니다. 전공 소모임에서 진행한 학습용 프로젝트입니다.",
+    "stack": [
+      "Python",
+      "CNN",
+      "Autoencoder",
+      "PCA",
+      "MLP",
+      "GAN"
+    ],
+    "flow": [
+      "공개 이미지 데이터",
+      "모델 비교 · 분류",
+      "앱 결과 표시"
+    ],
+    "decisions": [
+      {
+        "title": "하나의 모델 대신 여러 접근 비교",
+        "body": "CNN 분류와 Autoencoder·PCA·MLP 기반 접근을 비교하고 GAN 활용도 실험했습니다. 모델 출력이 앱의 결과 표시로 이어지는 흐름을 다뤘습니다."
+      }
+    ],
+    "outcome": "전공 소모임 대상을 수상했습니다. 의료 진단 제품이나 임상 검증 결과가 아닌 학습용 이미지 분류 프로젝트입니다.",
+    "images": [
+      {
+        "src": "/img/prev-skin.webp",
+        "alt": "피부 병변 이미지 분류 프로젝트 화면",
+        "width": 771,
+        "height": 656
+      }
+    ],
+    "links": [
+      {
+        "label": "저장소",
+        "url": "https://github.com/mstagon/machineLearning"
+      }
+    ],
+    "kind": "AI · 앱 실험",
+    "eyebrow": "IMAGE CLASSIFICATION",
+    "keywords": "머신러닝 딥러닝 이미지 의료 동아리"
+  },
+  {
+    "slug": "onchain-credit",
+    "title": "온체인 신용평가",
+    "category": "personal",
+    "period": "2026.03",
+    "role": "데이터 수집 · 모델 · 풀스택 프로토타입",
+    "summary": "다섯 블록체인의 지갑 활동을 수집하고 행동 특성으로 점수를 계산한 실험입니다.",
+    "overview": "Ethereum, Tron, BNB, Polygon, Arbitrum의 거래를 수집하는 인덱서와 지갑 그룹화, 행동 점수 모델을 구현했습니다. FastAPI와 Next.js 화면을 연결하고 Spring Boot 백엔드 버전도 구성했습니다.",
+    "stack": [
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "Supabase",
+      "LightGBM",
+      "Spring Boot"
+    ],
+    "flow": [
+      "5개 체인 거래",
+      "지갑 그룹 · 20개 특성",
+      "모델 점수 · 웹 화면"
+    ],
+    "decisions": [
+      {
+        "title": "주소에서 행동 특성으로",
+        "body": "다섯 가지 신호로 지갑을 묶고 20개 특성을 만들어 RandomForest·GradientBoosting·LightGBM 앙상블에 전달했습니다."
+      },
+      {
+        "title": "학습 데이터의 한계를 구분",
+        "body": "실제 신용 결과 라벨이 없어 5종의 합성 시나리오로 학습 데이터를 구성했습니다. 점수 생성 파이프라인을 실험하는 범위로 다뤘습니다."
+      }
+    ],
+    "outcome": "2주간 만든 프로토타입입니다. 합성 데이터 기반 실험이며 실제 신용평가 성능을 검증한 결과는 아닙니다.",
+    "images": [],
+    "links": [],
+    "kind": "데이터 · AI 실험",
+    "eyebrow": "ON-CHAIN BEHAVIOR",
+    "keywords": "블록체인 머신러닝 신용 평가"
+  },
+  {
+    "slug": "pixel-trading-floor",
+    "title": "PIXEL TRADING FLOOR",
+    "category": "personal",
+    "period": "2026.08.20 — 21",
+    "role": "다중 에이전트 분석 · 실시간 웹 구현",
+    "summary": "하나의 종목을 여러 관점에서 분석하고 찬반 토론을 실시간으로 보여 주는 픽셀 사무실입니다.",
+    "overview": "종목 티커를 입력하면 기술·기본·뉴스·심리 분석을 진행하고 BULL과 BEAR가 네 턴에 걸쳐 반박합니다. 리스크 검토와 최종 판단까지의 과정을 픽셀아트 화면에 중계합니다.",
+    "stack": [
+      "Node.js",
+      "HTTP",
+      "SSE",
+      "Canvas",
+      "LLM"
+    ],
+    "flow": [
+      "분야별 분석",
+      "찬반 토론 · 리스크",
+      "실시간 판정 화면"
+    ],
+    "decisions": [
+      {
+        "title": "분석 과정을 기다림 대신 진행 화면으로",
+        "body": "Node 내장 HTTP와 SSE로 분석 단계를 전송하고 Canvas 스프라이트로 사무실을 그렸습니다. SMA·RSI·MACD 지표 계산도 구현했습니다."
+      },
+      {
+        "title": "겹치는 실행의 범위를 명확하게",
+        "body": "한 번에 분석 하나를 실행하고 동시에 요청하면 409로 응답하도록 했습니다. 각 실행의 상태가 섞이지 않게 처리했습니다."
+      }
+    ],
+    "outcome": "의견 생성과 토론 흐름을 확인하는 실험입니다. 실제 주문은 내지 않으며 투자 수익률을 검증한 시스템도 아닙니다.",
+    "images": [],
+    "links": [],
+    "kind": "AI · 웹 실험",
+    "eyebrow": "AGENTS ON THE FLOOR",
+    "keywords": "금융 주식 에이전트 토론 픽셀"
+  },
+  {
+    "slug": "mini-arcade",
+    "title": "mini-arcade",
+    "category": "personal",
+    "period": "2026.07",
+    "role": "미니게임 플랫폼 · 서버 · 배포",
+    "summary": "게임 세 개를 공통 서버와 실행 흐름에 연결한, 새 게임을 추가하기 위한 작은 템플릿입니다.",
+    "overview": "Next.js와 NestJS 모노레포에 미니게임 세 개를 구성했습니다. 게임 진행의 중요한 값은 서버가 관리하고 멀티플레이 방과 재접속을 연결했습니다.",
+    "stack": [
+      "Next.js",
+      "NestJS",
+      "TypeScript",
+      "SSE"
+    ],
+    "flow": [
+      "게임 · 멀티플레이 방",
+      "서버 seed · 정답 · 점수",
+      "실시간 상태 · 재접속"
+    ],
+    "decisions": [
+      {
+        "title": "화면이 최종 점수를 결정하지 않도록",
+        "body": "서버가 seed를 발급하고 정답을 숨기며 점수를 보관하는 구조를 적용했습니다. 클라이언트 연출과 결과의 권위를 구분했습니다."
+      },
+      {
+        "title": "빈번한 폴링을 서버 이벤트로",
+        "body": "250ms 간격 폴링을 SSE로 바꾸고 방 상태와 재접속을 다뤘습니다. 색맹 모드도 제공했습니다."
+      }
+    ],
+    "outcome": "홈서버 배포에 사용한 실제 개인 서비스이자 후속 게임을 위한 템플릿입니다.",
+    "images": [],
+    "links": [],
+    "kind": "게임 · 템플릿",
+    "eyebrow": "SMALL GAMES · SHARED CORE",
+    "keywords": "게임 멀티플레이 실시간"
+  },
+  {
+    "slug": "iseonjwa",
+    "title": "이선좌",
+    "category": "personal",
+    "period": "2026.07",
+    "role": "Next.js 웹 MVP 개발 · 배포",
+    "summary": "티켓팅의 사용 흐름을 웹에서 실험한 시뮬레이터 MVP입니다.",
+    "overview": "Next.js 기반 티켓팅 시뮬레이터를 만들고 홈서버 배포 환경에 연결했습니다. 작은 웹 서비스를 실제 실행 환경까지 옮기는 실험이었습니다.",
+    "stack": [
+      "Next.js",
+      "TypeScript",
+      "홈서버"
+    ],
+    "flow": [
+      "티켓팅 시뮬레이션",
+      "Next.js MVP",
+      "홈서버 배포"
+    ],
+    "decisions": [
+      {
+        "title": "MVP를 운영 환경에 올리는 과정",
+        "body": "애플리케이션과 배포를 연결하고 홈서버의 새 버전 전환 흐름을 적용했습니다. mini-arcade와 함께 배포 기반을 실제로 사용한 프로젝트입니다."
+      }
+    ],
+    "outcome": "티켓팅 시뮬레이터 범위의 MVP입니다.",
+    "images": [],
+    "links": [],
+    "kind": "웹 실험",
+    "eyebrow": "TICKETING SIMULATOR",
+    "keywords": "티켓 예매 시뮬레이터"
+  },
+  {
+    "slug": "app-factory",
+    "title": "앱 공장 · App Factory",
+    "category": "personal",
+    "period": "2026.07 — 08",
+    "role": "Flutter 템플릿 · 빌드 스크립트 · API",
+    "summary": "앱을 반복해서 만드는 과정의 공통 설정과 빌드·배포 절차를 템플릿으로 묶었습니다.",
+    "overview": "Flutter 앱 템플릿, 생성·빌드 스크립트와 NestJS·SQLite 기반 factory-api를 구성했습니다. 원버튼 게임 RingTap을 첫 산출물로 만들며 흐름을 확인했습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "NestJS",
+      "SQLite",
+      "빌드 자동화"
+    ],
+    "flow": [
+      "앱 템플릿",
+      "생성 · 설정 검증",
+      "빌드 · 테스트 배포"
+    ],
+    "decisions": [
+      {
+        "title": "반복 작업을 템플릿과 실행 절차로",
+        "body": "공통 앱 구조와 빌드 스크립트를 묶고 실제 앱의 배포 준비에 적용했습니다. 실 광고 ID 등 필수 설정이 빠진 빌드는 중단하도록 검사를 넣었습니다."
+      }
+    ],
+    "outcome": "RingTap을 TestFlight와 Google Play 내부 테스트로 전달하는 데 사용했습니다.",
+    "images": [],
+    "links": [],
+    "kind": "개발 도구",
+    "eyebrow": "TEMPLATE TO TEST RELEASE",
+    "keywords": "앱 자동화 공장 템플릿"
+  },
+  {
+    "slug": "ringtap",
+    "title": "RingTap",
+    "category": "personal",
+    "period": "2026.07 — 08",
+    "role": "Flutter 게임 개발 · 테스트 배포",
+    "summary": "버튼 하나로 타이밍을 맞추는 모바일 게임. 앱 공장 템플릿의 첫 실제 산출물입니다.",
+    "overview": "Flutter로 원버튼 타이밍 게임을 만들고 광고와 자체 리더보드를 연결했습니다. TestFlight와 Google Play 내부 테스트까지 배포했습니다.",
+    "stack": [
+      "Flutter",
+      "Dart",
+      "AdMob",
+      "리더보드"
+    ],
+    "flow": [
+      "타이밍 플레이",
+      "점수 · 리더보드",
+      "테스트 배포"
+    ],
+    "decisions": [
+      {
+        "title": "게임 구현부터 기기에서의 배포 확인까지",
+        "body": "작은 조작 규칙을 모바일 게임으로 만들고 앱 빌드·광고 설정·배포 검사를 연결했습니다. Play Games 연동 대신 자체 리더보드로 범위를 조정했습니다."
+      }
+    ],
+    "outcome": "앱 공장 템플릿으로 만든 첫 게임을 TestFlight와 Google Play 내부 테스트에 배포했습니다.",
+    "images": [],
+    "links": [],
+    "kind": "모바일 게임",
+    "eyebrow": "ONE BUTTON · GOOD TIMING",
+    "keywords": "게임 타이밍 모바일"
+  },
+  {
+    "slug": "ai-office",
+    "title": "AI 사무실 시뮬레이터",
+    "category": "personal",
+    "period": "2026.03.24 — 27",
+    "role": "React 화면 · 에이전트 실행 연동",
+    "summary": "역할별 에이전트의 작업을 캐릭터가 움직이는 사무실로 보여 주는 실험입니다.",
+    "overview": "CEO·개발·디자인·QA·PM·DevOps 역할을 정의하고 사용자가 역할을 추가할 수 있는 사무실 시뮬레이터입니다. 실제 작업은 로컬 Claude Code CLI 자식 프로세스로 실행했습니다.",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Zustand",
+      "Claude Code CLI",
+      "경로 탐색"
+    ],
+    "flow": [
+      "사용자 정의 역할",
+      "CLI 작업 실행",
+      "캐릭터 · 사무실 상태"
+    ],
+    "decisions": [
+      {
+        "title": "시각화와 실제 작업 실행을 연결",
+        "body": "캐릭터 경로는 경로 탐색기로 계산하고 에이전트 역할 및 작업 상태를 화면과 연결했습니다. 시뮬레이션 화면 뒤에 실제 CLI 실행을 붙였습니다."
+      }
+    ],
+    "outcome": "AI 작업을 공간적인 인터페이스로 표현해 본 단기 실험입니다.",
+    "images": [],
+    "links": [],
+    "kind": "AI · UI 실험",
+    "eyebrow": "WORK MADE VISIBLE",
+    "keywords": "AI 에이전트 사무실 게임"
+  },
+  {
+    "slug": "commute-timer",
+    "title": "출퇴근 타이머 앱",
+    "category": "personal",
+    "period": "2026.04 — 05",
+    "role": "Flutter · API · CMS 풀스택 개발",
+    "summary": "출퇴근 시간을 다루는 모바일 앱과 운영 화면을 한 저장소에서 개발했습니다.",
+    "overview": "클라이언트·서버·CMS를 모노레포에 두고 만든 출퇴근 타이머 앱입니다. 모바일 화면과 API, 운영 화면을 함께 구성했습니다.",
+    "stack": [
+      "Flutter",
+      "NestJS",
+      "Next.js",
+      "모노레포"
+    ],
+    "flow": [
+      "모바일 타이머",
+      "서버 API",
+      "운영 CMS"
+    ],
+    "decisions": [
+      {
+        "title": "앱과 운영 화면을 함께 구성",
+        "body": "client, cms, server를 같은 저장소 구조로 관리하면서 기능 구현을 연결했습니다. 반복 가능한 풀스택 앱 구성의 적용 사례입니다."
+      }
+    ],
+    "outcome": "개인 사이드 프로젝트로 개발한 앱입니다.",
+    "images": [],
+    "links": [],
+    "kind": "모바일 앱",
+    "eyebrow": "FULL-STACK APP",
+    "keywords": "타이머 출근 퇴근"
+  },
+  {
+    "slug": "prediction-vote",
+    "title": "예측 투표 앱",
+    "category": "personal",
+    "period": "2026.04 — 05",
+    "role": "앱 · 인증 · API · 운영 CMS",
+    "summary": "예측 주제에 참여하는 앱과 토픽·주문·정산을 관리하는 운영 화면을 연결했습니다.",
+    "overview": "Flutter 클라이언트와 서버·CMS로 구성한 예측 투표 앱입니다. 카카오 로그인을 연결하고 운영자가 토픽과 주문, 정산을 관리할 수 있도록 구현했습니다.",
+    "stack": [
+      "Flutter",
+      "NestJS",
+      "Next.js",
+      "Kakao Login"
+    ],
+    "flow": [
+      "로그인 · 투표 참여",
+      "토픽 · 주문 API",
+      "정산 · 운영 화면"
+    ],
+    "decisions": [
+      {
+        "title": "사용자의 참여와 운영자의 업무를 연결",
+        "body": "모바일 로그인과 참여 흐름, 운영 화면의 토픽·주문·정산을 같은 API 구조로 묶었습니다."
+      }
+    ],
+    "outcome": "앱과 운영 도구를 함께 구현한 사이드 프로젝트입니다.",
+    "images": [],
+    "links": [],
+    "kind": "모바일 앱",
+    "eyebrow": "PARTICIPATION & OPERATIONS",
+    "keywords": "투표 예측 토픽 정산"
+  },
+  {
+    "slug": "log-monitor",
+    "title": "로그 모니터",
+    "category": "personal",
+    "period": "개발 도구 실험",
+    "role": "Electron 데스크톱 도구 개발",
+    "summary": "Flutter와 NestJS 개발 워크스페이스를 오가며 실행과 로그를 다루는 데스크톱 도구입니다.",
+    "overview": "Flutter 기기 목록과 앱 실행, 핫리로드 및 NestJS 워크스페이스를 관리하기 위해 만든 Electron·React 도구입니다.",
+    "stack": [
+      "Electron",
+      "React",
+      "Flutter CLI",
+      "NestJS"
+    ],
+    "flow": [
+      "워크스페이스 · 기기",
+      "실행 · 핫리로드",
+      "로그 확인"
+    ],
+    "decisions": [
+      {
+        "title": "자주 사용하는 명령을 작업 화면으로",
+        "body": "flutter devices와 run, 핫리로드를 데스크톱에서 제어하도록 연결했습니다. 여러 개발 프로세스를 오가는 작업을 한곳에 모았습니다."
+      }
+    ],
+    "outcome": "개발 중 반복하는 실행·확인 작업을 위한 개인 도구입니다.",
+    "images": [],
+    "links": [],
+    "kind": "개발 도구",
+    "eyebrow": "LOCAL DEVELOPER TOOL",
+    "keywords": "로그 모니터 디버그"
+  },
+  {
+    "slug": "b2b-crawler",
+    "title": "B2B 영업 리스트 크롤러",
+    "category": "personal",
+    "period": "자동화 실험",
+    "role": "Python 수집 · LLM 정보 추출",
+    "summary": "검색 결과에서 기업 정보를 추출해 영업 목록의 빈 항목을 채우는 자동화 도구입니다.",
+    "overview": "Python과 Playwright로 검색 결과를 수집하고 LLM으로 연락처와 직원 수 같은 항목을 추출해 목록에 반영했습니다.",
+    "stack": [
+      "Python",
+      "Playwright",
+      "LLM",
+      "정보 추출"
+    ],
+    "flow": [
+      "검색 결과 수집",
+      "항목 추출",
+      "리스트 보완"
+    ],
+    "decisions": [
+      {
+        "title": "비정형 검색 결과를 목록의 필드로",
+        "body": "검색 결과를 읽고 필요한 필드를 추출하는 단계를 나눴습니다. 이미 있는 값과 비어 있는 칸을 구분해 정보 보완에 사용했습니다."
+      }
+    ],
+    "outcome": "반복적인 기업 정보 조사 흐름을 자동화한 실험입니다.",
+    "images": [],
+    "links": [],
+    "kind": "자동화 도구",
+    "eyebrow": "SEARCH TO STRUCTURED DATA",
+    "keywords": "크롤링 영업 B2B 자동화"
+  },
+  {
+    "slug": "turn-board",
+    "title": "턴제 보드게임 실험",
+    "category": "personal",
+    "period": "게임 실험",
+    "role": "PixiJS 클라이언트 · 소켓 서버 연동",
+    "summary": "브라우저 보드의 표현과 소켓 서버의 턴 상태를 맞물려 본 실험입니다.",
+    "overview": "PixiJS와 TypeScript로 턴제 보드게임을 그리고 소켓 서버와 연결했습니다. 클라이언트 표현과 여러 참여자가 공유하는 턴 진행을 함께 다뤘습니다.",
+    "stack": [
+      "PixiJS",
+      "TypeScript",
+      "Socket"
+    ],
+    "flow": [
+      "보드 렌더링",
+      "소켓 메시지",
+      "턴 상태"
+    ],
+    "decisions": [
+      {
+        "title": "화면과 공유 상태를 연결",
+        "body": "PixiJS 렌더링을 소켓 메시지 기반의 턴 진행에 연결하는 구조를 실험했습니다."
+      }
+    ],
+    "outcome": "턴제 게임의 클라이언트·서버 연결을 확인한 프로토타입입니다.",
+    "images": [],
+    "links": [],
+    "kind": "게임 실험",
+    "eyebrow": "TURN-BASED PLAY",
+    "keywords": "보드게임 소켓 실시간"
+  },
+  {
+    "slug": "prediction-homepage",
+    "title": "예측 게임 홈페이지",
+    "category": "personal",
+    "period": "2026.02 — 03",
+    "role": "Next.js 웹 프론트엔드",
+    "summary": "예측 게임을 소개하기 위한 웹 페이지를 Next.js와 shadcn 기반으로 구현했습니다.",
+    "overview": "예측 게임의 소개 페이지를 제작한 웹 프로젝트입니다. Next.js 16과 shadcn 컴포넌트를 사용해 페이지를 구성했습니다.",
+    "stack": [
+      "Next.js",
+      "TypeScript",
+      "shadcn/ui"
+    ],
+    "flow": [
+      "서비스 소개",
+      "페이지 구성",
+      "웹 화면"
+    ],
+    "decisions": [
+      {
+        "title": "서비스 소개를 별도 웹 화면으로",
+        "body": "애플리케이션의 기능 화면과 별개로 서비스를 설명하는 웹 페이지를 구현했습니다."
+      }
+    ],
+    "outcome": "2026년 2~3월에 진행한 웹 제작 프로젝트입니다.",
+    "images": [],
+    "links": [],
+    "kind": "웹사이트",
+    "eyebrow": "PRODUCT WEBSITE",
+    "keywords": "웹사이트 랜딩 페이지"
+  },
+  {
+    "slug": "ecampus",
+    "title": "e-Campus 진도 확인 도구",
+    "category": "personal",
+    "period": "2021.03 — 06",
+    "role": "Python 데스크톱 도구 단독 개발",
+    "summary": "강의마다 반복해서 확인하던 수강 진도를 한 화면에서 볼 수 있게 만든 첫 개인 도구입니다.",
+    "overview": "대학 e-Campus의 강좌와 수강 진도를 조회하는 데스크톱 프로그램입니다. 로그인 세션으로 필요한 페이지를 읽고 강좌별 정보를 표 형태의 GUI에 모았습니다.",
+    "stack": [
+      "Python",
+      "Tkinter",
+      "requests",
+      "BeautifulSoup",
+      "pandas"
+    ],
+    "flow": [
+      "e-Campus 로그인",
+      "강좌 · 진도 수집",
+      "데스크톱 목록"
+    ],
+    "decisions": [
+      {
+        "title": "로그인 여부를 실제 응답으로 확인",
+        "body": "세션을 유지하며 페이지를 요청하고 사용자 정보가 있는지 확인했습니다. 로그인 실패 상태를 정상 강의 목록으로 처리하지 않도록 했습니다."
+      },
+      {
+        "title": "반복 조회를 한 번의 화면으로",
+        "body": "강좌별 진도 정보를 파싱해 Treeview와 Combobox에 정리했습니다. 직접 겪던 반복 확인 작업을 줄이기 위해 만든 도구입니다."
+      }
+    ],
+    "outcome": "SM Learning Fair 장려상을 받은 개인 프로젝트입니다.",
+    "images": [
+      {
+        "src": "/img/prev-ecampus.webp",
+        "alt": "e-Campus 강좌별 수강 진도 조회 도구",
+        "width": 581,
+        "height": 363
+      }
+    ],
+    "links": [
+      {
+        "label": "저장소",
+        "url": "https://github.com/mstagon/SMU-ECAMPUS-PROGRESS-CHECKING"
+      }
+    ],
+    "kind": "데스크톱 도구",
+    "eyebrow": "MY FIRST USEFUL TOOL",
+    "keywords": "대학교 크롤링 자동화 수강 학습"
+  }
+]
