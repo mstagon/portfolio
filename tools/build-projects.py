@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CATEGORIES = {'company': '회사', 'personal': '개인·사이드', 'team': '팀 프로젝트'}
-VERSION = '20261104'
+VERSION = '20261104-theme'
 
 
 def escape(value):
@@ -25,7 +25,7 @@ def head(title, description, path):
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{escape(title)} · 최민석</title>
 <meta name="description" content="{escape(description)}">
-<meta name="theme-color" content="#090d16">
+<meta name="theme-color" content="#0b0b0d">
 <link rel="canonical" href="https://devcms.me{path}">
 <meta property="og:type" content="website"><meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="{escape(title)} · 최민석">
@@ -33,11 +33,12 @@ def head(title, description, path):
 <meta property="og:url" content="https://devcms.me{path}">
 <link rel="icon" href="/projects/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/fonts/pretendard/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="/css/design-tokens.css?v={VERSION}">
 <link rel="stylesheet" href="/projects/assets/archive.css?v={VERSION}">
 <script src="/projects/assets/archive.js?v={VERSION}" defer></script>
 </head><body><a class="skip" href="#main">본문 바로가기</a>
 <header class="site-header"><div class="container header-inner">
-<a class="brand" href="/" aria-label="최민석 메인 포트폴리오"><span class="brand-mark" aria-hidden="true">cm<span>.</span></span><span>최민석<span class="brand-sub">SOFTWARE ENGINEER</span></span></a>
+<a class="brand" href="/" aria-label="최민석 메인 포트폴리오"><span class="brand-dot" aria-hidden="true"></span>최민석</a>
 <nav class="header-nav" aria-label="주요 메뉴"><a href="/">소개</a><a href="/projects/" aria-current="{'page' if path == '/projects/' else 'location'}">전체 프로젝트 <span aria-hidden="true">↗</span></a><a class="contact-link" href="mailto:devcms21@gmail.com">연락하기</a></nav>
 </div></header>'''
 
@@ -77,7 +78,7 @@ def index_page(items):
     controls=f'<button type="button" data-filter="all" aria-pressed="true">전체 <span>{len(items)}</span></button>' + ''.join(f'<button type="button" data-filter="{k}" aria-pressed="false">{v} <span>{counts[k]}</span></button>' for k,v in CATEGORIES.items())
     result=head('개발 아카이브',f'회사 서비스부터 개인 개발 도구, 대학 팀 프로젝트까지. 최민석이 만든 {len(items)}개 프로젝트의 역할과 구현 기록.','/projects/')
     result+=f'''<main id="main"><section class="archive-hero container" aria-labelledby="archive-title">
-<div class="hero-copy"><p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span> THE PROJECT ARCHIVE <span>2021—2026</span></p><h1 id="archive-title">개발 <br>아카이브<span class="terminal-cursor" aria-hidden="true">_</span></h1><p class="hero-description">출시한 서비스, 직접 만든 개발 도구, 함께한 팀 프로젝트.<br class="desktop-break"> 무엇을 맡았고 어떻게 풀었는지, 한곳에 모았습니다.</p><a class="hero-jump" href="#collection">프로젝트 둘러보기 <span aria-hidden="true">↓</span></a></div>
+<div class="hero-copy"><p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span> THE PROJECT ARCHIVE <span>2021—2026</span></p><h1 id="archive-title">개발 <br>아카이브<span class="title-mark" aria-hidden="true">.</span></h1><p class="hero-description">출시한 서비스, 직접 만든 개발 도구, 함께한 팀 프로젝트.<br class="desktop-break"> 무엇을 맡았고 어떻게 풀었는지, 한곳에 모았습니다.</p><a class="hero-jump" href="#collection">프로젝트 둘러보기 <span aria-hidden="true">↓</span></a></div>
 <div class="hero-exhibit" aria-label="실제 프로젝트 화면 모음"><div class="exhibit-grid" aria-hidden="true"></div><span class="exhibit-label mono">SELECTED INTERFACES / 01—02</span>
 <figure class="exhibit-window window-back"><figcaption><span aria-hidden="true">● ● ●</span> TEAMO / TEAM PROJECT</figcaption><img src="/img/prev-teamo.webp" alt="Teamo 프로젝트 화면" width="1200" height="608" decoding="async"></figure>
 <figure class="exhibit-window window-front"><figcaption><span aria-hidden="true">● ● ●</span> FORGE STUDIO / COMPANY</figcaption><img src="/img/forge-dash.webp" alt="Forge Studio 대시보드" width="1443" height="832" decoding="async"></figure>

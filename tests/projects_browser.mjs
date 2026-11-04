@@ -20,7 +20,15 @@ const visible = () => page.locator('.project-item:visible').count();
 const decodeVisible = async () => page.evaluate(async () => { await document.fonts.ready; await Promise.all([...document.images].filter(image => image.getBoundingClientRect().top < innerHeight && image.getBoundingClientRect().bottom > 0).map(image => image.decode())); });
 const noOverflow = async () => assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Horizontal overflow: ${page.url()}`);
 try {
+  const foundation = async () => page.evaluate(() => {
+    const body = getComputedStyle(document.body);
+    const root = getComputedStyle(document.documentElement);
+    return { background: body.backgroundColor, color: body.color, font: body.fontFamily, accent: root.getPropertyValue('--acc').trim(), radius: root.getPropertyValue('--r').trim() };
+  });
+  await page.goto(`${base}/`);
+  const mainFoundation = await foundation();
   await page.goto(`${base}/projects/`);
+  assert.deepEqual(await foundation(), mainFoundation, 'The archive and main page must share the design foundation');
   await decodeVisible();
   assert.equal(await visible(), total);
   await page.screenshot({ path: `${output}/archive-desktop.png` });
@@ -104,7 +112,7 @@ try {
   await page.locator('.skip').focus();
   assert(await page.locator('.skip').evaluate(el => el.getBoundingClientRect().top >= 0));
   assert.equal(errors.length, 0, errors.join('\n'));
-  const report = { projects: projects.length, pages: projects.length + 1, viewports: [320,390,768,1440], checks: ['search','filters','query-and-category','empty-state','reset','URL-history','IME','gallery','focus-restoration','no-JavaScript','all-detail-pages','all-images','horizontal-overflow'], errors };
+  const report = { projects: projects.length, pages: projects.length + 1, viewports: [320,390,768,1440], checks: ['shared-design-foundation','search','filters','query-and-category','empty-state','reset','URL-history','IME','gallery','focus-restoration','no-JavaScript','all-detail-pages','all-images','horizontal-overflow'], errors };
   await fs.writeFile(`${output}/verification.json`, JSON.stringify(report, null, 2));
   console.info(JSON.stringify(report));
 } finally { await browser.close(); }
