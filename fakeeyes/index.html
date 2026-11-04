@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>최민석 · 페이크아이즈 웹 풀스택 포트폴리오</title>
+  <meta name="description" content="데이터 정합성, 운영 대시보드, 외부 SDK 연동과 팀용 AI 개발 도구. 최민석의 웹 풀스택 개발 포트폴리오입니다.">
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="canonical" href="https://devcms.me/fakeeyes/">
+  <link rel="stylesheet" href="../fonts/pretendard/pretendardvariable-dynamic-subset.css">
+  <link rel="stylesheet" href="portfolio.css?v=20261104">
+</head>
+<body>
+<a class="skip-link" href="#main">본문 바로가기</a>
+<header class="nav"><div class="nav-inner">
+  <a class="brand" href="#top">최민석 <span>Web Full-Stack</span></a>
+  <nav aria-label="대표 사례"><a href="#reward">보상 복구</a><a href="#coupon">DB 정합성</a><a href="#cms">운영 웹</a><a href="#infra">인프라</a><a href="#platform">SDK·플랫폼</a><a href="#forge">AI 도구</a></nav>
+  <a class="archive-link" href="/projects/">개발 아카이브 <span aria-hidden="true">↗</span></a>
+</div></header>
+<main id="main">
+<article class="sheet cover" id="top" aria-labelledby="name">
+  <p class="eyebrow">PORTFOLIO 2026 <span>페이크아이즈 · 웹 풀스택 개발</span></p>
+  <div class="identity"><div><h1 id="name">최민석</h1><p class="role">Web Full-Stack Developer</p><p class="employment">더줌코리아 개발 파트장 <span>2026.02 - 현재</span></p></div><img class="portrait" src="../img/profile-suit.webp" alt="최민석 프로필 사진" width="800" height="1119"></div>
+  <p class="headline">화면에서 시작된 문제를<br>데이터와 운영까지 해결합니다.</p>
+  <p class="intro">걷기 리워드 서비스의 앱·API·CMS·인프라를 개발해 출시했습니다. <strong>데이터가 어긋나는 순간을 추적하고, 운영자가 처리할 수 있는 화면과 복구 경로까지</strong> 만듭니다.</p>
+  <div class="contact-line"><a href="mailto:devcms21@gmail.com">devcms21@gmail.com</a><a href="https://github.com/mstagon">github.com/mstagon</a><span>보충역 산업기능요원 · 전직 가능</span></div>
+  <section class="service-intro" aria-labelledby="service-title"><p class="small-label">대표 서비스</p><h2 id="service-title">마블워크</h2><p>걸음으로 얻은 주사위로 보드를 여행하고, 모은 포인트를 상품 교환과 이벤트 응모에 쓰는 앱테크 서비스입니다.</p><p class="muted">2026.08 Google Play·App Store·원스토어 출시 · 앱, 서버, 운영 웹과 AWS 인프라 설계·구현</p></section>
+  <h2 class="section-label">직접 내린 판단과 구현</h2>
+  <div class="contents">
+    <a href="#reward"><span>01</span><div><b>광고 보상 누락 복구</b><p>한 달간 전체 흐름 추적 → 30일간 451건 복구 지급</p></div><i>↗</i></a>
+    <a href="#coupon"><span>02</span><div><b>쿠폰 교환의 데이터 정합성</b><p>외부 응답 유실과 발행 실패를 구분한 거래 설계</p></div><i>↗</i></a>
+    <a href="#cms"><span>03</span><div><b>업무를 끝낼 수 있는 운영 웹</b><p>정책·고객 대응·캠페인·당첨 안내를 CMS로 통합</p></div><i>↗</i></a>
+    <a href="#infra"><span>04</span><div><b>Elastic Beanstalk 운영 구조</b><p>API·배치 분리와 배포를 막던 실행 순서 해결</p></div><i>↗</i></a>
+    <a href="#platform"><span>05</span><div><b>미네르바 플랫폼·오퍼월 SDK</b><p>웹·게임·호스트 앱의 책임과 동작 계약 설계</p></div><i>↗</i></a>
+    <a href="#forge"><span>06</span><div><b>Forge Studio</b><p>팀의 AI 개발 설정 공유와 실행 제어를 제품으로</p></div><i>↗</i></a>
+  </div>
+  <div class="cover-links"><a class="button primary" href="choi-minseok-portfolio.pdf">제출용 PDF 다운로드 <span aria-hidden="true">↓</span></a><a class="button" href="/projects/">개발 아카이브 · 전체 프로젝트 ↗</a></div>
+  <footer class="page-footer"><span>devcms.me/fakeeyes</span><span>01 / 08</span></footer>
+</article>
+
+<article class="sheet" id="reward" aria-labelledby="reward-title">
+  <p class="eyebrow">01 <span>더줌코리아 / 마블워크 / 광고 보상</span></p>
+  <h2 id="reward-title">광고를 봤는데 보상이 없다면,<br>어느 단계에서 끊겼는지부터</h2>
+  <p class="lead">한 달간 앱 이벤트, 광고사의 시청 확인, 서버 지급 기록을 대조했습니다. 같은 ‘보상 누락’ 안에 있던 <strong>서로 다른 세 원인</strong>을 나눠 고쳤습니다.</p>
+  <p class="scope">2026.08 - 09 집중 추적 · Flutter 광고 처리 / NestJS 검증·복구 / 운영 계측</p>
+  <div class="result"><p><strong>451<span>건</span></strong><span>복구 로직 배포 후 30일간<br>서버가 대신 지급한 보상</span></p><p>앱으로 돌아오지 않아도<br>확인된 보상을 처리하도록 바꿨습니다.</p></div>
+  <div class="decision-list">
+    <section><h3>정상 시청을 거절하던 검증</h3><p>앱과 서버가 광고 ID를 서로 다른 형식으로 비교하고 있었습니다. <strong>ID 정규화 기준을 맞춰</strong> 정상 광고를 거절하던 경로를 수정했습니다.</p></section>
+    <section><h3>닫기보다 늦게 온 보상 콜백</h3><p>광고가 닫히자 객체를 먼저 정리해 보상 콜백을 놓쳤습니다. 닫기와 보상 처리를 분리하고 <strong>보상 판정 이후에 객체를 정리</strong>하도록 수명주기를 바꿨습니다.</p></section>
+    <section><h3>앱 종료로 사라진 지급 요청</h3><p>광고사는 시청을 확인했어도 앱이 종료되면 지급 요청이 오지 않았습니다. <strong>시청 전에 지급 목적과 대상을 기록</strong>하고, 서버가 미지급 건을 찾아 처리하게 했습니다.</p></section>
+  </div>
+  <figure class="flow"><div><b>광고 전</b><span>지급 목적·대상 기록</span></div><div><b>광고사 확인</b><span>서버에 시청 결과 도착</span></div><div class="highlight"><b>미지급 건 복구</b><span>5분마다 기존 지급 로직 호출</span></div><figcaption>늦게 도착한 앱 요청과 서버 복구가 같은 지급 규칙을 사용합니다.</figcaption></figure>
+  <div class="note"><b>누락을 고치다 중복 지급을 만들지 않도록</b><p>시청 확인 한 건은 한 번만 사용하고, 기존 날짜·한도 검증을 함께 적용했습니다. 451건은 복구 경로의 지급 건수이며 전체 광고의 성공률을 뜻하지 않습니다.</p></div>
+  <footer class="page-footer"><a href="/projects/marblewalk/">마블워크 전체 구현 ↗</a><span>02 / 08</span></footer>
+</article>
+
+<article class="sheet" id="coupon" aria-labelledby="coupon-title">
+  <p class="eyebrow">02 <span>더줌코리아 / 마블워크 / 쿠폰 교환</span></p>
+  <h2 id="coupon-title">응답이 없다는 이유로 환불하면,<br>쿠폰과 포인트가 함께 나갑니다</h2>
+  <p class="lead">발행사는 쿠폰을 발급했지만 응답만 유실될 수 있습니다. <strong>발행 실패와 결과 미확인을 구분</strong>하고, 외부 시스템과 DB 사이에서 거래를 잃지 않도록 설계했습니다.</p>
+  <p class="scope">NestJS · PostgreSQL · 잔액 잠금 / 교환 상태 전이 / 실패 경로 테스트</p>
+  <div class="note"><b>설계를 바꾼 제약</b><p>당시 발행사에는 거래 상태 조회 API가 없었습니다. 자동 환불보다 <strong>확인 가능한 보류 상태로 남기는 것</strong>을 우선했습니다.</p></div>
+  <figure class="flow"><div><b>잔액 차감</b><span>행 잠금·잔액 확인<br>대기 거래와 함께 저장</span></div><div class="highlight"><b>외부 쿠폰 발행</b><span>DB 트랜잭션 밖에서 호출</span></div><div><b>결과 반영</b><span>완료 / 실패 / 미확인<br>상태별 후속 처리</span></div><figcaption>외부 응답을 기다리는 동안 잔액 행의 잠금을 점유하지 않도록 경계를 나눴습니다.</figcaption></figure>
+  <table><caption>응답에 따라 달라지는 거래 처리</caption><thead><tr><th scope="col">발행 결과</th><th scope="col">거래 상태</th><th scope="col">포인트 처리</th></tr></thead><tbody><tr><th scope="row">정상 발행</th><td>완료</td><td>쿠폰 저장 · 차감 유지</td></tr><tr><th scope="row">명시적 거절</th><td>실패</td><td>차감한 포인트 반환</td></tr><tr class="emphasis"><th scope="row">타임아웃·응답 유실</th><td>결과 미확인</td><td>자동 환불 보류 · 운영자 확인</td></tr></tbody></table>
+  <div class="two-col"><section><h3>동시 교환과 외부 실패를 따로 방어</h3><p>잔액 확인·차감·대기 거래 기록을 한 트랜잭션으로 묶었습니다. <strong>잠금은 동시 잔액 변경을, 상태 기록은 불확실한 외부 결과를</strong> 다루도록 역할을 나눴습니다.</p></section><section><h3>성공 응답보다 실패 분기를 검증</h3><p>명시적 거절은 환불하고, 외부 호출 예외는 보류하는 경로를 테스트로 구분했습니다. 조회 API가 없는 만큼 운영자의 확인 부담이 남는 선택입니다.</p></section></div>
+  <footer class="page-footer"><a href="/projects/marblewalk/">쿠폰·보상 구현 보기 ↗</a><span>03 / 08</span></footer>
+</article>
+
+<article class="sheet" id="cms" aria-labelledby="cms-title">
+  <p class="eyebrow">03 <span>더줌코리아 / 마블워크 / 운영 제품</span></p>
+  <h2 id="cms-title">운영자가 확인하고, 처리하고,<br>결과까지 남기는 CMS</h2>
+  <p class="lead">운영자가 개발자에게 요청하던 정책 변경, 캠페인 발송, 고객 대응과 당첨 안내를 <strong>Next.js 화면과 NestJS API의 업무 흐름</strong>으로 만들었습니다.</p>
+  <p class="scope">Next.js · TypeScript · NestJS · 운영 화면 / API / 업무 상태 설계</p>
+  <div class="capabilities"><section><span>정책 운영</span><h3>배포 없이 보상과 이벤트 조정</h3><p>보상 정책·주사위 아이템 확률·이벤트 조건·앱 점검 설정을 편집하게 했습니다. <strong>확률 합계 등 정책 조건을 검증</strong>하고 변경 후 서비스의 설정 캐시를 무효화했습니다.</p></section><section><span>캠페인 운영</span><h3>대상 확인부터 발송 결과까지</h3><p>대상 미리보기·기기 테스트·즉시/예약/반복 발송·성공/실패 이력을 연결했습니다. <strong>미리보기와 실제 발송에 같은 수신 조건</strong>을 적용했습니다.</p></section><section><span>고객 대응</span><h3>지급 내역을 보고 사유를 남겨 조정</h3><p>포인트·쿠폰·광고·활동 이력을 모아 문의를 확인하게 했습니다. 앱 적립과 관리자 조정이 겹쳐도 잔액을 덮어쓰지 않도록 <strong>잔액과 지급 원장을 함께 처리</strong>했습니다.</p></section><section><span>이벤트 운영</span><h3>안내 성공과 지급 완료를 구분</h3><p><strong>알림톡 실제 발송이 성공한 경우에만 안내 완료</strong>로 바꿨습니다. 실패는 재시도 대상으로 남기고 재발송 확인과 상품 지급 완료 기록을 구분했습니다.</p></section></div>
+  <figure class="flow"><div><b>설정·대상 확인</b><span>정책 검증 · 미리보기</span></div><div><b>테스트·실행</b><span>발송 · 조정 · 안내</span></div><div class="highlight"><b>결과·후속 처리</b><span>이력 조회 · 실패 재처리</span></div><figcaption>화면의 완료 상태가 실제 외부 발송·내부 처리 결과를 설명하도록 구성했습니다.</figcaption></figure>
+  <div class="note"><b>운영 상태의 의미를 끝까지 맞추기</b><p>‘버튼을 눌렀다’와 ‘발송이 성공했다’를 분리했습니다. 상품의 실제 지급은 수기이며, CMS에서는 안내와 지급 완료 기록을 관리합니다.</p></div>
+  <footer class="page-footer"><a href="/projects/marblewalk/">운영 제품 전체 보기 ↗</a><span>04 / 08</span></footer>
+</article>
+
+<article class="sheet" id="infra" aria-labelledby="infra-title">
+  <p class="eyebrow">04 <span>더줌코리아 / 마블워크 / AWS 운영</span></p>
+  <h2 id="infra-title">API와 배치를 나누고,<br>실패를 진단·재시도할 수 있게</h2>
+  <p class="lead">사용자 요청, 운영 요청, 정기 작업은 실행 방식과 수명이 다릅니다. <strong>각각 별도 Elastic Beanstalk 환경</strong>으로 나누고 배치는 Worker tier와 SQS로 실행하게 했습니다.</p>
+  <p class="scope">AWS EB · SQS · Docker · SSM · CloudFormation · 빌드·배포 / 장애 진단</p>
+  <figure class="architecture"><div class="architecture-top">공통 API 저장소 <span>앱별 이미지·배포 번들</span></div><div class="architecture-apps"><div><b>main-api</b><span>앱 요청·보상·교환</span></div><div><b>cms-api</b><span>정책·고객·캠페인 운영</span></div><div><b>maintenance-worker</b><span>EB 스케줄 → SQS → 작업 처리</span></div></div><figcaption>워커의 자체 스케줄 실행을 제거해 EB 스케줄과 중복 실행되지 않게 했습니다.</figcaption></figure>
+  <div class="decision-list"><section><h3>500 한 줄로 끝나던 결산 실패</h3><p>작업명·메시지 ID·예약 시각·스택·소요 시간을 남겨 실패를 추적하도록 개선했습니다. <strong>오류를 기록한 뒤 다시 반환</strong>해 SQS가 실패한 작업을 성공으로 삭제하지 않게 했습니다.</p></section><section><h3>새 설정을 고쳐도 배포가 막히던 이유</h3><p>EB가 기존 컨테이너를 내리는 단계에서 잘못된 환경 파일을 먼저 읽었습니다. 뒤의 <code>predeploy</code>까지 도달하지 못하므로, <strong>더 이른 <code>prebuild</code>에서 기존 환경 파일을 복구</strong>하도록 순서를 바꿨습니다.</p></section><section><h3>설정값을 안전하게 전달하는 경계</h3><p>SSM 값을 셸 문법으로 쓰면 Docker Compose가 다르게 해석할 수 있었습니다. <strong>개행·달러 기호·따옴표가 보존되는 Compose 형식</strong>으로 직렬화하고, 실행 모드와 설정 저장 경로를 분리했습니다.</p></section></div>
+  <div class="note"><b>재전달과 중복 업무는 별개의 문제</b><p>SQS의 재전달을 허용하되, 도메인의 완료 상태와 지급 원장으로 처리 여부를 확인하는 구조를 사용했습니다. 프로세스를 나눠도 DB는 공유하므로, 작업별 트랜잭션과 중복 처리 방어가 함께 필요했습니다.</p></div>
+  <footer class="page-footer"><a href="/projects/marblewalk/">인프라 판단과 구현 보기 ↗</a><span>05 / 08</span></footer>
+</article>
+
+<article class="sheet" id="platform" aria-labelledby="platform-title">
+  <p class="eyebrow">05 <span>더줌코리아 / 미네르바 · OracleX / 외부 연동</span></p>
+  <h2 id="platform-title">앱에 게임을 붙이는 SDK에서,<br>여러 앱이 쓰는 플랫폼으로</h2>
+  <p class="lead">미네르바는 제휴 앱에 미니게임과 광고 보상을 제공하는 플랫폼입니다. <strong>게임이 추가돼도 앱 SDK를 다시 배포하지 않는 구조</strong>로 웹 플랫폼과 Flutter SDK를 설계·구현했습니다.</p>
+  <p class="scope">React · TypeScript · Flutter · JS Bridge · 게임 제작·서버 개발은 팀과 협업</p>
+  <figure class="flow four"><div><b>게임</b><span>시작·정지·결과 규약</span></div><div class="highlight"><b>웹 플랫폼</b><span>게임 목록·진행·결과</span></div><div><b>Flutter SDK</b><span>세션·호스트 광고 연동</span></div><div><b>서버</b><span>시청 검증·보상 적립</span></div><figcaption>게임 경험은 웹에서 확장하고, 호스트 연결과 보상 판정의 책임은 분리했습니다.</figcaption></figure>
+  <div class="two-col"><section><h3>실패한 광고만 다시 시도</h3><p>게임 결과 제출·광고 대기·보상 확인을 상태로 구분했습니다. 광고 재시도 때 이미 제출한 게임 결과를 다시 보내지 않도록 <strong>완료한 단계와 재시도할 단계를 분리</strong>했습니다.</p></section><section><h3>여러 중단 사유를 함께 관리</h3><p>광고·팝업·백그라운드 전환의 정지 사유를 모아 두고, 모두 해제됐을 때만 게임을 재개하게 했습니다. 오래된 세션의 콜백은 현재 화면에 반영하지 않게 했습니다.</p></section></div>
+  <a class="detail-link" href="/projects/minerva/">미네르바 구조와 실제 화면 ↗</a>
+  <section class="subproject"><p class="small-label">별도 회사 프로젝트 · SDK 이식</p><h3>OracleX Flutter SDK</h3><p>동료가 만든 Kotlin·Swift 오퍼월 SDK를 분석해 <strong>인증·JS 브리지 7종·닫기 순서·오류 보고를 Dart 중심으로 재구현</strong>했습니다. Android 설치 확인 등 플랫폼 기능은 최소 네이티브 플러그인으로 남겼습니다.</p><div class="two-col"><p><b>웹 상태까지 보존하는 닫기</b><br>모달 → 드로어 → 내부 페이지 → 화면 종료 순서를 맞추고, 플랫폼별 스크립트 주입과 세션 변경을 처리했습니다.</p><p><b>58개 계약 테스트</b><br>공개 API·브리지·JS 계약을 검증했습니다. 실제 네이티브 SDK와의 실기기 비교 검증 수치를 뜻하지 않습니다.</p></div><a class="detail-link" href="/projects/oracle-x/">OracleX 이식 과정 ↗</a></section>
+  <footer class="page-footer"><span>플랫폼 구조 / 호스트 연동 / 상태 경계</span><span>06 / 08</span></footer>
+</article>
+
+<article class="sheet" id="forge" aria-labelledby="forge-title">
+  <p class="eyebrow">06 <span>더줌코리아 / Forge Studio / 팀용 AI 개발 도구</span></p>
+  <h2 id="forge-title">잘 만든 AI 개발 설정을<br>팀원이 가져다 쓸 수 있도록</h2>
+  <p class="lead">개인의 설정 파일에 흩어진 에이전트·명령·스킬·훅을 <strong>편집·공유·실행할 수 있는 데스크톱 제품</strong>으로 만들었습니다.</p>
+  <p class="scope">회사 프로젝트 · React · TypeScript · Electron · Zustand · 설정 UI / 공유 / 실행 제어</p>
+  <figure class="product-image"><a href="../img/forge-dash.webp" aria-label="Forge Studio 화면 크게 보기"><img src="../img/forge-dash.webp" alt="프로젝트 설정과 워크플로를 보여 주는 Forge Studio 대시보드" width="1443" height="832" loading="lazy"></a><figcaption>Forge Studio 실제 화면 · 프로젝트별 설정과 워크플로를 한곳에서 관리</figcaption></figure>
+  <div class="two-col"><section><h3>설정 공유부터 프로젝트 적용까지</h3><p>에이전트·명령·스킬·훅과 프로젝트 규칙을 <strong>JSON 프리셋으로 내보내고 가져오도록</strong> 했습니다. 팀원의 설정을 재사용하고 필요한 파일을 프로젝트에 생성하게 했습니다.</p></section><section><h3>실행을 보면서 개입하는 UI</h3><p>CLI 출력과 단계별 실행·승인·중지를 화면에 연결했습니다. <strong>진행 상황을 확인하고 멈추는 과정</strong>까지 제품 기능으로 다뤘습니다.</p></section></div>
+  <div class="note"><b>하네스의 기준: 코드를 더 만들기보다, 검증할 수 있게</b><p>요구사항과 역할 경계를 먼저 정하고 구현·검증·검수로 이어지게 했습니다. AI의 지적은 실제 코드와 테스트로 확인하고, 반복된 학습 기록도 규칙 후보로 모아 사람이 적용하도록 했습니다.</p></div>
+  <a class="detail-link" href="/projects/forge-studio/">Forge Studio 기능·공개 코드 보기 ↗</a>
+  <footer class="page-footer"><span>프리셋 파일 공유 / 실행 제어 / 검증 절차</span><span>07 / 08</span></footer>
+</article>
+
+<article class="sheet background" id="projects" aria-labelledby="projects-title">
+  <p class="eyebrow">MORE <span>팀·개인 프로젝트와 기술 경험</span></p>
+  <h2 id="projects-title">다른 제품에서도<br>화면과 시스템을 연결했습니다</h2>
+  <div class="project-grid"><section><a href="/projects/teamo/"><img src="../img/prev-teamo.webp" alt="Teamo 팀원 모집 웹 서비스" width="1200" height="608" loading="lazy"><h3>Teamo <span>↗</span></h3></a><p class="scope">팀 · 2024.06 - 12 · 풀스택·배포</p><p>팀원 모집과 Socket.IO 채팅을 개발했습니다. Nginx의 API·WebSocket 경로와 ARM 라즈베리파이 배포를 연결하고, <strong>멀티 아키텍처 이미지를 빌드</strong>했습니다.</p></section><section><a href="/projects/phc/"><img src="../img/prev-phc.webp" alt="PHC 보건소 예약·접수 웹 서비스" width="1200" height="996" loading="lazy"><h3>PHC · 보건소 서비스 <span>↗</span></h3></a><p class="scope">팀 · 2024.01 - 06 · 팀 리드·풀스택</p><p>React 레이아웃과 Flutter Web 기능을 PostMessage로 연결했습니다. FastAPI·SQLAlchemy에서 관계 조회의 <strong>반복 쿼리를 줄이는 로딩 방식</strong>을 적용했습니다.</p></section></div>
+  <div class="extra-projects"><p><a href="/projects/rapi/"><b>라피 · rapibrain ↗</b></a> <span>개인</span><br>AI 에이전트의 서버 세션, 스트리밍, 도구 실행 승인·중단과 장기기억을 연결했습니다.</p><p><a href="/projects/legacy-mcp/"><b>레거시 지식 MCP ↗</b></a> <span>회사</span><br>코드·SQL·문서의 공통 인덱스를 만들어 사람과 에이전트가 같은 근거를 조회하도록 했습니다.</p></div>
+  <section class="tech" aria-labelledby="tech-title"><h3 id="tech-title">주요 기술</h3><dl><dt>웹·UI</dt><dd>TypeScript · JavaScript · React · Next.js · Zustand · HTML/CSS · Electron</dd><dt>서버·DB</dt><dd>Node.js · NestJS · Python · FastAPI · PostgreSQL · TypeORM · Prisma · Redis</dd><dt>연동·운영</dt><dd>Flutter/Dart · JS Bridge · Socket.IO · Docker · AWS EB/SQS/SSM · GitHub Actions</dd><dt>AI·검증</dt><dd>Agent SDK · MCP · 하네스 · 계약 테스트 · Playwright</dd></dl></section>
+  <div class="two-col credentials"><section><h3>활동 · 수상</h3><p><b>멋쟁이사자처럼 대학 11·12기 운영진</b><br>2023-2024 · 커리큘럼·해커톤·멘토링</p><p><b>ICCC 2023 학술대회 발표</b><br>일본 시모노세키 · AI 기반 신호처리 연구</p><p>전공소모임 대상(2023) · SM Learning Fair 장려상(2021)</p></section><section><h3>학력 · 자격</h3><p><b>상명대학교</b> · 2021.03 - 2025.08<br>스마트정보통신공학과<br>웹&amp;앱 연계전공 복수학위</p><p><b>ADsP</b> · 데이터분석 준전문가</p></section></div>
+  <a class="archive-cta" href="/projects/"><span><b>개발 아카이브</b><small>23개 프로젝트의 역할·구현 내용·실제 화면</small></span><span aria-hidden="true">↗</span></a>
+  <footer class="page-footer"><a href="mailto:devcms21@gmail.com">devcms21@gmail.com</a><span>08 / 08</span></footer>
+</article>
+</main>
+<footer class="site-footer"><a href="/">메인 포트폴리오</a><a href="/projects/">개발 아카이브</a><a href="#top">맨 위로 ↑</a></footer>
+</body>
+</html>
