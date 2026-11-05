@@ -13,7 +13,7 @@ class KarrotPortfolioTests(unittest.TestCase):
 
     def test_current_campaign_and_archive_entries(self):
         self.assertIn('산업기능요원 집중 채용', self.html)
-        self.assertIn('https://careers.daangn.com/jobs/role/8043875003/', self.doc.urls)
+        self.assertNotIn('https://careers.daangn.com/jobs/role/8043875003/', self.doc.urls)
         self.assertGreaterEqual(self.doc.urls.count('/projects/'),3)
         self.assertNotIn('Cross Product Growth',self.html)
         self.assertNotIn('AI 부팀장',self.html)
